@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gets_it_done/authentication/sign_up.dart';
+import 'package:gets_it_done/screens/authenticate/sign_up.dart';
 
 void main() => runApp(MyApp());
 
