@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gets_it_done/services/auth.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -6,6 +7,9 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,7 @@ class _SignUpState extends State<SignUp> {
         ],
       ),
       body: Form(
-        // key: _formKey,
+        key: _formKey,
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -61,7 +65,10 @@ class _SignUpState extends State<SignUp> {
                   filled: true),
             ),
             RaisedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await _auth.registerWithEmailAndPassword(
+                    'Me@you.com', 'password');
+              },
               color: Colors.blue,
               child: Text('Register',
                   style: TextStyle(
