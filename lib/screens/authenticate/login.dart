@@ -4,7 +4,7 @@ import 'package:gets_it_done/services/auth.dart';
 class Login extends StatefulWidget {
   final Function toggleView;
   Login({this.toggleView});
-
+  
   @override
   _LoginState createState() => _LoginState();
 }
@@ -29,6 +29,7 @@ class _LoginState extends State<Login> {
             onPressed: () {
               widget.toggleView();
             },
+
           ),
         ],
       ),
