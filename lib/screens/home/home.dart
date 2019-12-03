@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gets_it_done/services/auth.dart';
 
 class Home extends StatelessWidget {
   final bgColor = const Color(0xFFb4c2f3);
@@ -7,10 +8,24 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthService _auth = AuthService();
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Gets It Done'),
           backgroundColor: altBgColor,
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                'Log Off',
+                style: TextStyle(color: textColor, fontSize: 18.0),
+              ),
+              onPressed: () async {
+                print('Sign out');
+                await _auth.logOffUser();
+              },
+            )
+          ],
         ),
         body: Container(
             color: bgColor,
