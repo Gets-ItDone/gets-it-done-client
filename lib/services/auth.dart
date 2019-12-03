@@ -6,10 +6,25 @@ class AuthService {
   // Register with email and password
   Future registerWithEmailAndPassword(String email, String password) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      dynamic result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      return result;
+    } catch (err) {
+      print(err.toString());
+      return null;
+    }
+  }
+
+  // Sign in with email and passport
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      dynamic result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      return result;
     } catch (err) {
       print(err.toString());
       return null;
