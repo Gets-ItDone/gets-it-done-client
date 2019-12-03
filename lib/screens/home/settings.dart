@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gets_it_done/models/button_model.dart';
 import 'package:gets_it_done/services/auth.dart';
 
 class Settings extends StatefulWidget {
@@ -85,12 +86,14 @@ class _SettingsState extends State<Settings> {
               children: <Widget>[
                 RaisedButton(
                   onPressed: () {
-                    // Save color palette to user
+                    setState(() {
+                      colorScheme = '1';
+                    });
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(50.0),
                   ),
-                  color: altBgColor,
+                  color: colorScheme == '1' ? Colors.black : altBgColor,
                   elevation: 0.0,
                   child: Text(
                     '1',
@@ -98,11 +101,15 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      colorScheme = '2';
+                    });
+                  },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(50.0),
                   ),
-                  color: Colors.teal[300],
+                  color: colorScheme == '2' ? Colors.black : Colors.teal[300],
                   elevation: 0.0,
                   child: Text(
                     '2',
@@ -110,11 +117,17 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      colorScheme = '3';
+                    });
+                  },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(50.0),
                   ),
-                  color: Colors.deepOrangeAccent[100],
+                  color: colorScheme == '3'
+                      ? Colors.black
+                      : Colors.deepOrangeAccent[100],
                   elevation: 0.0,
                   child: Text(
                     '3',
@@ -122,11 +135,15 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      colorScheme = '4';
+                    });
+                  },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(50.0),
                   ),
-                  color: Colors.deepPurple,
+                  color: colorScheme == '4' ? Colors.black : Colors.deepPurple,
                   elevation: 0.0,
                   child: Text(
                     '4',
@@ -151,11 +168,16 @@ class _SettingsState extends State<Settings> {
                 ButtonTheme(
                   minWidth: 150.0,
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        speechToTextValue = 'on';
+                      });
+                    },
                     shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(50.0),
                     ),
-                    color: altBgColor,
+                    color:
+                        speechToTextValue == 'on' ? Colors.black : altBgColor,
                     elevation: 0.0,
                     child: Text(
                       'On',
@@ -166,11 +188,16 @@ class _SettingsState extends State<Settings> {
                 ButtonTheme(
                   minWidth: 150.0,
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        speechToTextValue = 'off';
+                      });
+                    },
                     shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(50.0),
                     ),
-                    color: altBgColor,
+                    color:
+                        speechToTextValue == 'off' ? Colors.black : altBgColor,
                     elevation: 0.0,
                     child: Text(
                       'Off',
@@ -179,7 +206,7 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
