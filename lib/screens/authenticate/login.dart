@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gets_it_done/services/auth.dart';
 
 class Login extends StatefulWidget {
+  final Function toggleView;
+  Login({this.toggleView});
+  
   @override
   _LoginState createState() => _LoginState();
 }
@@ -20,9 +23,13 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         title: Text('Login'),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.face),
-            onPressed: () {},
+          FlatButton(
+            child: Text('Register',
+                style: TextStyle(color: Colors.white, fontSize: 18.0)),
+            onPressed: () {
+              widget.toggleView();
+            },
+
           ),
         ],
       ),
