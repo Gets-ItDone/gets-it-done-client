@@ -84,7 +84,7 @@ class _SignUpState extends State<SignUp> {
                 if (password != passwordConfirm) {
                   setState(() => err = 'Passwords do not match');
                 } else if (_formKey.currentState.validate()) {
-                  dynamic signUpResult =
+                  final signUpResult =
                       await _auth.registerWithEmailAndPassword(email, password);
 
                   if (signUpResult == null) {
