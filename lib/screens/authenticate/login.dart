@@ -5,7 +5,7 @@ import 'package:gets_it_done/shared/loading.dart';
 class Login extends StatefulWidget {
   final Function toggleView;
   Login({this.toggleView});
-
+  
   @override
   _LoginState createState() => _LoginState();
 }
@@ -21,6 +21,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+
     return loading
         ? Loading()
         : Scaffold(
@@ -35,6 +36,15 @@ class _LoginState extends State<Login> {
                   },
                 ),
               ],
+
+    
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 20.0,
+
             ),
             body: Form(
               key: _formKey,
