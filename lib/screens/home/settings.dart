@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gets_it_done/models/button_model.dart';
 import 'package:gets_it_done/services/auth.dart';
 
 class Settings extends StatefulWidget {
@@ -16,6 +15,7 @@ class _SettingsState extends State<Settings> {
   int fontSizeValue = 2;
   String colorScheme = '';
   String speechToTextValue = '';
+  bool taskAssistant;
 
   @override
   Widget build(BuildContext context) {
@@ -206,6 +206,78 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              'Task assistant',
+              style: TextStyle(color: textColor, fontSize: 20.0),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                ButtonTheme(
+                  minWidth: 150.0,
+                  child: RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        taskAssistant = true;
+                      });
+                    },
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+                    ),
+                    color: taskAssistant == true ? Colors.black : altBgColor,
+                    elevation: 0.0,
+                    child: Text(
+                      'On',
+                      style: TextStyle(color: textColor),
+                    ),
+                  ),
+                ),
+                ButtonTheme(
+                  minWidth: 150.0,
+                  child: RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        taskAssistant = false;
+                      });
+                    },
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+                    ),
+                    color: taskAssistant == false ? Colors.black : altBgColor,
+                    elevation: 0.0,
+                    child: Text(
+                      'Off',
+                      style: TextStyle(color: textColor),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 40.0,
+            ),
+            ButtonTheme(
+              minWidth: 250.0,
+              height: 50.0,
+              child: RaisedButton(
+                onPressed: () {},
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(50.0),
+                ),
+                color: altBgColor,
+                elevation: 2.0,
+                child: Text(
+                  'Finish',
+                  style: TextStyle(color: textColor),
+                ),
+              ),
             ),
           ],
         ),
