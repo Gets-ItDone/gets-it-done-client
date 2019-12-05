@@ -13,7 +13,6 @@ class DatabaseCalls {
         "taskAssistant": false
       },
       "categories": {"general": []}
-      //"categories": {"general": [], "schoolwork": []}
     });
   }
 
@@ -42,6 +41,24 @@ class DatabaseCalls {
     final category = "schoolwork";
     try {
       testCollection.document(uid).updateData({"categories.$category": []});
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  void updatePreferences(uid) {
+    print("Preferences for $uid are being updated");
+
+    final updatedPrefs = {
+      "colorScheme": "notDefault",
+      "speechToText": true,
+      "taskAssistant": true
+    };
+
+    //updated preferences will be taken from state
+
+    try {
+      testCollection.document(uid).updateData({"preferences": updatedPrefs});
     } catch (err) {
       print(err);
     }
