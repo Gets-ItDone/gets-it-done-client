@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'package:gets_it_done/models/category_card.dart';
+>>>>>>> c08d2627b9b3a30a4a5f52308d55c660599b9eb1
 
 class TaskList extends StatefulWidget {
   @override
@@ -26,6 +30,7 @@ class _TaskListState extends State<TaskList> {
           itemBuilder: (context, index) {
             final category = categories[index];
 
+<<<<<<< HEAD
             return Column(
               children: <Widget>[
                 ButtonTheme(
@@ -49,6 +54,9 @@ class _TaskListState extends State<TaskList> {
                 )
               ],
             );
+=======
+            return CategoryCard(category: category);
+>>>>>>> c08d2627b9b3a30a4a5f52308d55c660599b9eb1
           },
         ),
       ),
