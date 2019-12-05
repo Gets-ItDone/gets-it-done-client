@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/services/auth.dart';
-
 
 class Home extends StatelessWidget {
   final bgColor = const Color(0xFFb4c2f3);
@@ -27,7 +27,6 @@ class Home extends StatelessWidget {
               },
             )
           ],
-
         ),
         body: Container(
             color: bgColor,
@@ -47,7 +46,12 @@ class Home extends StatelessWidget {
                         color: textColor,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TaskAdder()),
+                      );
+                    },
                   ),
                 ),
                 Container(
