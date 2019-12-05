@@ -63,4 +63,14 @@ class DatabaseCalls {
       print(err);
     }
   }
+
+  void deleteUser(uid) {
+
+    //need to send user back to login screen. Must discuss best way to do this
+    try {
+      testCollection.document(uid).delete();
+    } catch(err) {
+      print(err);
+    }
+  }
 }
