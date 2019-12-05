@@ -13,7 +13,6 @@ class DatabaseCalls {
         "taskAssistant": false
       },
       "categories": {"general": []}
-      //"categories": {"general": [], "schoolwork": []}
     });
   }
 
@@ -23,10 +22,10 @@ class DatabaseCalls {
 
     try {
       //will take in category as an argument
-      final category = "schoolwork";
+      final category = "general";
 
       testCollection.document(uid).updateData({
-        "categories.$category": FieldValue.arrayUnion(["write a book"])
+        "categories.$category": FieldValue.arrayUnion(["learn to fly"])
       });
     } catch (err) {
       print(err);
@@ -45,5 +44,14 @@ class DatabaseCalls {
     } catch (err) {
       print(err);
     }
+  }
+
+  void getTasks(uid) {
+    print("getting the tasks for user $uid");
+
+    testCollection.document(uid).get().then((DocumentSnapshot ds) {
+      var unknown = ds.data;
+      print(unknown);
+    });
   }
 }
