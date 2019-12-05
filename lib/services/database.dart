@@ -46,6 +46,7 @@ class DatabaseCalls {
     }
   }
 
+
   void getTasks(uid) {
     print("getting the tasks for user $uid");
 
@@ -53,5 +54,33 @@ class DatabaseCalls {
       var unknown = ds.data;
       print(unknown);
     });
+
+  void updatePreferences(uid) {
+    print("Preferences for $uid are being updated");
+
+    final updatedPrefs = {
+      "colorScheme": "notDefault",
+      "speechToText": true,
+      "taskAssistant": true
+    };
+
+    //updated preferences will be taken from state
+
+    try {
+      testCollection.document(uid).updateData({"preferences": updatedPrefs});
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  void deleteUser(uid) {
+
+    //need to send user back to login screen. Must discuss best way to do this
+    try {
+      testCollection.document(uid).delete();
+    } catch(err) {
+      print(err);
+    }
+
   }
 }
