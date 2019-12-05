@@ -13,32 +13,37 @@ class DatabaseCalls {
         "taskAssistant": false
       },
       "categories": {"general": []}
+      //"categories": {"general": [], "schoolwork": []}
     });
   }
 
-  void addTask() {
+  void addTask(uid) {
     print("this function is being called!!");
-    // try {
-    //   testCollection.document("IKuYvSCBu6UPthSKyOVYcNZQRhs1").updateData({
-    //     "categories": {
-    //       "general": ["what a success"]
-    //     }
-    //   });
-    // }
+    print(uid);
 
     try {
-      var list = List<String>();
-      list.add("fwaazzy");
+      //will take in category as an argument
+      final category = "schoolwork";
 
-      testCollection.document("QjLA8qgVujPL69Ko7z6rWLmxnbe2").updateData({
-        "categories.general": FieldValue.arrayUnion(["foozy"])
+      testCollection.document(uid).updateData({
+        "categories.$category": FieldValue.arrayUnion(["write a book"])
       });
     } catch (err) {
       print(err);
     }
   }
-}
 
-// testCollection
-//           .document("QjLA8qgVujPL69Ko7z6rWLmxnbe2")
-//           .updateData({"test": FieldValue.arrayUnion(list)});
+  void addCategory(uid) {
+    print("this function is being called!!");
+    print(uid);
+
+    /*---^_^ this will overwrite an existing category
+    even if it has tasks in it ¯\_(ツ)_/¯---*/
+    final category = "schoolwork";
+    try {
+      testCollection.document(uid).updateData({"categories.$category": []});
+    } catch (err) {
+      print(err);
+    }
+  }
+}
