@@ -5,6 +5,8 @@ class DatabaseCalls {
       Firestore.instance.collection("test");
 
   void createUser(String uid) async {
+
+    // remove pre-made tasks when all functions are finished
     return await testCollection.document(uid).setData({
       "test": "test",
       "preferences": {
@@ -33,46 +35,45 @@ class DatabaseCalls {
     }
   }
 
-  void addCategory(uid) {
-    print("this function is being called!!");
-    print(uid);
+  void addCategory(uid, [category = "general"]) async {
 
-    /*--- this will overwrite an existing category
-    even if it has tasks in it ¯\_(ツ)_/¯---*/
-    final category = "shopping";
+    final snapshot = await this.getDocumentSnapshot(uid);
+    final categoryObject = snapshot.data["categories"];
+
+    if(categoryObject.containsKey(category) == false) {
     try {
       testCollection.document(uid).updateData({"categories.$category": []});
     } catch (err) {
       print(err);
     }
+    } else {
+/*
+We need to give user feedback that a category already exists
+*/
+      print("Category already exists");
+    }
+
+
   }
 
-  dynamic getCategories(uid) {
-    print("getting the tasks for user $uid");
-
+  dynamic getDocumentSnapshot(uid) {
     return testCollection.document(uid).get();
   }
 
-  void updatePreferences(uid) {
-    print("Preferences for $uid are being updated");
-
-    final updatedPrefs = {
+  void updatePreferences(uid, [updatedPreferences = const {
       "colorScheme": "notDefault",
       "speechToText": true,
       "taskAssistant": true
-    };
-
-    //updated preferences will be taken from state
-
+    }]) {
     try {
-      testCollection.document(uid).updateData({"preferences": updatedPrefs});
+      testCollection.document(uid).updateData({"preferences": updatedPreferences});
     } catch (err) {
       print(err);
     }
   }
 
   void deleteUser(uid) {
-    //need to send user back to login screen. Must discuss best way to do this
+    //need to send user back to login screen. Must discuss best way to do this. User feedback
     try {
       testCollection.document(uid).delete();
     } catch (err) {
@@ -80,22 +81,14 @@ class DatabaseCalls {
     }
   }
 
-  void editTask(uid) async {
-    final category = "general";
-    final taskToUpdate = "clean kitchen";
-    final newTask = "proof it works!";
-
-    /*
-    Hello! (=^・^=) 
-    My above values are all hardcoded, that's not very good is it (✿◠‿◠)
-    I needs more arguments to be a better function, perhaps you could help?? (#^.^#)
-    */
-
-    final ds = await this.getCategories(uid);
+  void updateTaskName(uid, [category = "general", taskToUpdate = "clean kitchen", updatedTaskName = "clan kitchen"]) async {
+    
+    final ds = await this.getDocumentSnapshot(uid);
     final currentTaskArray = ds.data["categories"][category];
     final mappedArray = currentTaskArray.map((x) => x["taskName"]).toList();
     final taskIndex = mappedArray.indexOf(taskToUpdate);
-    currentTaskArray[taskIndex]["taskName"] = newTask;
+    print(taskIndex);
+    currentTaskArray[taskIndex]["taskName"] = updatedTaskName;
 
     try {
       print("updating data...");
@@ -107,29 +100,30 @@ class DatabaseCalls {
     }
   }
 
-  void completeTask(uid) async {
+  void completeTask(uid, [category = "general", taskName = "clean bedroom"]) async {
 /*
   (✿◠‿◠) Me again! category and taskName should again be taken in as arguments,
   somebody will have to update this later >^_^< unless, perhaps, you could do it? (^_-)-☆
 */
-    final category = "general";
-    final taskName = "clean kitchen";
+  print(category);
+  print(taskName);
 
-    final ds = await this.getCategories(uid);
+    final ds = await this.getDocumentSnapshot(uid);
     final currentTaskArray = ds.data["categories"][category];
     final mappedArray = currentTaskArray.map((x) => x["taskName"]).toList();
     final taskIndex = mappedArray.indexOf(taskName);
+    print(taskIndex);
     currentTaskArray[taskIndex]["completed"] = true;
 
     print(currentTaskArray);
-    try {
-      print("updating data...");
-      testCollection
-          .document(uid)
-          .updateData({"categories.$category": currentTaskArray});
-    } catch (err) {
-      print(err);
-    }
+    // try {
+    //   print("updating data...");
+    //   testCollection
+    //       .document(uid)
+    //       .updateData({"categories.$category": currentTaskArray});
+    // } catch (err) {
+    //   print(err);
+    // }
   }
 
   void resetTask(uid) async {
@@ -156,7 +150,7 @@ class DatabaseCalls {
           Who could update this, could it be you ? ヽ(^o^)丿
 */
 
-    final ds = await this.getCategories(uid);
+    final ds = await this.getDocumentSnapshot(uid);
     final currentCategories = ds.data["categories"];
     currentCategories.remove(categoryToDelete);
 
@@ -172,7 +166,7 @@ class DatabaseCalls {
 
   void deleteTask(uid,
       [category = "general", taskToDelete = "learn to fly"]) async {
-    final ds = await this.getCategories(uid);
+    final ds = await this.getDocumentSnapshot(uid);
     final currentTaskArray = ds.data["categories"][category];
     final mappedArray = currentTaskArray.map((x) => x).toList();
     final updatedArray =
