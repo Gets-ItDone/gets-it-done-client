@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/screens/authenticate/auth_toggle.dart';
 import 'package:gets_it_done/screens/home/home.dart';
-import 'package:gets_it_done/screens/task_screens/task_list.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
@@ -10,6 +9,6 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    return user != null ? TaskList() : AuthToggle();
+    return user != null ? Home() : AuthToggle();
   }
 }
