@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/services/auth.dart';
+import 'package:speech_recognition/speech_recognition.dart';
 
 class TaskAdder extends StatefulWidget {
   @override
@@ -7,13 +8,52 @@ class TaskAdder extends StatefulWidget {
 }
 
 class _TaskAdderState extends State<TaskAdder> {
+  // Speech to Text
+  SpeechRecognition _speechRecognition;
+  bool _isAvailable = false;
+  bool _isListening = false;
+  String resultText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    initSpeechRecognitizer();
+  }
+
+  void initSpeechRecognitizer() {
+    _speechRecognition = SpeechRecognition();
+
+    _speechRecognition.setAvailabilityHandler(
+      (bool result) => setState(() => _isAvailable = result),
+    );
+
+    _speechRecognition.setRecognitionStartedHandler(
+      () => setState(() => _isListening = true),
+    );
+
+    _speechRecognition.setRecognitionResultHandler(
+      (String speech) => setState(() => resultText = speech),
+    );
+
+    _speechRecognition.setRecognitionCompleteHandler(
+      () => setState(() => _isListening = false),
+    );
+
+    _speechRecognition.activate().then(
+          (result) => setState(() => _isAvailable = result),
+        );
+  }
+
+  // Inputs
   String taskBody;
   String priority = "today";
   String categoryDropdown = "general";
 
+  // Color Scheme
   final bgColor = const Color(0xFFb4c2f3);
   final textColor = const Color(0xFFffffff);
   final altBgColor = const Color(0xFFe96dae);
+
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
@@ -28,7 +68,6 @@ class _TaskAdderState extends State<TaskAdder> {
                 style: TextStyle(color: textColor, fontSize: 18.0),
               ),
               onPressed: () async {
-                print('Sign out');
                 await _auth.logOffUser();
               },
             )
@@ -42,22 +81,55 @@ class _TaskAdderState extends State<TaskAdder> {
               height: 50.0,
             ),
             TextFormField(
-                onChanged: (text) {
-                  setState(() {
-                    taskBody = text;
-                    print(taskBody);
-                  });
-                },
-                style: TextStyle(
-                  fontSize: 20,
+              onChanged: (text) {
+                setState(() {
+                  taskBody = text;
+                  print(taskBody);
+                });
+              },
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              validator: (value) =>
+                  value.isEmpty ? 'Please write your task.' : null,
+              decoration: InputDecoration(
+                  labelText: 'Task',
+                  hintText: 'Please enter task.',
+                  fillColor: Colors.white,
+                  filled: true),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FloatingActionButton(
+                  heroTag: 'stop',
+                  mini: true,
+                  backgroundColor: altBgColor,
+                  onPressed: () {
+                    if (_isListening) {
+                      _speechRecognition.stop().then(
+                            (result) => setState(() => _isListening = result),
+                          );
+                    }
+                  },
+                  child: Icon(Icons.stop),
                 ),
-                validator: (value) =>
-                    value.isEmpty ? 'Please write your task.' : null,
-                decoration: InputDecoration(
-                    labelText: 'Task',
-                    hintText: 'Please enter task.',
-                    fillColor: Colors.white,
-                    filled: true)),
+                FloatingActionButton(
+                  heroTag: 'record',
+                  onPressed: () {
+                    if (_isAvailable && !_isListening) {
+                      _speechRecognition
+                          .listen(locale: "en_US")
+                          .then((result) => print(result));
+                    }
+                  },
+                  child: Icon(Icons.mic),
+                ),
+              ],
+            ),
             SizedBox(
               height: 20.0,
             ),
