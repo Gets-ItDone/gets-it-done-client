@@ -70,30 +70,31 @@ class _TaskListState extends State<TaskList> {
         ),
       ),
       bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: Colors.pink[300],
-            primaryColor: Colors.white,
-            textTheme: Theme.of(context).textTheme.copyWith(
-                  caption: new TextStyle(color: Colors.white),
-                ),
-          ),
-          child: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                title: Text('Add Task'),
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.pink[300],
+          primaryColor: Colors.white,
+          textTheme: Theme.of(context).textTheme.copyWith(
+                caption: new TextStyle(color: Colors.white),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.done),
-                title: Text('Do Task'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                title: Text('Settings'),
-              ),
-            ],
-            onTap: _navigatePage,
-          )),
+        ),
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              title: Text('Add Task'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.done),
+              title: Text('Do Task'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
+          ],
+          onTap: _navigatePage,
+        ),
+      ),
     );
   }
 }
