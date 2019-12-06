@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gets_it_done/screens/task_screens/task_list.dart';
 import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/services/auth.dart';
 
@@ -66,7 +67,12 @@ class Home extends StatelessWidget {
                         color: textColor,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TaskList()),
+                      );
+                    },
                   ),
                 ),
                 Container(
