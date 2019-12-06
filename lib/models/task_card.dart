@@ -13,8 +13,9 @@ class TaskCard extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
             child: ClipOval(
-                child: Image.network(
-                    'https://upload.wikimedia.org/wikipedia/commons/9/9f/Poop_Emoji_Icon.png')),
+              child: Image.network(
+                  'https://upload.wikimedia.org/wikipedia/commons/9/9f/Poop_Emoji_Icon.png'),
+            ),
           ),
           title: Center(child: Text(task)),
         ),
