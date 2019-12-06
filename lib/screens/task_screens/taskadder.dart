@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:speech_recognition/speech_recognition.dart';
 
@@ -44,10 +45,30 @@ class _TaskAdderState extends State<TaskAdder> {
         );
   }
 
+  // Bottom nav bar navigation
+  void _navigatePage(int index) {
+    setState(() {
+      if (index == 0) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Settings()),
+        );
+      }
+      if (index == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Settings()),
+        );
+      }
+    });
+  }
+
   // Inputs
   String taskBody;
   String priority = "today";
   String categoryDropdown = "general";
+
+  dynamic dueDate;
 
   // Color Scheme
   final bgColor = const Color(0xFFb4c2f3);
@@ -58,24 +79,24 @@ class _TaskAdderState extends State<TaskAdder> {
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Gets It Done'),
-          backgroundColor: altBgColor,
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                'Log Off',
-                style: TextStyle(color: textColor, fontSize: 18.0),
-              ),
-              onPressed: () async {
-                await _auth.logOffUser();
-              },
-            )
-          ],
-        ),
-        backgroundColor: bgColor,
-        body: Form(
-            child: Column(
+      appBar: AppBar(
+        title: Text('Gets It Done'),
+        backgroundColor: altBgColor,
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'Log Off',
+              style: TextStyle(color: textColor, fontSize: 18.0),
+            ),
+            onPressed: () async {
+              await _auth.logOffUser();
+            },
+          )
+        ],
+      ),
+      backgroundColor: bgColor,
+      body: Form(
+        child: Column(
           children: <Widget>[
             SizedBox(
               height: 50.0,
@@ -140,16 +161,16 @@ class _TaskAdderState extends State<TaskAdder> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                // RaisedButton(
-                //   onPressed: () {},
-                //   child: Text("click"),
-                // ),
-
                 RaisedButton(
                     onPressed: () {
                       setState(() {
                         priority = "today";
-                        print(priority);
+                        // Add 24 hours to current time
+                        dynamic timestamp = new DateTime.now()
+                            .add(new Duration(days: 1))
+                            .millisecondsSinceEpoch;
+                        dueDate = timestamp;
+                        print(timestamp);
                       });
                     },
                     color: priority == "today" ? altBgColor : Colors.white,
@@ -158,7 +179,12 @@ class _TaskAdderState extends State<TaskAdder> {
                     onPressed: () {
                       setState(() {
                         priority = "tomorrow";
-                        print(priority);
+                        // Add 48 hours to current time
+                        dynamic timestamp = new DateTime.now()
+                            .add(new Duration(days: 2))
+                            .millisecondsSinceEpoch;
+                        dueDate = timestamp;
+                        print(timestamp);
                       });
                     },
                     color: priority == "tomorrow" ? altBgColor : Colors.white,
@@ -167,7 +193,12 @@ class _TaskAdderState extends State<TaskAdder> {
                     onPressed: () {
                       setState(() {
                         priority = "later";
-                        print(priority);
+                        // Add 7 days to task
+                        dynamic timestamp = new DateTime.now()
+                            .add(new Duration(days: 7))
+                            .millisecondsSinceEpoch;
+                        dueDate = timestamp;
+                        print(timestamp + 604800000);
                       });
                     },
                     color: priority == "later" ? altBgColor : Colors.white,
@@ -215,6 +246,30 @@ class _TaskAdderState extends State<TaskAdder> {
                 color: altBgColor,
                 child: Text("Submit"))
           ],
-        )));
+        ),
+      ),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.pink[300],
+          primaryColor: Colors.white,
+          textTheme: Theme.of(context).textTheme.copyWith(
+                caption: new TextStyle(color: Colors.white),
+              ),
+        ),
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.done),
+              title: Text('Do Task'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
+          ],
+          onTap: _navigatePage,
+        ),
+      ),
+    );
   }
 }
