@@ -45,6 +45,7 @@ class _TaskAdderState extends State<TaskAdder> {
         );
   }
 
+
   // Bottom nav bar navigation
   void _navigatePage(int index) {
     setState(() {
@@ -70,6 +71,7 @@ class _TaskAdderState extends State<TaskAdder> {
 
   dynamic dueDate;
 
+
   // Color Scheme
   final bgColor = const Color(0xFFb4c2f3);
   final textColor = const Color(0xFFffffff);
@@ -79,6 +81,7 @@ class _TaskAdderState extends State<TaskAdder> {
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
     return Scaffold(
+
       appBar: AppBar(
         title: Text('Gets It Done'),
         backgroundColor: altBgColor,
@@ -97,16 +100,19 @@ class _TaskAdderState extends State<TaskAdder> {
       backgroundColor: bgColor,
       body: Form(
         child: Column(
+
           children: <Widget>[
             SizedBox(
               height: 50.0,
             ),
             TextFormField(
+
               controller: TextEditingController(text: resultText),
               onChanged: (text) {
                 setState(() {
                   resultText = text;
                   print(resultText);
+
                 });
               },
               style: TextStyle(
@@ -138,6 +144,7 @@ class _TaskAdderState extends State<TaskAdder> {
                     }
                   },
                   child: Icon(Icons.stop),
+
                 ),
                 FloatingActionButton(
                   heroTag: 'record',
@@ -150,6 +157,7 @@ class _TaskAdderState extends State<TaskAdder> {
                   },
                   child: Icon(Icons.mic),
                 ),
+
               ],
             ),
             SizedBox(
