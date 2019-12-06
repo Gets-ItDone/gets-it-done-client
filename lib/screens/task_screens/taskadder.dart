@@ -64,7 +64,7 @@ class _TaskAdderState extends State<TaskAdder> {
   }
 
   // Inputs
-  String taskBody;
+  // String taskBody;
   String priority = "today";
   String categoryDropdown = "general";
 
@@ -102,10 +102,11 @@ class _TaskAdderState extends State<TaskAdder> {
               height: 50.0,
             ),
             TextFormField(
+              controller: TextEditingController(text: resultText),
               onChanged: (text) {
                 setState(() {
-                  taskBody = text;
-                  print(taskBody);
+                  resultText = text;
+                  print(resultText);
                 });
               },
               style: TextStyle(
