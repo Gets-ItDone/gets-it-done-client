@@ -78,13 +78,14 @@ class _LoginState extends State<Login> {
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         setState(() => loading = true);
+
                         dynamic loginResult = await _auth
                             .signInWithEmailAndPassword(email, password);
-                        print(loginResult);
+
                         if (loginResult == null) {
                           setState(() {
+                            loading = false;
                             err = 'Something went wrong. Please try again.';
-                            loading = true;
                           });
                         }
                       }
