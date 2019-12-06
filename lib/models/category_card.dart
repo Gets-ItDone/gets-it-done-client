@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/task_card.dart';
-// import 'package:gets_it_done/models/tasks_by_category.dart';
 
 class CategoryCard extends StatefulWidget {
   final String category;
@@ -19,7 +18,8 @@ class _CategoryCardState extends State<CategoryCard> {
   dynamic data = {
     "General": ['Eat lunch', 'Complete 3 Katas on CodeWars'],
     "Household": ['Clean bathroom'],
-    "Health": []
+    "Health": ["Go to doctor"],
+    "Life or Death": []
   };
 
   @override
