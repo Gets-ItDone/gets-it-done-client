@@ -86,17 +86,15 @@ class DatabaseCalls {
   }
 
   void editTask(uid) async {
-    /*
-    Hello! (=^・^=) 
-    This function currently simply takes in the current list of tasks for a hard coded category
-    and overwrites the final item in it (✿◠‿◠)
-
-    it needs more arguments to be a better function, perhaps you could help?? (#^.^#)
-    */
-
     final category = "general";
     final taskToUpdate = "clean kitchen";
     final newTask = "proof it works!";
+
+    /*
+    Hello! (=^・^=) 
+    My above values are all hardcoded, that's not very good is it (✿◠‿◠)
+    I needs more arguments to be a better function, perhaps you could help?? (#^.^#)
+    */
 
     final ds = await this.getCategories(uid);
     final currentTaskArray = ds.data["categories"][category];
@@ -148,15 +146,27 @@ class DatabaseCalls {
     ];
 
     await testCollection.document(uid).updateData({"categories.general": obj});
+    await testCollection.document(uid).updateData({"categories.school": obj});
   }
 
   void deleteCategory(uid) async {
-    final category = "general";
+    final categoryToDelete = "general";
+/*        ^^^^^^^^^^^^^^^^
+ヽ(´ー｀)ﾉ A hard coded value, could it be true ? 
+          Who could update this, could it be you ? ヽ(^o^)丿
+*/
 
     final ds = await this.getCategories(uid);
-    final currentTaskArray = ds.data["categories"][category];
-    final mappedArray = currentTaskArray.map((x) => x["taskName"]).toList();
+    final currentCategories = ds.data["categories"];
+    currentCategories.remove(categoryToDelete);
 
-    print(mappedArray);
+    try {
+      print("updating data...");
+      testCollection
+          .document(uid)
+          .updateData({"categories": currentCategories});
+    } catch (err) {
+      print(err);
+    }
   }
 }
