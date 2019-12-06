@@ -21,17 +21,12 @@ class DatabaseCalls {
     });
   }
 
-  void addTask(uid) {
-//(#^.^#) i need some more arguments UwU
-    print("this function is being called!!");
-    print(uid);
+  void addTask(uid, [category = "general", taskName = "learn to fly"]) {
+    final taskToAdd = {"taskName": taskName, "completed": false};
 
     try {
-//will take in category as an argument
-      final category = "general";
-
       testCollection.document(uid).updateData({
-        "categories.$category": FieldValue.arrayUnion(["learn to fly"])
+        "categories.$category": FieldValue.arrayUnion([taskToAdd])
       });
     } catch (err) {
       print(err);
@@ -140,13 +135,18 @@ class DatabaseCalls {
   void resetTask(uid) async {
     print('resetting task...');
 
-    final obj = [
+    final obj1 = [
       {"taskName": "clean kitchen", "completed": false},
-      {"taskName": "clean bedroom", "completed": false}
+      {"taskName": "clean bedroom", "completed": false},
+      {"taskName": "study maths", "completed": false}
+    ];
+    final obj2 = [
+      {"taskName": "study english", "completed": false},
+      {"taskName": "study french", "completed": false}
     ];
 
-    await testCollection.document(uid).updateData({"categories.general": obj});
-    await testCollection.document(uid).updateData({"categories.school": obj});
+    await testCollection.document(uid).updateData({"categories.general": obj1});
+    await testCollection.document(uid).updateData({"categories.school": obj2});
   }
 
   void deleteCategory(uid) async {
@@ -168,5 +168,35 @@ class DatabaseCalls {
     } catch (err) {
       print(err);
     }
+  }
+
+  void deleteTask(uid,
+      [category = "general", taskToDelete = "learn to fly"]) async {
+    final ds = await this.getCategories(uid);
+    final currentTaskArray = ds.data["categories"][category];
+    final mappedArray = currentTaskArray.map((x) => x).toList();
+    final updatedArray =
+        mappedArray.where((x) => x["taskName"] != taskToDelete).toList();
+
+    try {
+      print("updating data...");
+      testCollection
+          .document(uid)
+          .updateData({"categories.$category": updatedArray});
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  void changeTaskCategory(uid,
+      {categoryToTakeFrom = "general",
+      taskName = "study maths",
+      categoryToInsertInto = "school"}) async {
+/*
+some function description here
+*/
+
+    this.deleteTask(uid, categoryToTakeFrom, taskName);
+    this.addTask(uid, categoryToInsertInto, taskName);
   }
 }
