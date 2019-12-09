@@ -68,18 +68,20 @@ We need to give user feedback that a category already exists
     return testCollection.document(uid).get();
   }
 
-  void updatePreferences(uid,
-      [updatedPreferences = const {
-        "colorScheme": "notDefault",
-        "speechToText": true,
-        "taskAssistant": true
-      }]) {
+  updatePreferences(uid, colorScheme, speechToText, taskAssistant) {
+    final updatedPreferences = {
+      'colorScheme': colorScheme,
+      'speechToText': speechToText,
+      'taskAssistant': taskAssistant
+    };
+
     try {
       testCollection
           .document(uid)
           .updateData({"preferences": updatedPreferences});
+      return {'status': 200, 'msg': 'Success'};
     } catch (err) {
-      print(err);
+      return err;
     }
   }
 
@@ -224,6 +226,4 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
     final preferences = ds.data["preferences"];
     return preferences;
   }
-  
-
 }
