@@ -208,6 +208,19 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
     return categoryArray;
   }
 
+
+  dynamic getTasksByCategory(uid, category) async {
+    final ds = await this.getDocumentSnapshot(uid);
+    final taskArray = ds.data["categories"][category].toList();
+
+    final uncompletedTaskArray = taskArray
+        .where((task) => task["completed"] == false)
+        .map((task) => task["taskName"])
+        .toList();
+    print(uncompletedTaskArray);
+    return uncompletedTaskArray;
+  }
+
   dynamic getPreferences(uid) async {
     final ds = await this.getDocumentSnapshot(uid);
     final preferences = ds.data["preferences"];
