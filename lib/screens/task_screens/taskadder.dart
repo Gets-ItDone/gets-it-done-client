@@ -88,6 +88,7 @@ class _TaskAdderState extends State<TaskAdder> {
   // String taskBody;
   String priority = "today";
   String categoryDropdown = "general";
+  String message = "";
 
   dynamic dueDate;
 
@@ -275,11 +276,13 @@ class _TaskAdderState extends State<TaskAdder> {
                     height: 30.0,
                   ),
                   RaisedButton(
-                      onPressed: () {
-                        // on pressed needs to send task to database and redirect to created task
+                      onPressed: ()async {
+                      _db.addTask(_user.uid, categoryDropdown, resultText);
+                      Navigator.pop(context);
                       },
                       color: altBgColor,
-                      child: Text("Submit"))
+                      child: Text("Submit")),
+                      Text(message)
                 ],
               ),
             ),

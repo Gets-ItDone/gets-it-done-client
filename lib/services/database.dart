@@ -32,17 +32,12 @@ class DatabaseCalls {
     if (taskDoesntExist) {
       try {
         final taskToAdd = {"taskName": taskName, "completed": false};
-        testCollection.document(uid).updateData({
+         testCollection.document(uid).updateData({
           "categories.$category": FieldValue.arrayUnion([taskToAdd])
         });
       } catch (err) {
-        print(err);
+      return err;
       }
-    } else {
-      print("task already exists!");
-/*
-PROVIDE SOME KIND OF USER FEEDBACK ! :)
-*/
     }
   }
 
@@ -68,18 +63,20 @@ We need to give user feedback that a category already exists
     return testCollection.document(uid).get();
   }
 
-  void updatePreferences(uid,
-      [updatedPreferences = const {
-        "colorScheme": "notDefault",
-        "speechToText": true,
-        "taskAssistant": true
-      }]) {
+  updatePreferences(uid, colorScheme, speechToText, taskAssistant) {
+    final updatedPreferences = {
+      'colorScheme': colorScheme,
+      'speechToText': speechToText,
+      'taskAssistant': taskAssistant
+    };
+
     try {
       testCollection
           .document(uid)
           .updateData({"preferences": updatedPreferences});
+      return {'status': 200, 'msg': 'Success'};
     } catch (err) {
-      print(err);
+      return err;
     }
   }
 
@@ -206,10 +203,22 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
     return categoryArray;
   }
 
+
+  dynamic getTasksByCategory(uid, category) async {
+    final ds = await this.getDocumentSnapshot(uid);
+    final taskArray = ds.data["categories"][category].toList();
+
+    final uncompletedTaskArray = taskArray
+        .where((task) => task["completed"] == false)
+        .map((task) => task["taskName"])
+        .toList();
+    print(uncompletedTaskArray);
+    return uncompletedTaskArray;
+  }
+
   dynamic getPreferences(uid) async {
     final ds = await this.getDocumentSnapshot(uid);
     final preferences = ds.data["preferences"];
     return preferences;
   }
-  
 }
