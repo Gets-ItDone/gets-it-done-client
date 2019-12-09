@@ -28,8 +28,7 @@ class _LoginState extends State<Login> {
               title: Text('Login'),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('Register',
-                      style: TextStyle(color: Colors.white, fontSize: 18.0)),
+                  child: Text('Register'),
                   onPressed: () {
                     widget.toggleView();
                   },
@@ -72,7 +71,7 @@ class _LoginState extends State<Login> {
                     },
                   ),
                   SizedBox(
-                    height: 20.0,
+                    height: 40.0,
                   ),
                   RaisedButton(
                     onPressed: () async {
@@ -90,11 +89,7 @@ class _LoginState extends State<Login> {
                         }
                       }
                     },
-                    color: Colors.blue,
-                    child: Text('Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                        )),
+                    child: Text('Login'),
                   ),
                   SizedBox(
                     height: 20.0,
