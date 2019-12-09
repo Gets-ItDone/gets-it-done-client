@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/loading.dart';
+import 'package:gets_it_done/services/database.dart';
 
 class SignUp extends StatefulWidget {
   final Function toggleView;
@@ -11,6 +12,9 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  // db setup
+  DatabaseCalls _db = DatabaseCalls();
+
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
@@ -65,7 +69,7 @@ class _SignUpState extends State<SignUp> {
                     validator: (value) =>
                         value.isEmpty ? 'Please input your password.' : null,
                     decoration: InputDecoration(
-                        labelText: 'password',
+                        labelText: 'Password',
                         hintText: 'Please enter password.',
                         fillColor: Colors.white,
                         filled: true),
@@ -81,7 +85,7 @@ class _SignUpState extends State<SignUp> {
                     validator: (value) =>
                         value.isEmpty ? 'Please re-enter your password.' : null,
                     decoration: InputDecoration(
-                        labelText: 'password',
+                        labelText: 'Confirm password',
                         hintText: 'Please re-enter password.',
                         fillColor: Colors.white,
                         filled: true),
@@ -97,6 +101,10 @@ class _SignUpState extends State<SignUp> {
                         setState(() => loading = true);
                         final signUpResult = await _auth
                             .registerWithEmailAndPassword(email, password);
+
+                        if (signUpResult != null) {
+                          _db.createUser(signUpResult.uid);
+                        }
 
                         if (signUpResult == null) {
                           setState(() {
