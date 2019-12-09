@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
     return isLoading
         ? Loading()
         : Theme(
-            data: getColorTheme(colorScheme),
+            data: getColorTheme(colorScheme) ?? ThemeData.dark(),
             child: Scaffold(
               appBar: AppBar(
                 title: Text('Gets It Done'),
@@ -78,13 +78,8 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(30.0),
                         child: Text('Add Task'),
                         onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TaskAdder(),
-                            ),
-                          );
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/add', (_) => false);
                         },
                       ),
                     ),
@@ -98,10 +93,8 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(30.0),
                         child: Text('View Tasks'),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => TaskList()),
-                          );
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/view', (_) => false);
                         },
                       ),
                     ),
