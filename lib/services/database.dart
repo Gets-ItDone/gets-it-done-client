@@ -32,17 +32,12 @@ class DatabaseCalls {
     if (taskDoesntExist) {
       try {
         final taskToAdd = {"taskName": taskName, "completed": false};
-        testCollection.document(uid).updateData({
+         testCollection.document(uid).updateData({
           "categories.$category": FieldValue.arrayUnion([taskToAdd])
         });
       } catch (err) {
-        print(err);
+      return err;
       }
-    } else {
-      print("task already exists!");
-/*
-PROVIDE SOME KIND OF USER FEEDBACK ! :)
-*/
     }
   }
 
