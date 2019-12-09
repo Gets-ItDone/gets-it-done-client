@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/services/auth.dart';
+import 'package:gets_it_done/services/database.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -7,6 +10,30 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+
+dynamic user;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      user = Provider.of<User>(context);
+    setPreferences(user);
+    });
+  }
+
+  void setPreferences(user) async {
+    DatabaseCalls _db = DatabaseCalls();
+
+    dynamic preferences = await _db.getPreferences(user.uid);
+    print(preferences);
+    setState(() {
+      colorScheme = preferences.colorScheme;
+      speechToTextValue = preferences.speechToText;
+      taskAssistant = preferences.taskAssistant;
+    });
+  }
+
   final bgColor = const Color(0xFFb4c2f3);
   final textColor = const Color(0xFFffffff);
   final altBgColor = const Color(0xFFe96dae);
@@ -20,6 +47,10 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
+
+    print(speechToTextValue);
+    print(colorScheme);
+    print(taskAssistant);
 
     return Scaffold(
       backgroundColor: bgColor,
