@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/category_card.dart';
+import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/services/auth.dart';
+import 'package:gets_it_done/services/database.dart';
+import 'package:provider/provider.dart';
 
 class TaskList extends StatefulWidget {
   @override
@@ -10,12 +13,31 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  //Call to DB and save data into array
-  final categories = ['General', 'Household', 'Health', 'Life or Death'];
+  DatabaseCalls _db;
+  dynamic _user;
+  dynamic categories = [];
   bool clicked = false;
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      _user = Provider.of<User>(context);
+      setCategories(_user.uid);
+    });
+  }
+
+  void setCategories(uid) async {
+    _db = DatabaseCalls();
+    dynamic categoryArray = await _db.getCategories(uid);
+    setState(() {
+      categories = categoryArray;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     final AuthService _auth = AuthService();
     void _navigatePage(int index) {
       setState(() {
@@ -52,7 +74,9 @@ class _TaskListState extends State<TaskList> {
             ),
             onPressed: () async {
               print('Sign out');
-              await _auth.logOffUser();
+              //await _auth.logOffUser();
+              var categoryArray = await _db.getCategories(user.uid);
+              print(categoryArray);
             },
           )
         ],
