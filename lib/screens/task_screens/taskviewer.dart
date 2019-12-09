@@ -38,8 +38,8 @@ class _TaskViewerState extends State<TaskViewer> {
 
   void setTasks(uid) async {
     _db = DatabaseCalls();
-    dynamic taskArray = await _db.getTasksByCategory(uid, "general");
-    // dynamic taskArray = await _db.getAllTasks(uid);
+    // dynamic taskArray = await _db.getTasksByCategory(uid, "general");
+    dynamic taskArray = await _db.getAllTasks(uid);
     setState(() {
       tasks = taskArray;
       isLoading = false;
