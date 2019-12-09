@@ -25,6 +25,7 @@ class _TaskViewerState extends State<TaskViewer> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Container(
+
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/bgimg1.jpg"),
