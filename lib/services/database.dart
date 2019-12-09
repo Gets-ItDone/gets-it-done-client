@@ -205,4 +205,11 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
     currentCategoryObject.forEach((key, value) => categoryArray.add(key));
     return categoryArray;
   }
+
+  dynamic getPreferences(uid) async {
+    final ds = await this.getDocumentSnapshot(uid);
+    final preferences = ds.data["preferences"];
+    return preferences;
+  }
+  
 }
