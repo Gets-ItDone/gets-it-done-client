@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/loading.dart';
@@ -70,12 +71,15 @@ class _TaskAdderState extends State<TaskAdder> {
   void _navigatePage(int index) {
     setState(() {
       if (index == 0) {
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+      }
+      if (index == 1) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Settings()),
         );
       }
-      if (index == 1) {
+      if (index == 2) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Settings()),
@@ -119,7 +123,6 @@ class _TaskAdderState extends State<TaskAdder> {
                   ),
                   onPressed: () async {
                     await _auth.logOffUser();
-                    Navigator.pop(context);
                   },
                 )
               ],
@@ -276,13 +279,13 @@ class _TaskAdderState extends State<TaskAdder> {
                     height: 30.0,
                   ),
                   RaisedButton(
-                      onPressed: ()async {
-                      _db.addTask(_user.uid, categoryDropdown, resultText);
-                      Navigator.pop(context);
+                      onPressed: () async {
+                        _db.addTask(_user.uid, categoryDropdown, resultText);
+                        Navigator.pop(context);
                       },
                       color: altBgColor,
                       child: Text("Submit")),
-                      Text(message)
+                  Text(message)
                 ],
               ),
             ),
@@ -296,6 +299,10 @@ class _TaskAdderState extends State<TaskAdder> {
               ),
               child: BottomNavigationBar(
                 items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    title: Text('Homes'),
+                  ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.done),
                     title: Text('Do Task'),
