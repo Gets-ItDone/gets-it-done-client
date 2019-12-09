@@ -197,4 +197,12 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
     this.deleteTask(uid, categoryToTakeFrom, taskName);
     this.addTask(uid, categoryToInsertInto, taskName);
   }
+
+  dynamic getCategories(uid) async {
+    final ds = await this.getDocumentSnapshot(uid);
+    final currentCategoryObject = ds.data["categories"];
+    var categoryArray = [];
+    currentCategoryObject.forEach((key, value) => categoryArray.add(key));
+    return categoryArray;
+  }
 }
