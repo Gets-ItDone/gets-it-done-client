@@ -13,12 +13,27 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  //Call to DB and save data into array
-  final categories = ['General', 'Household', 'Health', 'Life or Death'];
-  //
-  DatabaseCalls _db = DatabaseCalls();
-
+  DatabaseCalls _db;
+  dynamic _user;
+  dynamic categories = [];
   bool clicked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      _user = Provider.of<User>(context);
+      setCategories(_user.uid);
+    });
+  }
+
+  void setCategories(uid) async {
+    _db = DatabaseCalls();
+    dynamic categoryArray = await _db.getCategories(uid);
+    setState(() {
+      categories = categoryArray;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
