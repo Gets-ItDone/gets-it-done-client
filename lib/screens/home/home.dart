@@ -10,18 +10,18 @@ import 'package:provider/provider.dart';
 import 'package:gets_it_done/services/database.dart';
 import 'package:gets_it_done/shared/color_theme.dart';
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   dynamic _user;
   final AuthService _auth = AuthService();
   DatabaseCalls _db;
   dynamic pref;
+  dynamic colorScheme = '';
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -44,9 +44,6 @@ class _HomeState extends State<Home> {
       colorScheme = preferences["colorScheme"];
     });
   }
-
-  dynamic colorScheme = '';
-  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +118,5 @@ class _HomeState extends State<Home> {
               ),
             ),
           );
-
   }
 }
