@@ -23,8 +23,7 @@ class _TaskAdderState extends State<TaskAdder> {
   bool _isListening = false;
   // dynamic textInput;
   String resultText = '';
-  // final _controller = TextEditingController(text: "Add Task Here");
-
+  String err = "";
   @override
   void initState() {
     super.initState();
@@ -311,12 +310,34 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     RaisedButton(
                         onPressed: () async {
+                          if(resultText != ""){
                           _db.addTask(_user.uid, categoryDropdown, resultText);
+                          setState(() {
+                            err = "Task added";
+                          });
+                          Future.delayed(Duration(milliseconds: 800), () {
+                            setState(() {
+                            err = "";
+                            resultText = "";
+                          });
+                          });
+                          // setState(() {
+                          //   err = "";
+                          //   resultText = "";
+                          // });
+                          } else {
+                            setState(() {
+                              err = "Please enter a task";
+                            });
+                          }
 
                           //Navigator.pop(context);
                         },
                         child: Text("Submit")),
-                    Text(message)
+                        Text(
+                    err,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  )
                   ],
                 ),
               ),
