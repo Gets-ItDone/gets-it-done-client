@@ -14,6 +14,7 @@ class _SettingsState extends State<Settings> {
   dynamic user;
   DatabaseCalls _db;
 
+
   @override
   void initState() {
     super.initState();
