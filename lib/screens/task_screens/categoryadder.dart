@@ -27,6 +27,8 @@ class _CategoryAdderState extends State<CategoryAdder> {
 
   // Color Scheme
   dynamic colorScheme = '';
+  dynamic speechToText = true;
+
 
   // Bottom nav bar navigation
   void _navigatePage(int index) {
@@ -93,6 +95,7 @@ class _CategoryAdderState extends State<CategoryAdder> {
     setState(() {
       _isLoading = false;
       colorScheme = preferences["colorScheme"];
+      speechToText = preferences["speechToText"];
     });
   }
 
@@ -173,24 +176,27 @@ class _CategoryAdderState extends State<CategoryAdder> {
                         ),
                       ),
                     ),
-                    Row(
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    speechToText ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        FloatingActionButton(
-                          heroTag: 'stop',
-                          mini: true,
-                          onPressed: () {
-                            if (_isListening) {
-                              _speechRecognition.stop().then(
-                                    (result) =>
-                                        setState(() => _isListening = result),
-                                  );
-                            }
-                          },
-                          backgroundColor:
-                              getColorTheme(colorScheme).accentColor,
-                          child: Icon(Icons.stop),
-                        ),
+                        // FloatingActionButton(
+                        //   heroTag: 'stop',
+                        //   mini: true,
+                        //   onPressed: () {
+                        //     if (_isListening) {
+                        //       _speechRecognition.stop().then(
+                        //             (result) =>
+                        //                 setState(() => _isListening = result),
+                        //           );
+                        //     }
+                        //   },
+                        //   backgroundColor:
+                        //       getColorTheme(colorScheme).accentColor,
+                        //   child: Icon(Icons.stop),
+                        // ),
                         FloatingActionButton(
                           heroTag: 'record',
                           onPressed: () {
@@ -205,7 +211,7 @@ class _CategoryAdderState extends State<CategoryAdder> {
                           child: Icon(Icons.mic),
                         ),
                       ],
-                    ),
+                    ) : Text(""),
                     SizedBox(
                       height: 30.0,
                     ),
