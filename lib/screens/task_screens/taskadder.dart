@@ -62,6 +62,7 @@ class _TaskAdderState extends State<TaskAdder> {
   }
 
   void initSpeechRecognitizer() {
+
     _speechRecognition = SpeechRecognition();
 
     _speechRecognition.setAvailabilityHandler(
@@ -73,8 +74,11 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      
-      (String speech) => (() => resultText = speech),
+      (String speech) {
+        print(["RESULT TEXT" , resultText]);
+        print(["LOTS OF SPEECH",speech]);
+      resultText = speech;
+      },
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -87,7 +91,6 @@ class _TaskAdderState extends State<TaskAdder> {
     
     setState(() =>
       _isAvailable = false
-      
     );
     
 
