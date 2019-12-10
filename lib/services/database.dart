@@ -32,11 +32,11 @@ class DatabaseCalls {
     if (taskDoesntExist) {
       try {
         final taskToAdd = {"taskName": taskName, "completed": false};
-         testCollection.document(uid).updateData({
+        testCollection.document(uid).updateData({
           "categories.$category": FieldValue.arrayUnion([taskToAdd])
         });
       } catch (err) {
-      return err;
+        return err;
       }
     }
   }
@@ -112,6 +112,9 @@ We need to give user feedback that a category already exists
 
   void completeTask(uid,
       [category = "general", taskName = "clean bedroom"]) async {
+    print(uid);
+    print(category);
+    print(taskName);
     final ds = await this.getDocumentSnapshot(uid);
     final currentTaskArray = ds.data["categories"]
         [category]; //creates array of current tasks in given category
@@ -240,6 +243,31 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
       });
     });
 
+    return allTaskArray;
+  }
+
+  dynamic getAllTasksWithCategories(uid) async {
+    final ds = await this.getDocumentSnapshot(uid);
+    final currentCategoryObject = ds.data["categories"];
+    var categoryArray = [];
+    currentCategoryObject.forEach((key, value) => categoryArray.add(key));
+
+    var allTaskArray = [];
+
+    categoryArray.forEach((category) {
+      final uncompletedTaskArray = currentCategoryObject[category]
+          .where((task) => task["completed"] == false)
+          .map((task) {
+        task["category"] = category;
+        return task;
+      }).toList();
+      uncompletedTaskArray.forEach((task) {
+        print(task);
+        allTaskArray.add(task);
+      });
+    });
+
+    print(allTaskArray);
     return allTaskArray;
   }
 }

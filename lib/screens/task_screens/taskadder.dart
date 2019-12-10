@@ -73,7 +73,9 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      (String speech) => setState(() => resultText = speech),
+      (String speech) {
+        resultText = speech;
+      },
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -158,7 +160,6 @@ class _TaskAdderState extends State<TaskAdder> {
                       onChanged: (text) {
                         setState(() {
                           resultText = text;
-                          print(resultText);
                         });
                       },
                       style: TextStyle(
@@ -174,6 +175,7 @@ class _TaskAdderState extends State<TaskAdder> {
                     SizedBox(
                       height: 20.0,
                     ),
+
                     speechToText ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -207,6 +209,7 @@ class _TaskAdderState extends State<TaskAdder> {
                         ),
                       ],
                     ) : Text(""),
+
                     SizedBox(
                       height: 20.0,
                     ),
