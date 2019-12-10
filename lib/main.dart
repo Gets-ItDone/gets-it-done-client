@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/screens/task_screens/task_list.dart';
 import 'package:gets_it_done/screens/task_screens/taskviewer.dart';
 import 'package:gets_it_done/screens/wrapper.dart';
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
           '/home': (context) => Home(),
           '/settings': (context) => Settings(),
           '/add': (context) => TaskAdder(),
+          '/start': (context) => TaskViewer(),
+          '/addcategory': (context) => CategoryAdder(),
           '/view': (context) => TaskList(),
           '/do': (context) => TaskViewer(),
         },

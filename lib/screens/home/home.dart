@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
-import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
-import 'package:gets_it_done/screens/task_screens/task_list.dart';
-import 'package:gets_it_done/screens/task_screens/taskadder.dart';
-import 'package:gets_it_done/screens/task_screens/taskviewer.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/loading.dart';
 import 'package:provider/provider.dart';
@@ -80,6 +76,21 @@ class _HomeState extends State<Home> {
                         onPressed: () {
                           Navigator.pushNamedAndRemoveUntil(
                               context, '/add', (_) => false);
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                        ),
+                        padding: EdgeInsets.all(30.0),
+                        child: Text('Add Category'),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/addcategory', (_) => false);
                         },
                       ),
                     ),
