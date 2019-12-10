@@ -5,6 +5,8 @@ import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/services/database.dart';
+import 'package:gets_it_done/shared/color_theme.dart';
+import 'package:gets_it_done/shared/loading.dart';
 import 'package:provider/provider.dart';
 
 class TaskList extends StatefulWidget {
@@ -13,10 +15,13 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
+  final AuthService _auth = AuthService();
   DatabaseCalls _db;
   dynamic _user;
   dynamic categories = [];
   bool clicked = false;
+  bool _isLoading = true;
+  dynamic colorScheme = '';
 
   @override
   void initState() {
@@ -24,6 +29,17 @@ class _TaskListState extends State<TaskList> {
     Future.delayed(Duration.zero, () {
       _user = Provider.of<User>(context);
       setCategories(_user.uid);
+      getUserPreferences(_user);
+      _isLoading = false;
+    });
+  }
+
+  getUserPreferences(user) async {
+    _db = DatabaseCalls();
+    dynamic preferences = await _db.getPreferences(user.uid);
+
+    setState(() {
+      colorScheme = preferences["colorScheme"];
     });
   }
 
@@ -35,90 +51,80 @@ class _TaskListState extends State<TaskList> {
     });
   }
 
+  void _navigatePage(int index) {
+    setState(() {
+      if (index == 0) {
+        Navigator.pushNamedAndRemoveUntil(context, '/add', (_) => false);
+      }
+      if (index == 1) {
+        Navigator.pushNamedAndRemoveUntil(context, '/do', (_) => false);
+      }
+      if (index == 2) {
+        Navigator.pushNamedAndRemoveUntil(context, '/settings', (_) => false);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-    final AuthService _auth = AuthService();
-    void _navigatePage(int index) {
-      setState(() {
-        if (index == 0) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TaskAdder()),
-          );
-        }
-        if (index == 1) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Settings()),
-          );
-        }
-        if (index == 2) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Settings()),
-          );
-        }
-      });
-    }
+    return _isLoading
+        ? Loading()
+        : Theme(
+            data: getColorTheme(colorScheme) ?? Theme.of(context),
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text('Master List'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Log Off'),
+                    onPressed: () async {
+                      dynamic result = await _auth.logOffUser();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Master List'),
-        backgroundColor: Colors.pink[300],
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Log Off',
-              style: TextStyle(color: Colors.white, fontSize: 18.0),
-            ),
-            onPressed: () async {
-              print('Sign out');
-              //await _auth.logOffUser();
-              var categoryArray = await _db.getCategories(user.uid);
-              print(categoryArray);
-            },
-          )
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.fromLTRB(0, 40.0, 0, 40.0),
-        color: Colors.blue[200],
-        child: ListView.builder(
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final category = categories[index];
-
-            return CategoryCard(category: category);
-          },
-        ),
-      ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.pink[300],
-          primaryColor: Colors.white,
-          textTheme: Theme.of(context).textTheme.copyWith(
-                caption: new TextStyle(color: Colors.white),
+                      if (result != null) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  )
+                ],
               ),
-        ),
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              title: Text('Add Task'),
+              body: Container(
+                padding: EdgeInsets.fromLTRB(0, 40.0, 0, 40.0),
+                child: ListView.builder(
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    final category = categories[index];
+
+                    return CategoryCard(category: category);
+                  },
+                ),
+              ),
+              bottomNavigationBar: Theme(
+                data: Theme.of(context).copyWith(
+                  canvasColor: getColorTheme(colorScheme).primaryColor,
+                  primaryColor: Colors.white,
+                  textTheme: Theme.of(context).textTheme.copyWith(
+                        caption: new TextStyle(color: Colors.white),
+                      ),
+                ),
+                child: BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add),
+                      title: Text('Add Task'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.done),
+                      title: Text('Do Task'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.settings),
+                      title: Text('Settings'),
+                    ),
+                  ],
+                  onTap: _navigatePage,
+                ),
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.done),
-              title: Text('Do Task'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Settings'),
-            ),
-          ],
-          onTap: _navigatePage,
-        ),
-      ),
-    );
+          );
   }
 }
