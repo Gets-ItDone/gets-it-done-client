@@ -34,8 +34,7 @@ class _SignUpState extends State<SignUp> {
               title: Text('Register'),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('Login',
-                      style: TextStyle(color: Colors.white, fontSize: 18.0)),
+                  child: Text('Login'),
                   onPressed: () {
                     widget.toggleView();
                   },
@@ -93,6 +92,9 @@ class _SignUpState extends State<SignUp> {
                       setState(() => passwordConfirm = value);
                     },
                   ),
+                  SizedBox(
+                    height: 40.0,
+                  ),
                   RaisedButton(
                     onPressed: () async {
                       if (password != passwordConfirm) {
@@ -114,11 +116,7 @@ class _SignUpState extends State<SignUp> {
                         }
                       }
                     },
-                    color: Colors.blue,
-                    child: Text('Register',
-                        style: TextStyle(
-                          color: Colors.white,
-                        )),
+                    child: Text('Register'),
                   ),
                   SizedBox(
                     height: 20.0,

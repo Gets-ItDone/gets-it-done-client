@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/services/auth.dart';
+import 'package:gets_it_done/shared/color_theme.dart';
 import 'package:gets_it_done/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_recognition/speech_recognition.dart';
@@ -29,6 +31,7 @@ class _TaskAdderState extends State<TaskAdder> {
     Future.delayed(Duration.zero, () {
       _user = Provider.of<User>(context);
       setCategories(_user);
+      getUserPreferences(_user);
     });
   }
 
@@ -39,6 +42,15 @@ class _TaskAdderState extends State<TaskAdder> {
     setState(() {
       _categories = categories;
       _isLoading = false;
+    });
+  }
+
+  getUserPreferences(user) async {
+    _db = DatabaseCalls();
+    dynamic preferences = await _db.getPreferences(user.uid);
+
+    setState(() {
+      colorScheme = preferences["colorScheme"];
     });
   }
 
@@ -70,12 +82,15 @@ class _TaskAdderState extends State<TaskAdder> {
   void _navigatePage(int index) {
     setState(() {
       if (index == 0) {
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+      }
+      if (index == 1) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Settings()),
         );
       }
-      if (index == 1) {
+      if (index == 2) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Settings()),
@@ -89,13 +104,10 @@ class _TaskAdderState extends State<TaskAdder> {
   String priority = "today";
   String categoryDropdown = "general";
   String message = "";
-
   dynamic dueDate;
 
   // Color Scheme
-  final bgColor = const Color(0xFFb4c2f3);
-  final textColor = const Color(0xFFffffff);
-  final altBgColor = const Color(0xFFe96dae);
+  dynamic colorScheme = '';
 
   // Categories
   List<dynamic> _categories;
@@ -107,205 +119,223 @@ class _TaskAdderState extends State<TaskAdder> {
 
     return _isLoading
         ? Loading()
-        : Scaffold(
-            appBar: AppBar(
-              title: Text('Gets It Done'),
-              backgroundColor: altBgColor,
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    'Log Off',
-                    style: TextStyle(color: textColor, fontSize: 18.0),
-                  ),
-                  onPressed: () async {
-                    await _auth.logOffUser();
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ),
-            backgroundColor: bgColor,
-            body: Form(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 50.0,
-                  ),
-                  TextFormField(
-                    controller: TextEditingController(text: resultText),
-                    onChanged: (text) {
-                      setState(() {
-                        resultText = text;
-                        print(resultText);
-                      });
+        : Theme(
+            data: getColorTheme(colorScheme) ?? ThemeData.dark(),
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text('Gets It Done'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Log Off'),
+                    onPressed: () async {
+                      await _auth.logOffUser();
                     },
-                    style: TextStyle(
-                      fontSize: 20,
+                  )
+                ],
+              ),
+              body: Form(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 50.0,
                     ),
-                    validator: (value) =>
-                        value.isEmpty ? 'Please write your task.' : null,
-                    decoration: InputDecoration(
-                        labelText: 'Task',
-                        hintText: 'Please enter task.',
-                        fillColor: Colors.white,
-                        filled: true),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      FloatingActionButton(
-                        heroTag: 'stop',
-                        mini: true,
-                        backgroundColor: altBgColor,
-                        onPressed: () {
-                          if (_isListening) {
-                            _speechRecognition.stop().then(
-                                  (result) =>
-                                      setState(() => _isListening = result),
-                                );
-                          }
-                        },
-                        child: Icon(Icons.stop),
-                      ),
-                      FloatingActionButton(
-                        heroTag: 'record',
-                        onPressed: () {
-                          if (_isAvailable && !_isListening) {
-                            _speechRecognition
-                                .listen(locale: "en_US")
-                                .then((result) => print(result));
-                          }
-                        },
-                        child: Icon(Icons.mic),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Text("Priority"),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      RaisedButton(
-                          onPressed: () {
-                            setState(() {
-                              priority = "today";
-                              // Add 24 hours to current time
-                              dynamic timestamp = new DateTime.now()
-                                  .add(new Duration(days: 1))
-                                  .millisecondsSinceEpoch;
-                              dueDate = timestamp;
-                              print(timestamp);
-                            });
-                          },
-                          color:
-                              priority == "today" ? altBgColor : Colors.white,
-                          child: Text("Today")),
-                      RaisedButton(
-                          onPressed: () {
-                            setState(() {
-                              priority = "tomorrow";
-                              // Add 48 hours to current time
-                              dynamic timestamp = new DateTime.now()
-                                  .add(new Duration(days: 2))
-                                  .millisecondsSinceEpoch;
-                              dueDate = timestamp;
-                              print(timestamp);
-                            });
-                          },
-                          color: priority == "tomorrow"
-                              ? altBgColor
-                              : Colors.white,
-                          child: Text("Tomorrow")),
-                      RaisedButton(
-                          onPressed: () {
-                            setState(() {
-                              priority = "later";
-                              // Add 7 days to task
-                              dynamic timestamp = new DateTime.now()
-                                  .add(new Duration(days: 7))
-                                  .millisecondsSinceEpoch;
-                              dueDate = timestamp;
-                              print(timestamp + 604800000);
-                            });
-                          },
-                          color:
-                              priority == "later" ? altBgColor : Colors.white,
-                          child: Text("Later"))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 40.0,
-                  ),
-                  Text("Category"),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  DropdownButton<String>(
-                    value: categoryDropdown.length == 0
-                        ? "Please select text"
-                        : categoryDropdown,
-                    isExpanded: false,
-                    underline: Container(
-                      height: 2,
-                      color: altBgColor,
-                    ),
-                    icon: Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        categoryDropdown = newValue;
-                        print(categoryDropdown);
-                      });
-                    },
-                    items: _categories
-                        .map<DropdownMenuItem<String>>((dynamic value) {
-                      return DropdownMenuItem<String>(
-                          child: Text(value), value: value);
-                    }).toList(),
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  RaisedButton(
-                      onPressed: ()async {
-                      _db.addTask(_user.uid, categoryDropdown, resultText);
-                      Navigator.pop(context);
+                    TextFormField(
+                      controller: TextEditingController(text: resultText),
+                      onChanged: (text) {
+                        setState(() {
+                          resultText = text;
+                          print(resultText);
+                        });
                       },
-                      color: altBgColor,
-                      child: Text("Submit")),
-                      Text(message)
-                ],
-              ),
-            ),
-            bottomNavigationBar: Theme(
-              data: Theme.of(context).copyWith(
-                canvasColor: Colors.pink[300],
-                primaryColor: Colors.white,
-                textTheme: Theme.of(context).textTheme.copyWith(
-                      caption: new TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: getColorTheme(colorScheme).primaryColor,
+                      ),
+                      validator: (value) =>
+                          value.isEmpty ? 'Please write your task.' : null,
+                      decoration: InputDecoration(
+                          labelText: 'Task',
+                          hintText: 'Please enter task.',
+                          fillColor: Colors.white,
+                          filled: true),
                     ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        FloatingActionButton(
+                          heroTag: 'stop',
+                          mini: true,
+                          onPressed: () {
+                            if (_isListening) {
+                              _speechRecognition.stop().then(
+                                    (result) =>
+                                        setState(() => _isListening = result),
+                                  );
+                            }
+                          },
+                          backgroundColor:
+                              getColorTheme(colorScheme).accentColor,
+                          child: Icon(Icons.stop),
+                        ),
+                        FloatingActionButton(
+                          heroTag: 'record',
+                          onPressed: () {
+                            if (_isAvailable && !_isListening) {
+                              _speechRecognition
+                                  .listen(locale: "en_US")
+                                  .then((result) => print(result));
+                            }
+                          },
+                          backgroundColor:
+                              getColorTheme(colorScheme).primaryColor,
+                          child: Icon(Icons.mic),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Text("Priority"),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                priority = "today";
+                                // Add 24 hours to current time
+                                dynamic timestamp = new DateTime.now()
+                                    .add(new Duration(days: 1))
+                                    .millisecondsSinceEpoch;
+                                dueDate = timestamp;
+                                print(timestamp);
+                              });
+                            },
+                            color: priority == "today"
+                                ? Colors.black
+                                : getColorTheme(colorScheme).primaryColor,
+                            child: Text("Today")),
+                        RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                priority = "tomorrow";
+                                // Add 48 hours to current time
+                                dynamic timestamp = new DateTime.now()
+                                    .add(new Duration(days: 2))
+                                    .millisecondsSinceEpoch;
+                                dueDate = timestamp;
+                                print(timestamp);
+                              });
+                            },
+                            color: priority == "tomorrow"
+                                ? Colors.black
+                                : getColorTheme(colorScheme).primaryColor,
+                            child: Text("Tomorrow")),
+                        RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                priority = "later";
+                                // Add 7 days to task
+                                dynamic timestamp = new DateTime.now()
+                                    .add(new Duration(days: 7))
+                                    .millisecondsSinceEpoch;
+                                dueDate = timestamp;
+                                print(timestamp + 604800000);
+                              });
+                            },
+                            color: priority == "later"
+                                ? Colors.black
+                                : getColorTheme(colorScheme).primaryColor,
+                            child: Text("Later"))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 40.0,
+                    ),
+                    Text("Category"),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    DropdownButton<String>(
+                      value: categoryDropdown.length == 0
+                          ? "Please select text"
+                          : categoryDropdown,
+                      isExpanded: false,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      icon: Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          categoryDropdown = newValue;
+                          print(categoryDropdown);
+                        });
+                      },
+                      items: _categories
+                          .map<DropdownMenuItem<String>>((dynamic value) {
+                        return DropdownMenuItem<String>(
+                            child: Text(value), value: value);
+                      }).toList(),
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    RaisedButton(
+                        onPressed: () async {
+                          _db.addTask(_user.uid, categoryDropdown, resultText);
+                          Navigator.pop(context);
+                        },
+                        child: Text("Submit")),
+                    Text(message)
+                  ],
+                ),
               ),
-              child: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.done),
-                    title: Text('Do Task'),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    title: Text('Settings'),
-                  ),
-                ],
-                onTap: _navigatePage,
+              bottomNavigationBar: new Theme(
+                data: Theme.of(context).copyWith(
+                  // sets the background color of the `BottomNavigationBar`
+                  canvasColor: getColorTheme(colorScheme).primaryColor,
+                  // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+                  primaryColor: Colors.red,
+                  textTheme: Theme.of(context).textTheme.copyWith(
+                        caption: new TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                ),
+                child: BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        'Homes',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.done),
+                      title: Text('Do Task'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.settings),
+                      title: Text('Settings'),
+                    ),
+                  ],
+                  onTap: _navigatePage,
+                ),
               ),
             ),
           );

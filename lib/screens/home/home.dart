@@ -5,8 +5,11 @@ import 'package:gets_it_done/screens/task_screens/task_list.dart';
 import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/screens/task_screens/taskviewer.dart';
 import 'package:gets_it_done/services/auth.dart';
-import 'package:gets_it_done/services/database.dart';
+import 'package:gets_it_done/shared/loading.dart';
 import 'package:provider/provider.dart';
+import 'package:gets_it_done/services/database.dart';
+import 'package:gets_it_done/shared/color_theme.dart';
+
 
 class Home extends StatefulWidget {
   @override
@@ -14,116 +17,107 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final bgColor = const Color(0xFFb4c2f3);
-  final textColor = const Color(0xFFffffff);
-  final altBgColor = const Color(0xFFe96dae);
+
+  dynamic _user;
   final AuthService _auth = AuthService();
-  final DatabaseCalls _db = DatabaseCalls();
+  DatabaseCalls _db;
+  dynamic pref;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      _user = Provider.of<User>(context);
+
+      setState(() {
+        getUserPreferences(_user);
+        isLoading = false;
+      });
+    });
+  }
+
+  getUserPreferences(user) async {
+    _db = DatabaseCalls();
+    dynamic preferences = await _db.getPreferences(user.uid);
+
+    setState(() {
+      colorScheme = preferences["colorScheme"];
+    });
+  }
+
+  dynamic colorScheme = '';
+  bool isLoading = true;
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Gets It Done'),
-        backgroundColor: altBgColor,
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Log Off',
-              style: TextStyle(color: textColor, fontSize: 18.0),
-            ),
-            onPressed: () async {
-              print('Sign out');
-              await _auth.logOffUser();
-            },
-          )
-        ],
-      ),
-      body: Container(
-        color: bgColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: RaisedButton(
-                padding: EdgeInsets.all(40.0),
-                color: altBgColor,
-                child: Text(
-                  'Add Task',
-                  style: TextStyle(
-                    color: textColor,
-                  ),
+    return isLoading
+        ? Loading()
+        : Theme(
+            data: getColorTheme(colorScheme) ?? ThemeData.dark(),
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text('Gets It Done'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Log Off'),
+                    onPressed: () async {
+                      await _auth.logOffUser();
+                    },
+                  )
+                ],
+              ),
+              body: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                        ),
+                        padding: EdgeInsets.all(30.0),
+                        child: Text('Add Task'),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/add', (_) => false);
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                        ),
+                        padding: EdgeInsets.all(30.0),
+                        child: Text('View Tasks'),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/view', (_) => false);
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                        ),
+                        padding: EdgeInsets.all(30.0),
+                        child: Text('Start Tasks'),
+                        onPressed: () {},
+                      ),
+                    )
+                  ],
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TaskAdder()),
-                  );
-                },
               ),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: RaisedButton(
-                padding: EdgeInsets.all(40.0),
-                color: altBgColor,
-                child: Text(
-                  'Add Category',
-                  style: TextStyle(
-                    color: textColor,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CategoryAdder()),
-                  );
-                },
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: RaisedButton(
-                padding: EdgeInsets.all(40.0),
-                color: altBgColor,
-                child: Text(
-                  'View Tasks',
-                  style: TextStyle(
-                    color: textColor,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TaskList()),
-                  );
-                },
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: RaisedButton(
-                padding: EdgeInsets.all(40.0),
-                color: altBgColor,
-                child: Text(
-                  'Start Tasks',
-                  style: TextStyle(
-                    color: textColor,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TaskViewer()),
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+          );
+
   }
 }
