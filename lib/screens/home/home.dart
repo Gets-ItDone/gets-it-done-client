@@ -57,7 +57,6 @@ class _HomeState extends State<Home> {
                   FlatButton(
                     child: Text('Log Off'),
                     onPressed: () async {
-                      print('Sign out');
                       await _auth.logOffUser();
                     },
                   )
