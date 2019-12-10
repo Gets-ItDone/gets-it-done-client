@@ -79,7 +79,6 @@ class _TaskViewerState extends State<TaskViewer> {
                                 onPressed: () {
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, '/home', (_) => false);
-                                  _db.getAllTasks(_user.uid);
                                 },
                                 shape: new RoundedRectangleBorder(
                                   borderRadius: new BorderRadius.circular(10.0),
