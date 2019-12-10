@@ -53,8 +53,11 @@ class _TaskAdderState extends State<TaskAdder> {
     _db = DatabaseCalls();
     dynamic preferences = await _db.getPreferences(user.uid);
 
+    print(["PREFS", preferences]);
+
     setState(() {
       colorScheme = preferences["colorScheme"];
+      speechToText = preferences["speechToText"];
     });
   }
 
@@ -70,7 +73,10 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      (String speech) => setState(() => resultText = speech),
+
+      (String speech) {
+      resultText = speech;
+      },
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -114,6 +120,7 @@ class _TaskAdderState extends State<TaskAdder> {
 
   // Color Scheme
   dynamic colorScheme = '';
+  dynamic speechToText = true;
 
   // Categories
   List<dynamic> _categories;
@@ -147,16 +154,17 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     TextFormField(
                       controller: new TextEditingController.fromValue(
-                          new TextEditingValue(
-                              text: resultText,
-                              selection: new TextSelection.collapsed(
-                                  offset: resultText.length))),
-                      onChanged: (text) {
-                        setState(() {
-                          resultText = text;
-                          print(resultText);
-                        });
-                      },
+
+                              new TextEditingValue(
+                                  text: resultText,
+                                  selection: new TextSelection.collapsed(
+                                      offset: resultText.length))),
+                          onChanged: (text) {
+                            setState(() {
+                              resultText = text;
+                            });
+                          },
+
                       style: TextStyle(
                         fontSize: 20,
                         color: getColorTheme(colorScheme).primaryColor,
@@ -170,7 +178,7 @@ class _TaskAdderState extends State<TaskAdder> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    Row(
+                    speechToText ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         FloatingActionButton(
@@ -202,7 +210,7 @@ class _TaskAdderState extends State<TaskAdder> {
                           child: Icon(Icons.mic),
                         ),
                       ],
-                    ),
+                    ) : Text("Enable Speech To Text to user the microphone"),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -222,7 +230,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 1))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                print(timestamp);
                               });
                             },
                             color: priority == "today"
@@ -238,7 +245,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 2))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                print(timestamp);
                               });
                             },
                             color: priority == "tomorrow"
@@ -254,7 +260,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 7))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                print(timestamp + 604800000);
+                                // print(timestamp + 604800000);
                               });
                             },
                             color: priority == "later"
@@ -285,7 +291,7 @@ class _TaskAdderState extends State<TaskAdder> {
                       onChanged: (String newValue) {
                         setState(() {
                           categoryDropdown = newValue;
-                          print(categoryDropdown);
+                          // print(categoryDropdown);
                         });
                       },
                       items: _categories
@@ -325,10 +331,12 @@ class _TaskAdderState extends State<TaskAdder> {
                           //Navigator.pop(context);
                         },
                         child: Text("Submit")),
+
                     Text(
                       err,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
                     )
+
                   ],
                 ),
               ),
