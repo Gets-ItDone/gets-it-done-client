@@ -20,13 +20,6 @@ class _TaskViewerState extends State<TaskViewer> {
   final textColor = const Color(0xFFffffff);
   final altBgColor = const Color(0xFFe96dae);
 
-  // dynamic tasks = [
-  //   "I am a task",
-  //   "I am another, much longer task",
-  //   "Here is yet one more task",
-  //   "Attempting to access this task through the TaskViewer"
-  // ];
-
   @override
   void initState() {
     super.initState();
@@ -38,12 +31,25 @@ class _TaskViewerState extends State<TaskViewer> {
 
   void setTasks(uid) async {
     _db = DatabaseCalls();
-    // dynamic taskArray = await _db.getTasksByCategory(uid, "general");
-    dynamic taskArray = await _db.getAllTasks(uid);
+    dynamic taskArray = await _db.getAllTasksWithCategories(uid);
     setState(() {
       tasks = taskArray;
       isLoading = false;
     });
+  }
+
+  void getAllTasksWithCategories(uid) async {
+    _db = DatabaseCalls();
+    dynamic arrayOfObjects = await _db.getAllTasksWithCategories(uid);
+    print(arrayOfObjects);
+  }
+
+  void completeTask(uid, category, task) async {
+    // print(uid);
+    // print(category);
+    // print(task);
+    _db = DatabaseCalls();
+    _db.completeTask(uid, category, task);
   }
 
   @override
@@ -68,7 +74,6 @@ class _TaskViewerState extends State<TaskViewer> {
                                 onPressed: () {
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, '/home', (_) => false);
-                                  _db.getAllTasks(_user.uid);
                                 },
                                 shape: new RoundedRectangleBorder(
                                   borderRadius: new BorderRadius.circular(10.0),
@@ -86,7 +91,7 @@ class _TaskViewerState extends State<TaskViewer> {
                                     BorderRadius.all(Radius.circular(50.0))),
                             padding: EdgeInsets.all(30),
                             child: Center(
-                                child: Text(tasks[0],
+                                child: Text(tasks[0]["taskName"],
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 40,
@@ -113,6 +118,10 @@ class _TaskViewerState extends State<TaskViewer> {
                                     setState(() {
                                       this.tasks.removeAt(0);
                                     });
+
+                                  completeTask(_user.uid, tasks[0]["category"],
+                                      tasks[0]["taskName"]);
+
                                   // make database call to 'complete' task
                                   // shift task from task array and display new task[0]
                                   // if the list is empty, navigate to (congratulations page? then to) home
