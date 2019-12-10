@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
+import 'package:gets_it_done/screens/task_screens/task_list.dart';
+import 'package:gets_it_done/screens/task_screens/taskadder.dart';
+import 'package:gets_it_done/screens/task_screens/taskviewer.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/loading.dart';
 import 'package:provider/provider.dart';
@@ -74,8 +78,12 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(30.0),
                         child: Text('Add Task'),
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/add', (_) => false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TaskAdder(),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -89,8 +97,12 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(30.0),
                         child: Text('Add Category'),
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/addcategory', (_) => false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryAdder(),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -104,8 +116,12 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(30.0),
                         child: Text('View Tasks'),
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/view', (_) => false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TaskList(),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -119,8 +135,12 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(30.0),
                         child: Text('Start Tasks'),
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/do', (_) => false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TaskViewer(),
+                            ),
+                          );
                         },
                       ),
                     )
