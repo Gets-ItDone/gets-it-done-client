@@ -21,10 +21,21 @@ class _TaskAdderState extends State<TaskAdder> {
   SpeechRecognition _speechRecognition;
   bool _isAvailable = false;
   bool _isListening = false;
-  String resultText = '';
+  dynamic textInput = "test";
+  // String resultText = '';
+  final _controller = TextEditingController(text: "textInput");
 
   @override
   void initState() {
+    _controller.addListener(() {
+      final text = _controller.text.toLowerCase();
+      _controller.value = _controller.value.copyWith(
+        text: textInput,
+        selection:
+            TextSelection(baseOffset: text.length, extentOffset: text.length),
+        composing: TextRange.empty,
+      );
+    });
     super.initState();
     initSpeechRecognitizer();
 
@@ -34,6 +45,11 @@ class _TaskAdderState extends State<TaskAdder> {
       getUserPreferences(_user);
     });
   }
+
+  // void dispose() {
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
 
   void setCategories(user) async {
     _db = DatabaseCalls();
@@ -66,7 +82,7 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      (String speech) => setState(() => resultText = speech),
+      (String speech) => setState(() => textInput = speech),
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -140,19 +156,15 @@ class _TaskAdderState extends State<TaskAdder> {
                       height: 50.0,
                     ),
                     TextFormField(
-                      controller: TextEditingController(text: resultText),
+                      controller: _controller,
                       onChanged: (text) {
-                        setState(() {
-                          resultText = text;
-                          print(resultText);
-                        });
+                        textInput = text;
+                        print(textInput);
                       },
                       style: TextStyle(
                         fontSize: 20,
                         color: getColorTheme(colorScheme).primaryColor,
                       ),
-                      validator: (value) =>
-                          value.isEmpty ? 'Please write your task.' : null,
                       decoration: InputDecoration(
                           labelText: 'Task',
                           hintText: 'Please enter task.',
@@ -291,8 +303,9 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     RaisedButton(
                         onPressed: () async {
-                          _db.addTask(_user.uid, categoryDropdown, resultText);
-                          Navigator.pop(context);
+                          _db.addTask(_user.uid, categoryDropdown, textInput);
+
+                          //Navigator.pop(context);
                         },
                         child: Text("Submit")),
                     Text(message)
