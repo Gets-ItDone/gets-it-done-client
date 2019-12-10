@@ -80,6 +80,10 @@ class _CategoryAdderState extends State<CategoryAdder> {
     _speechRecognition.activate().then(
           (result) => setState(() => _isAvailable = result),
         );
+
+    setState(() {
+      _isAvailable = false;
+    });
   }
 
   getUserPreferences(user) async {
@@ -92,27 +96,15 @@ class _CategoryAdderState extends State<CategoryAdder> {
     });
   }
 
-  final myController = TextEditingController();
-
   //initState
   @override
   void initState() {
     super.initState();
     initSpeechRecognitizer();
 
-    myController.addListener(_setTextState);
-
     Future.delayed(Duration.zero, () {
       _user = Provider.of<User>(context);
       getUserPreferences(_user);
-    });
-  }
-
-  _setTextState() {
-    // print("Second text field: ${myController.text}");
-    setState(() {
-      resultText = myController.text;
-      print(resultText);
     });
   }
 
