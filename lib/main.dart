@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/screens/task_screens/task_list.dart';
+import 'package:gets_it_done/screens/task_screens/taskviewer.dart';
 import 'package:gets_it_done/screens/wrapper.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: ThemeData(
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
           primaryColor: Colors.green[600],
           accentColor: Colors.greenAccent[400],
           scaffoldBackgroundColor: Colors.black,
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
           // Added to change text color if required.
           textTheme: Theme.of(context).textTheme.apply(
                 bodyColor: Colors.black,
-                displayColor: Colors.blue,
+                displayColor: Colors.black,
               ),
         ),
         routes: {
@@ -37,7 +39,10 @@ class MyApp extends StatelessWidget {
           '/home': (context) => Home(),
           '/settings': (context) => Settings(),
           '/add': (context) => TaskAdder(),
+          '/start': (context) => TaskViewer(),
+          '/addcategory': (context) => CategoryAdder(),
           '/view': (context) => TaskList(),
+          '/do': (context) => TaskViewer(),
         },
       ),
     );

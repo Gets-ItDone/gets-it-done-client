@@ -15,6 +15,7 @@ class _TaskViewerState extends State<TaskViewer> {
   dynamic _user;
   dynamic tasks = [];
   bool isLoading = true;
+  dynamic colorScheme = '';
 
   final bgColor = const Color(0xFFb4c2f3);
   final textColor = const Color(0xFFffffff);
@@ -33,6 +34,16 @@ class _TaskViewerState extends State<TaskViewer> {
     Future.delayed(Duration.zero, () {
       _user = Provider.of<User>(context);
       setTasks(_user.uid);
+      getUserPreferences(_user);
+    });
+  }
+
+  getUserPreferences(user) async {
+    _db = DatabaseCalls();
+    dynamic preferences = await _db.getPreferences(user.uid);
+
+    setState(() {
+      colorScheme = preferences["colorScheme"];
     });
   }
 
@@ -54,9 +65,9 @@ class _TaskViewerState extends State<TaskViewer> {
             child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("assets/images/bgimg1.jpg"),
+                        image:
+                            AssetImage("assets/images/bgimg$colorScheme.jpg"),
                         fit: BoxFit.cover)),
-                // color: bgColor,
                 child: Column(
                   children: <Widget>[
                     Align(
@@ -66,8 +77,8 @@ class _TaskViewerState extends State<TaskViewer> {
                             child: RaisedButton(
                                 padding: EdgeInsets.all(10),
                                 onPressed: () {
-                                  Navigator.pop(context);
-                                  _db.getAllTasks(_user.uid);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, '/home', (_) => false);
                                 },
                                 shape: new RoundedRectangleBorder(
                                   borderRadius: new BorderRadius.circular(10.0),
@@ -102,6 +113,7 @@ class _TaskViewerState extends State<TaskViewer> {
                                 onPressed: () {
                                   if (this.tasks.length == 1) {
                                     // Navigator.pop(context);
+                                    Navigator.pop(context);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
