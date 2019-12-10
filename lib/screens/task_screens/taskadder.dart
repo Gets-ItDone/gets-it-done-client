@@ -21,9 +21,9 @@ class _TaskAdderState extends State<TaskAdder> {
   SpeechRecognition _speechRecognition;
   bool _isAvailable = false;
   bool _isListening = false;
-  dynamic textInput = "test";
+  dynamic textInput;
   // String resultText = '';
-  final _controller = TextEditingController(text: "textInput");
+  final _controller = TextEditingController(text: "");
 
   @override
   void initState() {
@@ -77,6 +77,8 @@ class _TaskAdderState extends State<TaskAdder> {
       (bool result) => setState(() => _isAvailable = result),
     );
 
+    print(["Isavailable", _isAvailable]);
+
     _speechRecognition.setRecognitionStartedHandler(
       () => setState(() => _isListening = true),
     );
@@ -92,6 +94,14 @@ class _TaskAdderState extends State<TaskAdder> {
     _speechRecognition.activate().then(
           (result) => setState(() => _isAvailable = result),
         );
+        print(["Isavailable2", _isAvailable]);
+    
+    setState(() =>
+      _isAvailable = false
+      
+    );
+    
+
   }
 
   // Bottom nav bar navigation
@@ -167,7 +177,7 @@ class _TaskAdderState extends State<TaskAdder> {
                       ),
                       decoration: InputDecoration(
                           labelText: 'Task',
-                          hintText: 'Please enter task.',
+                          hintText: 'Add a task here!',
                           fillColor: Colors.white,
                           filled: true),
                     ),
