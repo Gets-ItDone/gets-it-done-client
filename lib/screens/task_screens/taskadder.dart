@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/color_theme.dart';
 import 'package:gets_it_done/shared/loading.dart';
@@ -102,7 +103,7 @@ class _TaskAdderState extends State<TaskAdder> {
       if (index == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Settings()),
+          MaterialPageRoute(builder: (context) => CategoryAdder()),
         );
       }
       if (index == 2) {
@@ -337,15 +338,15 @@ class _TaskAdderState extends State<TaskAdder> {
                         color: Colors.white,
                       ),
                       title: Text(
-                        'Homes',
+                        'Home',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.done),
-                      title: Text('Do Task'),
+                      icon: Icon(Icons.add),
+                      title: Text('Category'),
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.settings),

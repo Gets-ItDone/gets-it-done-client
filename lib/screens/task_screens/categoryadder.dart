@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
+import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/services/database.dart';
 import 'package:gets_it_done/shared/loading.dart';
@@ -32,10 +34,16 @@ class _CategoryAdderState extends State<CategoryAdder> {
       if (index == 0) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Settings()),
+          MaterialPageRoute(builder: (context) => Home()),
         );
       }
       if (index == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TaskAdder()),
+        );
+      }
+      if (index == 2) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Settings()),
@@ -223,8 +231,12 @@ class _CategoryAdderState extends State<CategoryAdder> {
                 child: BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.done),
-                      title: Text('Do Task'),
+                      icon: Icon(Icons.home),
+                      title: Text('Home'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add),
+                      title: Text('Task'),
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.settings),
