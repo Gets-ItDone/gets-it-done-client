@@ -24,7 +24,8 @@ class _TaskAdderState extends State<TaskAdder> {
   bool _isListening = false;
   // dynamic textInput;
   String resultText = '';
-  // final _controller = TextEditingController(text: "Add Task Here");
+
+  String err = "";
 
   @override
   void initState() {
@@ -38,10 +39,7 @@ class _TaskAdderState extends State<TaskAdder> {
     });
   }
 
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
+  
 
   void setCategories(user) async {
     _db = DatabaseCalls();
@@ -63,6 +61,7 @@ class _TaskAdderState extends State<TaskAdder> {
   }
 
   void initSpeechRecognitizer() {
+
     _speechRecognition = SpeechRecognition();
 
     _speechRecognition.setAvailabilityHandler(
@@ -74,7 +73,10 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      
+
+      (String speech) {       
+      resultText = speech;
+      },      
       (String speech) => (() => resultText = speech),
     );
 
@@ -88,7 +90,7 @@ class _TaskAdderState extends State<TaskAdder> {
     
     setState(() =>
       _isAvailable = false
-      
+
     );
     
 
@@ -309,12 +311,36 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     RaisedButton(
                         onPressed: () async {
+                          if(resultText != ""){
                           _db.addTask(_user.uid, categoryDropdown, resultText);
+
+                          setState(() {
+                            err = "Task added";
+                          });
+                          Future.delayed(Duration(milliseconds: 800), () {
+                            setState(() {
+                            err = "";
+                            resultText = "";
+                          });
+                          });
+                          // setState(() {
+                          //   err = "";
+                          //   resultText = "";
+                          // });
+                          } else {
+                            setState(() {
+                              err = "Please enter a task";
+                            });
+                          }
+
 
                           //Navigator.pop(context);
                         },
                         child: Text("Submit")),
-                    Text(message)
+                        Text(
+                    err,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  )
                   ],
                 ),
               ),
