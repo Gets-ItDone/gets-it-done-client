@@ -26,6 +26,11 @@ class MyApp extends StatelessWidget {
           bottomAppBarColor: Colors.green[600],
           hintColor: Colors.green[600],
           fontFamily: 'Roboto',
+          // Added to change text color if required.
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: Colors.black,
+                displayColor: Colors.blue,
+              ),
         ),
         routes: {
           '/': (context) => Wrapper(),
