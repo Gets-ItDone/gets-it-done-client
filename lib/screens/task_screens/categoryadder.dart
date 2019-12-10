@@ -135,7 +135,6 @@ class _CategoryAdderState extends State<CategoryAdder> {
                   )
                 ],
               ),
-              backgroundColor: bgColor,
               body: Form(
                 key: _formKey,
                 child: Column(
