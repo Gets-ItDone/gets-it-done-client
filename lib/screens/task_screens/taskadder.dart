@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/color_theme.dart';
 import 'package:gets_it_done/shared/loading.dart';
@@ -23,7 +24,9 @@ class _TaskAdderState extends State<TaskAdder> {
   bool _isListening = false;
   // dynamic textInput;
   String resultText = '';
+
   String err = "";
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +62,6 @@ class _TaskAdderState extends State<TaskAdder> {
   }
 
   void initSpeechRecognitizer() {
-
     _speechRecognition = SpeechRecognition();
 
     _speechRecognition.setAvailabilityHandler(
@@ -71,9 +73,7 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      (String speech) {
-      resultText = speech;
-      },
+      (String speech) => setState(() => resultText = speech),
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -83,12 +83,8 @@ class _TaskAdderState extends State<TaskAdder> {
     _speechRecognition.activate().then(
           (result) => setState(() => _isAvailable = result),
         );
-    
-    setState(() =>
-      _isAvailable = false
-    );
-    
 
+    setState(() => _isAvailable = false);
   }
 
   // Bottom nav bar navigation
@@ -100,7 +96,7 @@ class _TaskAdderState extends State<TaskAdder> {
       if (index == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Settings()),
+          MaterialPageRoute(builder: (context) => CategoryAdder()),
         );
       }
       if (index == 2) {
@@ -155,15 +151,16 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     TextFormField(
                       controller: new TextEditingController.fromValue(
-                              new TextEditingValue(
-                                  text: resultText,
-                                  selection: new TextSelection.collapsed(
-                                      offset: resultText.length))),
-                          onChanged: (text) {
-                            setState(() {
-                              resultText = text;
-                            });
-                          },
+                          new TextEditingValue(
+                              text: resultText,
+                              selection: new TextSelection.collapsed(
+                                  offset: resultText.length))),
+                      onChanged: (text) {
+                        setState(() {
+                          resultText = text;
+                          print(resultText);
+                        });
+                      },
                       style: TextStyle(
                         fontSize: 20,
                         color: getColorTheme(colorScheme).primaryColor,
@@ -180,21 +177,21 @@ class _TaskAdderState extends State<TaskAdder> {
                     speechToText ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        FloatingActionButton(
-                          heroTag: 'stop',
-                          mini: true,
-                          onPressed: () {
-                            if (_isListening) {
-                              _speechRecognition.stop().then(
-                                    (result) =>
-                                        setState(() => _isListening = result),
-                                  );
-                            }
-                          },
-                          backgroundColor:
-                              getColorTheme(colorScheme).accentColor,
-                          child: Icon(Icons.stop),
-                        ),
+                        // FloatingActionButton(
+                        //   heroTag: 'stop',
+                        //   mini: true,
+                        //   onPressed: () {
+                        //     if (_isListening) {
+                        //       _speechRecognition.stop().then(
+                        //             (result) =>
+                        //                 setState(() => _isListening = result),
+                        //           );
+                        //     }
+                        //   },
+                        //   backgroundColor:
+                        //       getColorTheme(colorScheme).accentColor,
+                        //   child: Icon(Icons.stop),
+                        // ),
                         FloatingActionButton(
                           heroTag: 'record',
                           onPressed: () {
@@ -209,7 +206,7 @@ class _TaskAdderState extends State<TaskAdder> {
                           child: Icon(Icons.mic),
                         ),
                       ],
-                    ) : Text("Enable Speech To Text to user the microphone"),
+                    ) : Text(""),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -304,21 +301,23 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     RaisedButton(
                         onPressed: () async {
-                          if(resultText != ""){
-                          _db.addTask(_user.uid, categoryDropdown, resultText);
-                          setState(() {
-                            err = "Task added";
-                          });
-                          Future.delayed(Duration(milliseconds: 800), () {
+                          if (resultText != "") {
+                            _db.addTask(
+                                _user.uid, categoryDropdown, resultText);
+
                             setState(() {
-                            err = "";
-                            resultText = "";
-                          });
-                          });
-                          // setState(() {
-                          //   err = "";
-                          //   resultText = "";
-                          // });
+                              err = "Task added";
+                            });
+                            Future.delayed(Duration(milliseconds: 800), () {
+                              setState(() {
+                                err = "";
+                                resultText = "";
+                              });
+                            });
+                            // setState(() {
+                            //   err = "";
+                            //   resultText = "";
+                            // });
                           } else {
                             setState(() {
                               err = "Please enter a task";
@@ -328,10 +327,10 @@ class _TaskAdderState extends State<TaskAdder> {
                           //Navigator.pop(context);
                         },
                         child: Text("Submit")),
-                        Text(
-                    err,
-                    style: TextStyle(color: Colors.black, fontSize: 20.0),
-                  )
+                    Text(
+                      err,
+                      style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    )
                   ],
                 ),
               ),
@@ -355,15 +354,15 @@ class _TaskAdderState extends State<TaskAdder> {
                         color: Colors.white,
                       ),
                       title: Text(
-                        'Homes',
+                        'Home',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.done),
-                      title: Text('Do Task'),
+                      icon: Icon(Icons.add),
+                      title: Text('Category'),
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.settings),
