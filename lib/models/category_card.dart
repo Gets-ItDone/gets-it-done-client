@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/task_card.dart';
 import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/services/database.dart';
+import 'package:gets_it_done/shared/color_theme.dart';
+import 'package:gets_it_done/shared/loading.dart';
 import 'package:provider/provider.dart';
 
 class CategoryCard extends StatefulWidget {
@@ -18,6 +20,8 @@ class _CategoryCardState extends State<CategoryCard> {
   DatabaseCalls _db;
   dynamic _user;
   dynamic data = [];
+  dynamic colorScheme = '';
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -26,6 +30,17 @@ class _CategoryCardState extends State<CategoryCard> {
     Future.delayed(Duration.zero, () {
       _user = Provider.of<User>(context);
       setTasksByCategory(_user.uid, widget.category);
+      getUserPreferences(_user);
+      _isLoading = false;
+    });
+  }
+
+  getUserPreferences(user) async {
+    _db = DatabaseCalls();
+    dynamic preferences = await _db.getPreferences(user.uid);
+
+    setState(() {
+      colorScheme = preferences["colorScheme"];
     });
   }
 
@@ -65,29 +80,36 @@ class _CategoryCardState extends State<CategoryCard> {
       }
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        ButtonTheme(
-          minWidth: MediaQuery.of(context).size.width * 0.90,
-          padding: EdgeInsets.all(12.0),
-          child: RaisedButton(
-            color: Colors.pink[300],
-            onPressed: () {
-              setState(() {
-                clicked = !clicked;
-              });
-            },
-            child: Text(
-              widget.category,
-              style: TextStyle(color: Colors.white),
+    return _isLoading
+        ? Loading()
+        : Theme(
+            data: getColorTheme(colorScheme) ?? Theme.of(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ButtonTheme(
+                  minWidth: MediaQuery.of(context).size.width * 0.90,
+                  padding: EdgeInsets.all(12.0),
+                  child: RaisedButton(
+                    onPressed: () {
+                      setState(
+                        () {
+                          clicked = !clicked;
+                        },
+                      );
+                    },
+                    color: getColorTheme(colorScheme).primaryColor,
+                    child: Text(
+                      widget.category,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: clicked ? listData() : [],
+                )
+              ],
             ),
-          ),
-        ),
-        Column(
-          children: clicked ? listData() : [],
-        )
-      ],
-    );
+          );
   }
 }

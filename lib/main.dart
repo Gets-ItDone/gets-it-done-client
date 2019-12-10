@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: ThemeData(
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
           primaryColor: Colors.green[600],
           accentColor: Colors.greenAccent[400],
           scaffoldBackgroundColor: Colors.black,
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           // Added to change text color if required.
           textTheme: Theme.of(context).textTheme.apply(
                 bodyColor: Colors.black,
-                displayColor: Colors.blue,
+                displayColor: Colors.black,
               ),
         ),
         routes: {
@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
           '/start': (context) => TaskViewer(),
           '/addcategory': (context) => CategoryAdder(),
           '/view': (context) => TaskList(),
+          '/do': (context) => TaskViewer(),
         },
       ),
     );

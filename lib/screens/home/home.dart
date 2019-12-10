@@ -16,6 +16,8 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   DatabaseCalls _db;
   dynamic pref;
+  dynamic colorScheme = '';
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -39,15 +41,12 @@ class _HomeState extends State<Home> {
     });
   }
 
-  dynamic colorScheme = '';
-  bool isLoading = true;
-
   @override
   Widget build(BuildContext context) {
     return isLoading
         ? Loading()
         : Theme(
-            data: getColorTheme(colorScheme) ?? ThemeData.dark(),
+            data: getColorTheme(colorScheme) ?? Theme.of(context),
             child: Scaffold(
               appBar: AppBar(
                 title: Text('Gets It Done'),
@@ -121,7 +120,7 @@ class _HomeState extends State<Home> {
                         child: Text('Start Tasks'),
                         onPressed: () {
                           Navigator.pushNamedAndRemoveUntil(
-                              context, '/start', (_) => false);
+                              context, '/do', (_) => false);
                         },
                       ),
                     )
