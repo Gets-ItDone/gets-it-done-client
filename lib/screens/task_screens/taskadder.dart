@@ -231,9 +231,12 @@ class _TaskAdderState extends State<TaskAdder> {
                                 dueDate = timestamp;
                               });
                             },
-                            color: priority == "today"
-                                ? Colors.black
-                                : getColorTheme(colorScheme).primaryColor,
+                            color: priority != "today"
+                                ? getColorTheme(colorScheme).primaryColor
+                                : getColorTheme(colorScheme).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black,
                             child: Text("Today")),
                         RaisedButton(
                             onPressed: () {
@@ -246,9 +249,12 @@ class _TaskAdderState extends State<TaskAdder> {
                                 dueDate = timestamp;
                               });
                             },
-                            color: priority == "tomorrow"
-                                ? Colors.black
-                                : getColorTheme(colorScheme).primaryColor,
+                            color: priority != "tomorrow"
+                                ? getColorTheme(colorScheme).primaryColor
+                                : getColorTheme(colorScheme).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black,
                             child: Text("Tomorrow")),
                         RaisedButton(
                             onPressed: () {
@@ -262,9 +268,12 @@ class _TaskAdderState extends State<TaskAdder> {
                                 // print(timestamp + 604800000);
                               });
                             },
-                            color: priority == "later"
-                                ? Colors.black
-                                : getColorTheme(colorScheme).primaryColor,
+                            color: priority != "later"
+                                ? getColorTheme(colorScheme).primaryColor
+                                : getColorTheme(colorScheme).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black,
                             child: Text("Later"))
                       ],
                     ),
