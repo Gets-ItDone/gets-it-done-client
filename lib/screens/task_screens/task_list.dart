@@ -81,7 +81,7 @@ class _TaskListState extends State<TaskList> {
             data: getColorTheme(colorScheme) ?? Theme.of(context),
             child: Scaffold(
               appBar: AppBar(
-                title: Text('Master List'),
+                title: Text('Gets It Done'),
                 actions: <Widget>[
                   FlatButton(
                     child: Text('Log Off'),
