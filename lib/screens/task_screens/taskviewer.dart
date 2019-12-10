@@ -66,7 +66,8 @@ class _TaskViewerState extends State<TaskViewer> {
                             child: RaisedButton(
                                 padding: EdgeInsets.all(10),
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, '/home', (_) => false);
                                   _db.getAllTasks(_user.uid);
                                 },
                                 shape: new RoundedRectangleBorder(
