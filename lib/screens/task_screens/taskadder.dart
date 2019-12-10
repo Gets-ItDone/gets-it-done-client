@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/color_theme.dart';
 import 'package:gets_it_done/shared/loading.dart';
@@ -23,7 +24,9 @@ class _TaskAdderState extends State<TaskAdder> {
   bool _isListening = false;
   // dynamic textInput;
   String resultText = '';
+
   String err = "";
+
   @override
   void initState() {
     super.initState();
@@ -36,10 +39,7 @@ class _TaskAdderState extends State<TaskAdder> {
     });
   }
 
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
+  
 
   void setCategories(user) async {
     _db = DatabaseCalls();
@@ -73,11 +73,11 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      (String speech) {
-        print(["RESULT TEXT" , resultText]);
-        print(["LOTS OF SPEECH",speech]);
+
+      (String speech) {       
       resultText = speech;
-      },
+      },      
+      (String speech) => (() => resultText = speech),
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -90,6 +90,7 @@ class _TaskAdderState extends State<TaskAdder> {
     
     setState(() =>
       _isAvailable = false
+
     );
     
 
@@ -104,7 +105,7 @@ class _TaskAdderState extends State<TaskAdder> {
       if (index == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Settings()),
+          MaterialPageRoute(builder: (context) => CategoryAdder()),
         );
       }
       if (index == 2) {
@@ -312,6 +313,7 @@ class _TaskAdderState extends State<TaskAdder> {
                         onPressed: () async {
                           if(resultText != ""){
                           _db.addTask(_user.uid, categoryDropdown, resultText);
+
                           setState(() {
                             err = "Task added";
                           });
@@ -330,6 +332,7 @@ class _TaskAdderState extends State<TaskAdder> {
                               err = "Please enter a task";
                             });
                           }
+
 
                           //Navigator.pop(context);
                         },
@@ -361,15 +364,15 @@ class _TaskAdderState extends State<TaskAdder> {
                         color: Colors.white,
                       ),
                       title: Text(
-                        'Homes',
+                        'Home',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.done),
-                      title: Text('Do Task'),
+                      icon: Icon(Icons.add),
+                      title: Text('Category'),
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.settings),
