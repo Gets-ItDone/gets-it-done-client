@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/category_card.dart';
 import 'package:gets_it_done/models/user.dart';
-import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/services/auth.dart';

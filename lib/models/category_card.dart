@@ -55,8 +55,6 @@ class _CategoryCardState extends State<CategoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    dynamic key = widget.category;
-
     listData() {
       if (data.length == 0)
         return ['No Tasks for this category. Great job!']
