@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/screens/task_screens/task_list.dart';
 import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/screens/task_screens/taskviewer.dart';
@@ -165,6 +166,25 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => TaskAdder()),
+                  );
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: RaisedButton(
+                padding: EdgeInsets.all(40.0),
+                color: altBgColor,
+                child: Text(
+                  'Add Category',
+                  style: TextStyle(
+                    color: textColor,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CategoryAdder()),
                   );
                 },
               ),
