@@ -24,7 +24,8 @@ class _TaskAdderState extends State<TaskAdder> {
   bool _isListening = false;
   // dynamic textInput;
   String resultText = '';
-  // final _controller = TextEditingController(text: "Add Task Here");
+
+  String err = "";
 
   @override
   void initState() {
@@ -37,11 +38,6 @@ class _TaskAdderState extends State<TaskAdder> {
       getUserPreferences(_user);
     });
   }
-
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
 
   void setCategories(user) async {
     _db = DatabaseCalls();
@@ -57,8 +53,11 @@ class _TaskAdderState extends State<TaskAdder> {
     _db = DatabaseCalls();
     dynamic preferences = await _db.getPreferences(user.uid);
 
+    print(["PREFS", preferences]);
+
     setState(() {
       colorScheme = preferences["colorScheme"];
+      speechToText = preferences["speechToText"];
     });
   }
 
@@ -74,8 +73,9 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      
-      (String speech) => (() => resultText = speech),
+      (String speech) {
+        resultText = speech;
+      },
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -85,13 +85,8 @@ class _TaskAdderState extends State<TaskAdder> {
     _speechRecognition.activate().then(
           (result) => setState(() => _isAvailable = result),
         );
-    
-    setState(() =>
-      _isAvailable = false
-      
-    );
-    
 
+    setState(() => _isAvailable = false);
   }
 
   // Bottom nav bar navigation
@@ -124,6 +119,7 @@ class _TaskAdderState extends State<TaskAdder> {
 
   // Color Scheme
   dynamic colorScheme = '';
+  dynamic speechToText = true;
 
   // Categories
   List<dynamic> _categories;
@@ -157,16 +153,15 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     TextFormField(
                       controller: new TextEditingController.fromValue(
-                              new TextEditingValue(
-                                  text: resultText,
-                                  selection: new TextSelection.collapsed(
-                                      offset: resultText.length))),
-                          onChanged: (text) {
-                            setState(() {
-                              resultText = text;
-                              print(resultText);
-                            });
-                          },
+                          new TextEditingValue(
+                              text: resultText,
+                              selection: new TextSelection.collapsed(
+                                  offset: resultText.length))),
+                      onChanged: (text) {
+                        setState(() {
+                          resultText = text;
+                        });
+                      },
                       style: TextStyle(
                         fontSize: 20,
                         color: getColorTheme(colorScheme).primaryColor,
@@ -180,24 +175,25 @@ class _TaskAdderState extends State<TaskAdder> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    Row(
+
+                    speechToText ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        FloatingActionButton(
-                          heroTag: 'stop',
-                          mini: true,
-                          onPressed: () {
-                            if (_isListening) {
-                              _speechRecognition.stop().then(
-                                    (result) =>
-                                        setState(() => _isListening = result),
-                                  );
-                            }
-                          },
-                          backgroundColor:
-                              getColorTheme(colorScheme).accentColor,
-                          child: Icon(Icons.stop),
-                        ),
+                        // FloatingActionButton(
+                        //   heroTag: 'stop',
+                        //   mini: true,
+                        //   onPressed: () {
+                        //     if (_isListening) {
+                        //       _speechRecognition.stop().then(
+                        //             (result) =>
+                        //                 setState(() => _isListening = result),
+                        //           );
+                        //     }
+                        //   },
+                        //   backgroundColor:
+                        //       getColorTheme(colorScheme).accentColor,
+                        //   child: Icon(Icons.stop),
+                        // ),
                         FloatingActionButton(
                           heroTag: 'record',
                           onPressed: () {
@@ -212,7 +208,8 @@ class _TaskAdderState extends State<TaskAdder> {
                           child: Icon(Icons.mic),
                         ),
                       ],
-                    ),
+                    ) : Text(""),
+
                     SizedBox(
                       height: 20.0,
                     ),
@@ -232,7 +229,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 1))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                print(timestamp);
                               });
                             },
                             color: priority == "today"
@@ -248,7 +244,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 2))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                print(timestamp);
                               });
                             },
                             color: priority == "tomorrow"
@@ -264,7 +259,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 7))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                print(timestamp + 604800000);
+                                // print(timestamp + 604800000);
                               });
                             },
                             color: priority == "later"
@@ -295,7 +290,7 @@ class _TaskAdderState extends State<TaskAdder> {
                       onChanged: (String newValue) {
                         setState(() {
                           categoryDropdown = newValue;
-                          print(categoryDropdown);
+                          // print(categoryDropdown);
                         });
                       },
                       items: _categories
@@ -309,12 +304,36 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     RaisedButton(
                         onPressed: () async {
-                          _db.addTask(_user.uid, categoryDropdown, resultText);
+                          if (resultText != "") {
+                            _db.addTask(
+                                _user.uid, categoryDropdown, resultText);
+
+                            setState(() {
+                              err = "Task added";
+                            });
+                            Future.delayed(Duration(milliseconds: 800), () {
+                              setState(() {
+                                err = "";
+                                resultText = "";
+                              });
+                            });
+                            // setState(() {
+                            //   err = "";
+                            //   resultText = "";
+                            // });
+                          } else {
+                            setState(() {
+                              err = "Please enter a task";
+                            });
+                          }
 
                           //Navigator.pop(context);
                         },
                         child: Text("Submit")),
-                    Text(message)
+                    Text(
+                      err,
+                      style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    )
                   ],
                 ),
               ),
