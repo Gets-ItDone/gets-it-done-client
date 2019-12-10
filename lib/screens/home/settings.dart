@@ -339,55 +339,45 @@ class _SettingsState extends State<Settings> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Text(
-                      message,
-                      style: TextStyle(color: Colors.white, fontSize: 18.0),
-                    ),
-                  ],
-                ),
-              ),
-              bottomNavigationBar: new Theme(
-                data: Theme.of(context).copyWith(
-                  // sets the background color of the `BottomNavigationBar`
-                  canvasColor: getColorTheme(colorScheme).primaryColor,
-                  // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-                  primaryColor: Colors.red,
-                  textTheme: Theme.of(context).textTheme.copyWith(
-                        caption: new TextStyle(
-                          color: Colors.white,
-                        ),
+                    bottomNavigationBar: new Theme(
+                      data: Theme.of(context).copyWith(
+                        // sets the background color of the `BottomNavigationBar`
+                        canvasColor: getColorTheme(colorScheme).primaryColor,
+                        // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+                        primaryColor: Colors.red,
+                        textTheme: Theme.of(context).textTheme.copyWith(
+                              caption: new TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                       ),
-                ),
-                child: BottomNavigationBar(
-                  items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.home,
-                        color: Colors.white,
+                      child: BottomNavigationBar(
+                        items: const <BottomNavigationBarItem>[
+                          BottomNavigationBarItem(
+                            icon: Icon(
+                              Icons.home,
+                              color: Colors.white,
+                            ),
+                            title: Text(
+                              'Home',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.add),
+                            title: Text('Task'),
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.add),
+                            title: Text('Category'),
+                          ),
+                        ],
+                        onTap: _navigatePage,
                       ),
-                      title: Text(
-                        'Home',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
                     ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.add),
-                      title: Text('Task'),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.add),
-                      title: Text('Category'),
-                    ),
-                  ],
-                  onTap: _navigatePage,
-                ),
-              ),
-            ),
-    );
+                  ),
+          );
   }
 }
