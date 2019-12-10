@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
+import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/services/database.dart';
 import 'package:gets_it_done/shared/loading.dart';
@@ -33,6 +35,27 @@ class _SettingsState extends State<Settings> {
       colorScheme = preferences["colorScheme"];
       speechToText = preferences["speechToText"];
       taskAssistant = preferences["taskAssistant"];
+    });
+  }
+
+  // Bottom nav bar navigation
+  void _navigatePage(int index) {
+    setState(() {
+      if (index == 0) {
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+      }
+      if (index == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TaskAdder()),
+        );
+      }
+      if (index == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CategoryAdder()),
+        );
+      }
     });
   }
 
@@ -306,6 +329,44 @@ class _SettingsState extends State<Settings> {
                       style: TextStyle(color: Colors.white, fontSize: 18.0),
                     ),
                   ],
+                ),
+              ),
+              bottomNavigationBar: new Theme(
+                data: Theme.of(context).copyWith(
+                  // sets the background color of the `BottomNavigationBar`
+                  canvasColor: getColorTheme(colorScheme).primaryColor,
+                  // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+                  primaryColor: Colors.red,
+                  textTheme: Theme.of(context).textTheme.copyWith(
+                        caption: new TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                ),
+                child: BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        'Home',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add),
+                      title: Text('Task'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add),
+                      title: Text('Category'),
+                    ),
+                  ],
+                  onTap: _navigatePage,
                 ),
               ),
             ),

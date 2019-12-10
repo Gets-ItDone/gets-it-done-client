@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/category_card.dart';
 import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
+import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/screens/task_screens/taskadder.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/services/database.dart';
@@ -51,16 +52,24 @@ class _TaskListState extends State<TaskList> {
     });
   }
 
+  // Bottom nav bar navigation
   void _navigatePage(int index) {
     setState(() {
       if (index == 0) {
-        Navigator.pushNamedAndRemoveUntil(context, '/add', (_) => false);
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
       }
       if (index == 1) {
-        Navigator.pushNamedAndRemoveUntil(context, '/do', (_) => false);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TaskAdder()),
+        );
       }
+
       if (index == 2) {
-        Navigator.pushNamedAndRemoveUntil(context, '/settings', (_) => false);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CategoryAdder()),
+        );
       }
     });
   }
@@ -98,27 +107,39 @@ class _TaskListState extends State<TaskList> {
                   },
                 ),
               ),
-              bottomNavigationBar: Theme(
+              bottomNavigationBar: new Theme(
                 data: Theme.of(context).copyWith(
+                  // sets the background color of the `BottomNavigationBar`
                   canvasColor: getColorTheme(colorScheme).primaryColor,
-                  primaryColor: Colors.white,
+                  // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+                  primaryColor: Colors.red,
                   textTheme: Theme.of(context).textTheme.copyWith(
-                        caption: new TextStyle(color: Colors.white),
+                        caption: new TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                 ),
                 child: BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        'Home',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    BottomNavigationBarItem(
                       icon: Icon(Icons.add),
-                      title: Text('Add Task'),
+                      title: Text('Task'),
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.done),
-                      title: Text('Do Task'),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.settings),
-                      title: Text('Settings'),
+                      icon: Icon(Icons.add),
+                      title: Text('Category'),
                     ),
                   ],
                   onTap: _navigatePage,
