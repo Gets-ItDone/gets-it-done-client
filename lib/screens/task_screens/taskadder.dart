@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
-import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/services/auth.dart';
@@ -125,6 +124,15 @@ class _TaskAdderState extends State<TaskAdder> {
   List<dynamic> _categories;
   bool _isLoading = true;
 
+  //slider
+  double rating = 0;
+  var labelObj = {
+    0.0: "< 5mins",
+    30.0: "5-15 mins",
+    60.0: "15-45 mins",
+    90.0: "45+ mins"
+  };
+
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
@@ -175,41 +183,41 @@ class _TaskAdderState extends State<TaskAdder> {
                     SizedBox(
                       height: 20.0,
                     ),
-
-                    speechToText ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        // FloatingActionButton(
-                        //   heroTag: 'stop',
-                        //   mini: true,
-                        //   onPressed: () {
-                        //     if (_isListening) {
-                        //       _speechRecognition.stop().then(
-                        //             (result) =>
-                        //                 setState(() => _isListening = result),
-                        //           );
-                        //     }
-                        //   },
-                        //   backgroundColor:
-                        //       getColorTheme(colorScheme).accentColor,
-                        //   child: Icon(Icons.stop),
-                        // ),
-                        FloatingActionButton(
-                          heroTag: 'record',
-                          onPressed: () {
-                            if (_isAvailable && !_isListening) {
-                              _speechRecognition
-                                  .listen(locale: "en_US")
-                                  .then((result) => print(result));
-                            }
-                          },
-                          backgroundColor:
-                              getColorTheme(colorScheme).primaryColor,
-                          child: Icon(Icons.mic),
-                        ),
-                      ],
-                    ) : Text(""),
-
+                    speechToText
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              // FloatingActionButton(
+                              //   heroTag: 'stop',
+                              //   mini: true,
+                              //   onPressed: () {
+                              //     if (_isListening) {
+                              //       _speechRecognition.stop().then(
+                              //             (result) =>
+                              //                 setState(() => _isListening = result),
+                              //           );
+                              //     }
+                              //   },
+                              //   backgroundColor:
+                              //       getColorTheme(colorScheme).accentColor,
+                              //   child: Icon(Icons.stop),
+                              // ),
+                              FloatingActionButton(
+                                heroTag: 'record',
+                                onPressed: () {
+                                  if (_isAvailable && !_isListening) {
+                                    _speechRecognition
+                                        .listen(locale: "en_US")
+                                        .then((result) => print(result));
+                                  }
+                                },
+                                backgroundColor:
+                                    getColorTheme(colorScheme).primaryColor,
+                                child: Icon(Icons.mic),
+                              ),
+                            ],
+                          )
+                        : Text(""),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -267,6 +275,18 @@ class _TaskAdderState extends State<TaskAdder> {
                                 : getColorTheme(colorScheme).primaryColor,
                             child: Text("Later"))
                       ],
+                    ),
+                    Slider(
+                      value: rating,
+                      onChanged: (newRating) {
+                        setState(() {
+                          rating = newRating;
+                        });
+                      },
+                      min: 0,
+                      max: 90,
+                      divisions: 3,
+                      label: labelObj[rating],
                     ),
                     SizedBox(
                       height: 40.0,
