@@ -43,10 +43,14 @@ class _TaskViewerState extends State<TaskViewer> {
   void setTasks(uid) async {
     _db = DatabaseCalls();
     dynamic taskArray = await _db.getAllTasksWithCategories(uid);
-    setState(() {
-      tasks = taskArray;
-      isLoading = false;
-    });
+    if (taskArray.length == 0) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => TasksComplete()));
+    } else
+      setState(() {
+        tasks = taskArray;
+        isLoading = false;
+      });
   }
 
   void getAllTasksWithCategories(uid) async {
