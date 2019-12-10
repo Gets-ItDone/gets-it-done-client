@@ -46,7 +46,7 @@ getColorTheme(colorScheme) {
   if (colorScheme == '4') {
     return ThemeData(
       brightness: Brightness.dark,
-      primaryColor: Colors.white,
+      primaryColor: Colors.blue[900],
       accentColor: Colors.blue,
       scaffoldBackgroundColor: Colors.blue[300],
       backgroundColor: Colors.blue[300],
