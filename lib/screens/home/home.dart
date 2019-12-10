@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
-import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
-import 'package:gets_it_done/screens/task_screens/task_list.dart';
-import 'package:gets_it_done/screens/task_screens/taskadder.dart';
-import 'package:gets_it_done/screens/task_screens/taskviewer.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:gets_it_done/services/database.dart';
 import 'package:gets_it_done/shared/color_theme.dart';
-
 
 class Home extends StatefulWidget {
   @override
@@ -17,7 +12,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   dynamic _user;
   final AuthService _auth = AuthService();
   DatabaseCalls _db;
@@ -94,6 +88,21 @@ class _HomeState extends State<Home> {
                           borderRadius: new BorderRadius.circular(18.0),
                         ),
                         padding: EdgeInsets.all(30.0),
+                        child: Text('Add Category'),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/addcategory', (_) => false);
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                        ),
+                        padding: EdgeInsets.all(30.0),
                         child: Text('View Tasks'),
                         onPressed: () {
                           Navigator.pushNamedAndRemoveUntil(
@@ -110,7 +119,10 @@ class _HomeState extends State<Home> {
                         ),
                         padding: EdgeInsets.all(30.0),
                         child: Text('Start Tasks'),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/start', (_) => false);
+                        },
                       ),
                     )
                   ],
@@ -118,6 +130,5 @@ class _HomeState extends State<Home> {
               ),
             ),
           );
-
   }
 }
