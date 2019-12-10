@@ -21,21 +21,12 @@ class _TaskAdderState extends State<TaskAdder> {
   SpeechRecognition _speechRecognition;
   bool _isAvailable = false;
   bool _isListening = false;
-  dynamic textInput;
-  // String resultText = '';
-  final _controller = TextEditingController(text: "");
+  // dynamic textInput;
+  String resultText = '';
+  // final _controller = TextEditingController(text: "Add Task Here");
 
   @override
   void initState() {
-    _controller.addListener(() {
-      final text = _controller.text.toLowerCase();
-      _controller.value = _controller.value.copyWith(
-        text: textInput,
-        selection:
-            TextSelection(baseOffset: text.length, extentOffset: text.length),
-        composing: TextRange.empty,
-      );
-    });
     super.initState();
     initSpeechRecognitizer();
 
@@ -77,14 +68,13 @@ class _TaskAdderState extends State<TaskAdder> {
       (bool result) => setState(() => _isAvailable = result),
     );
 
-    print(["Isavailable", _isAvailable]);
-
     _speechRecognition.setRecognitionStartedHandler(
       () => setState(() => _isListening = true),
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      (String speech) => setState(() => textInput = speech),
+      
+      (String speech) => (() => resultText = speech),
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -94,7 +84,6 @@ class _TaskAdderState extends State<TaskAdder> {
     _speechRecognition.activate().then(
           (result) => setState(() => _isAvailable = result),
         );
-        print(["Isavailable2", _isAvailable]);
     
     setState(() =>
       _isAvailable = false
@@ -166,11 +155,17 @@ class _TaskAdderState extends State<TaskAdder> {
                       height: 50.0,
                     ),
                     TextFormField(
-                      controller: _controller,
-                      onChanged: (text) {
-                        textInput = text;
-                        print(textInput);
-                      },
+                      controller: new TextEditingController.fromValue(
+                              new TextEditingValue(
+                                  text: resultText,
+                                  selection: new TextSelection.collapsed(
+                                      offset: resultText.length))),
+                          onChanged: (text) {
+                            setState(() {
+                              resultText = text;
+                              print(resultText);
+                            });
+                          },
                       style: TextStyle(
                         fontSize: 20,
                         color: getColorTheme(colorScheme).primaryColor,
@@ -313,7 +308,7 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     RaisedButton(
                         onPressed: () async {
-                          _db.addTask(_user.uid, categoryDropdown, textInput);
+                          _db.addTask(_user.uid, categoryDropdown, resultText);
 
                           //Navigator.pop(context);
                         },
