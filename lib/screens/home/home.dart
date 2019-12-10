@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
     return isLoading
         ? Loading()
         : Theme(
-            data: getColorTheme(colorScheme) ?? ThemeData.dark(),
+            data: getColorTheme(colorScheme) ?? Theme.of(context),
             child: Scaffold(
               appBar: AppBar(
                 title: Text('Gets It Done'),
@@ -106,7 +106,10 @@ class _HomeState extends State<Home> {
                         ),
                         padding: EdgeInsets.all(30.0),
                         child: Text('Start Tasks'),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/do', (_) => false);
+                        },
                       ),
                     )
                   ],
