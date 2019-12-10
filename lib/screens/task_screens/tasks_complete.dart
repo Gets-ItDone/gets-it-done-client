@@ -41,16 +41,20 @@ class TasksComplete extends StatelessWidget {
                         margin: EdgeInsets.all(30),
                         child: RaisedButton(
                             onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
+                              Future.delayed(
+                                Duration(milliseconds: 400),
+                                () {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, '/home', (_) => false);
+                                },
+                              );
                             },
                             padding: EdgeInsets.all(20),
                             shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(50.0),
                             ),
                             color: altBgColor.withOpacity(0.5),
-                            child: Text("Woohoo",
-                                style: TextStyle(fontSize: 50)))))
+                            child: Text("OK", style: TextStyle(fontSize: 50)))))
               ],
             )));
   }
