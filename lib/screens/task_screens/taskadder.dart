@@ -73,9 +73,8 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-
       (String speech) {
-      resultText = speech;
+        resultText = speech;
       },
     );
 
@@ -154,17 +153,15 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     TextFormField(
                       controller: new TextEditingController.fromValue(
-
-                              new TextEditingValue(
-                                  text: resultText,
-                                  selection: new TextSelection.collapsed(
-                                      offset: resultText.length))),
-                          onChanged: (text) {
-                            setState(() {
-                              resultText = text;
-                            });
-                          },
-
+                          new TextEditingValue(
+                              text: resultText,
+                              selection: new TextSelection.collapsed(
+                                  offset: resultText.length))),
+                      onChanged: (text) {
+                        setState(() {
+                          resultText = text;
+                        });
+                      },
                       style: TextStyle(
                         fontSize: 20,
                         color: getColorTheme(colorScheme).primaryColor,
@@ -178,39 +175,41 @@ class _TaskAdderState extends State<TaskAdder> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    speechToText ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        FloatingActionButton(
-                          heroTag: 'stop',
-                          mini: true,
-                          onPressed: () {
-                            if (_isListening) {
-                              _speechRecognition.stop().then(
-                                    (result) =>
-                                        setState(() => _isListening = result),
-                                  );
-                            }
-                          },
-                          backgroundColor:
-                              getColorTheme(colorScheme).accentColor,
-                          child: Icon(Icons.stop),
-                        ),
-                        FloatingActionButton(
-                          heroTag: 'record',
-                          onPressed: () {
-                            if (_isAvailable && !_isListening) {
-                              _speechRecognition
-                                  .listen(locale: "en_US")
-                                  .then((result) => print(result));
-                            }
-                          },
-                          backgroundColor:
-                              getColorTheme(colorScheme).primaryColor,
-                          child: Icon(Icons.mic),
-                        ),
-                      ],
-                    ) : Text("Enable Speech To Text to user the microphone"),
+                    speechToText
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              FloatingActionButton(
+                                heroTag: 'stop',
+                                mini: true,
+                                onPressed: () {
+                                  if (_isListening) {
+                                    _speechRecognition.stop().then(
+                                          (result) => setState(
+                                              () => _isListening = result),
+                                        );
+                                  }
+                                },
+                                backgroundColor:
+                                    getColorTheme(colorScheme).accentColor,
+                                child: Icon(Icons.stop),
+                              ),
+                              FloatingActionButton(
+                                heroTag: 'record',
+                                onPressed: () {
+                                  if (_isAvailable && !_isListening) {
+                                    _speechRecognition
+                                        .listen(locale: "en_US")
+                                        .then((result) => print(result));
+                                  }
+                                },
+                                backgroundColor:
+                                    getColorTheme(colorScheme).primaryColor,
+                                child: Icon(Icons.mic),
+                              ),
+                            ],
+                          )
+                        : Text("Enable 'Speech To Text' to use the microphone"),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -331,12 +330,10 @@ class _TaskAdderState extends State<TaskAdder> {
                           //Navigator.pop(context);
                         },
                         child: Text("Submit")),
-
                     Text(
                       err,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
                     )
-
                   ],
                 ),
               ),
