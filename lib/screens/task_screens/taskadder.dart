@@ -124,6 +124,15 @@ class _TaskAdderState extends State<TaskAdder> {
   List<dynamic> _categories;
   bool _isLoading = true;
 
+  //slider
+  double rating = 0;
+  var labelObj = {
+    0.0: "< 5mins",
+    30.0: "5-15 mins",
+    60.0: "15-45 mins",
+    90.0: "45+ mins"
+  };
+
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
@@ -278,6 +287,18 @@ class _TaskAdderState extends State<TaskAdder> {
                                     : Colors.black,
                             child: Text("Later"))
                       ],
+                    ),
+                    Slider(
+                      value: rating,
+                      onChanged: (newRating) {
+                        setState(() {
+                          rating = newRating;
+                        });
+                      },
+                      min: 0,
+                      max: 90,
+                      divisions: 3,
+                      label: labelObj[rating],
                     ),
                     SizedBox(
                       height: 40.0,
