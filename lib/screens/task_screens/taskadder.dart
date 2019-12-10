@@ -39,8 +39,6 @@ class _TaskAdderState extends State<TaskAdder> {
     });
   }
 
-  
-
   void setCategories(user) async {
     _db = DatabaseCalls();
 
@@ -61,7 +59,6 @@ class _TaskAdderState extends State<TaskAdder> {
   }
 
   void initSpeechRecognitizer() {
-
     _speechRecognition = SpeechRecognition();
 
     _speechRecognition.setAvailabilityHandler(
@@ -73,11 +70,7 @@ class _TaskAdderState extends State<TaskAdder> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-
-      (String speech) {       
-      resultText = speech;
-      },      
-      (String speech) => (() => resultText = speech),
+      (String speech) => setState(() => resultText = speech),
     );
 
     _speechRecognition.setRecognitionCompleteHandler(
@@ -87,13 +80,8 @@ class _TaskAdderState extends State<TaskAdder> {
     _speechRecognition.activate().then(
           (result) => setState(() => _isAvailable = result),
         );
-    
-    setState(() =>
-      _isAvailable = false
 
-    );
-    
-
+    setState(() => _isAvailable = false);
   }
 
   // Bottom nav bar navigation
@@ -159,16 +147,16 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     TextFormField(
                       controller: new TextEditingController.fromValue(
-                              new TextEditingValue(
-                                  text: resultText,
-                                  selection: new TextSelection.collapsed(
-                                      offset: resultText.length))),
-                          onChanged: (text) {
-                            setState(() {
-                              resultText = text;
-                              print(resultText);
-                            });
-                          },
+                          new TextEditingValue(
+                              text: resultText,
+                              selection: new TextSelection.collapsed(
+                                  offset: resultText.length))),
+                      onChanged: (text) {
+                        setState(() {
+                          resultText = text;
+                          print(resultText);
+                        });
+                      },
                       style: TextStyle(
                         fontSize: 20,
                         color: getColorTheme(colorScheme).primaryColor,
@@ -311,36 +299,36 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     RaisedButton(
                         onPressed: () async {
-                          if(resultText != ""){
-                          _db.addTask(_user.uid, categoryDropdown, resultText);
+                          if (resultText != "") {
+                            _db.addTask(
+                                _user.uid, categoryDropdown, resultText);
 
-                          setState(() {
-                            err = "Task added";
-                          });
-                          Future.delayed(Duration(milliseconds: 800), () {
                             setState(() {
-                            err = "";
-                            resultText = "";
-                          });
-                          });
-                          // setState(() {
-                          //   err = "";
-                          //   resultText = "";
-                          // });
+                              err = "Task added";
+                            });
+                            Future.delayed(Duration(milliseconds: 800), () {
+                              setState(() {
+                                err = "";
+                                resultText = "";
+                              });
+                            });
+                            // setState(() {
+                            //   err = "";
+                            //   resultText = "";
+                            // });
                           } else {
                             setState(() {
                               err = "Please enter a task";
                             });
                           }
 
-
                           //Navigator.pop(context);
                         },
                         child: Text("Submit")),
-                        Text(
-                    err,
-                    style: TextStyle(color: Colors.red, fontSize: 14.0),
-                  )
+                    Text(
+                      err,
+                      style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    )
                   ],
                 ),
               ),
