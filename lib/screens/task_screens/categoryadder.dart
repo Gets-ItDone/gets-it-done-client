@@ -29,7 +29,6 @@ class _CategoryAdderState extends State<CategoryAdder> {
   dynamic colorScheme = '';
   dynamic speechToText = true;
 
-
   // Bottom nav bar navigation
   void _navigatePage(int index) {
     setState(() {
@@ -111,6 +110,8 @@ class _CategoryAdderState extends State<CategoryAdder> {
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     DatabaseCalls _db = DatabaseCalls();
@@ -124,13 +125,9 @@ class _CategoryAdderState extends State<CategoryAdder> {
             child: Scaffold(
               appBar: AppBar(
                 title: Text('Gets It Done'),
-                backgroundColor: altBgColor,
                 actions: <Widget>[
                   FlatButton(
-                    child: Text(
-                      'Log off',
-                      style: TextStyle(color: textColor, fontSize: 18.0),
-                    ),
+                    child: Text('Log off'),
                     onPressed: () async {
                       await _auth.logOffUser();
                       Navigator.pop(context);
@@ -140,6 +137,7 @@ class _CategoryAdderState extends State<CategoryAdder> {
               ),
               backgroundColor: bgColor,
               body: Form(
+                key: _formKey,
                 child: Column(
                   children: <Widget>[
                     SizedBox(
@@ -179,56 +177,43 @@ class _CategoryAdderState extends State<CategoryAdder> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    speechToText ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        // FloatingActionButton(
-                        //   heroTag: 'stop',
-                        //   mini: true,
-                        //   onPressed: () {
-                        //     if (_isListening) {
-                        //       _speechRecognition.stop().then(
-                        //             (result) =>
-                        //                 setState(() => _isListening = result),
-                        //           );
-                        //     }
-                        //   },
-                        //   backgroundColor:
-                        //       getColorTheme(colorScheme).accentColor,
-                        //   child: Icon(Icons.stop),
-                        // ),
-                        FloatingActionButton(
-                          heroTag: 'record',
-                          onPressed: () {
-                            if (_isAvailable && !_isListening) {
-                              _speechRecognition
-                                  .listen(locale: "en_US")
-                                  .then((result) => print(result));
-                            }
-                          },
-                          backgroundColor:
-                              getColorTheme(colorScheme).primaryColor,
-                          child: Icon(Icons.mic),
-                        ),
-                      ],
-                    ) : Text(""),
+                    speechToText
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              FloatingActionButton(
+                                heroTag: 'record',
+                                onPressed: () {
+                                  if (_isAvailable && !_isListening) {
+                                    _speechRecognition
+                                        .listen(locale: "en_US")
+                                        .then((result) => print(result));
+                                  }
+                                },
+                                backgroundColor:
+                                    getColorTheme(colorScheme).primaryColor,
+                                child: Icon(Icons.mic),
+                              ),
+                            ],
+                          )
+                        : Text(""),
                     SizedBox(
                       height: 30.0,
                     ),
                     RaisedButton(
                         onPressed: () async {
-                          _db.addCategory(_user.uid, resultText);
-                          Navigator.pop(context);
+                          if (_formKey.currentState.validate()) {
+                            _db.addCategory(_user.uid, resultText);
+                            Navigator.pop(context);
+                          }
                         },
-                        color: altBgColor,
                         child: Text("Submit")),
-                    // Text(message)
                   ],
                 ),
               ),
               bottomNavigationBar: Theme(
                 data: Theme.of(context).copyWith(
-                  canvasColor: Colors.pink[300],
+                  canvasColor: getColorTheme(colorScheme).primaryColor,
                   primaryColor: Colors.white,
                   textTheme: Theme.of(context).textTheme.copyWith(
                         caption: new TextStyle(color: Colors.white),
