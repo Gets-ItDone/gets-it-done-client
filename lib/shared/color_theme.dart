@@ -12,7 +12,7 @@ getColorTheme(colorScheme) {
       buttonColor: Colors.blueAccent[400],
       bottomAppBarColor: Colors.blue,
       hintColor: Colors.blue[800],
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     );
   }
 
@@ -27,7 +27,7 @@ getColorTheme(colorScheme) {
       buttonColor: Colors.black,
       bottomAppBarColor: Colors.black,
       hintColor: Colors.black,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     );
   }
 
@@ -42,7 +42,7 @@ getColorTheme(colorScheme) {
       buttonColor: Colors.blue[900],
       bottomAppBarColor: Colors.purple[900],
       hintColor: Colors.black,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     );
   }
 
@@ -57,7 +57,7 @@ getColorTheme(colorScheme) {
       buttonColor: Colors.blue[200],
       bottomAppBarColor: Colors.purple[900],
       hintColor: Colors.blue,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     );
   }
   // HACKER MODE
