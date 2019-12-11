@@ -19,15 +19,16 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: Colors.green[600],
-          accentColor: Colors.greenAccent[400],
-          scaffoldBackgroundColor: Colors.black,
-          backgroundColor: Colors.black,
-          buttonColor: Colors.green[600],
-          bottomAppBarColor: Colors.green[600],
-          hintColor: Colors.green[600],
+          brightness: Brightness.dark,
+          primaryColor: Colors.purple[900],
+          accentColor: Colors.blueAccent[400],
+          scaffoldBackgroundColor: Colors.blue[1000],
+          backgroundColor: Colors.blue,
+          buttonColor: Colors.blue[900],
+          bottomAppBarColor: Colors.purple[900],
+          hintColor: Colors.black,
           fontFamily: 'Roboto',
+
           // Added to change text color if required.
           textTheme: Theme.of(context).textTheme.apply(
                 bodyColor: Colors.black,
