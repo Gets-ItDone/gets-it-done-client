@@ -9,7 +9,7 @@ class DatabaseCalls {
     return await testCollection.document(uid).setData({
       "test": "test",
       "preferences": {
-        "colorScheme": "default",
+        "colorScheme": "1",
         "speechToText": false,
         "taskAssistant": false
       },
