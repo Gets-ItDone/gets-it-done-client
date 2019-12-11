@@ -39,7 +39,9 @@ class _TaskViewerState extends State<TaskViewer> {
 
   void setTasks(uid) async {
     _db = DatabaseCalls();
-    dynamic taskArray = await _db.getAllTasksWithCategories(uid);
+    // dynamic taskArray = await _db.getAllTasksWithCategories(uid);
+    dynamic taskArray = await _db.getTaskBasket(uid);
+
     if (taskArray.length == 0) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => TasksComplete()));

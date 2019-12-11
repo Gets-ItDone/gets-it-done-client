@@ -114,7 +114,8 @@ class _TaskAdderState extends State<TaskAdder> {
   String priority = "today";
   String categoryDropdown = "general";
   String message = "";
-  dynamic dueDate;
+  dynamic dueDate =
+      new DateTime.now().add(new Duration(days: 1)).millisecondsSinceEpoch;
 
   // Color Scheme
   dynamic colorScheme = '';
@@ -123,6 +124,17 @@ class _TaskAdderState extends State<TaskAdder> {
   // Categories
   List<dynamic> _categories;
   bool _isLoading = true;
+
+  //slider
+  double rating = 0;
+  var labelObj = {
+    0.0: "< 5mins",
+    30.0: "5-15 mins",
+    60.0: "15-45 mins",
+    90.0: "45+ mins"
+  };
+
+  var taskLengthObj = {0.0: 0, 30.0: 1, 60.0: 2, 90.0: 3};
 
   @override
   Widget build(BuildContext context) {
@@ -240,6 +252,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 1))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
+                                // print(dueDate);
                               });
                             },
                             color: priority != "today"
@@ -261,6 +274,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 2))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
+                                // print(dueDate);
                               });
                             },
                             color: priority != "tomorrow"
@@ -282,7 +296,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 7))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                // print(timestamp + 604800000);
+                                // print(dueDate);
                               });
                             },
                             color: priority != "later"
@@ -293,6 +307,18 @@ class _TaskAdderState extends State<TaskAdder> {
                                     : Colors.black,
                             child: Text("Later"))
                       ],
+                    ),
+                    Slider(
+                      value: rating,
+                      onChanged: (newRating) {
+                        setState(() {
+                          rating = newRating;
+                        });
+                      },
+                      min: 0,
+                      max: 90,
+                      divisions: 3,
+                      label: labelObj[rating],
                     ),
                     SizedBox(
                       height: 20.0,
@@ -339,8 +365,8 @@ class _TaskAdderState extends State<TaskAdder> {
                         ),
                         onPressed: () async {
                           if (resultText != "") {
-                            _db.addTask(
-                                _user.uid, categoryDropdown, resultText);
+                            _db.addTask(_user.uid, categoryDropdown, resultText,
+                                dueDate, taskLengthObj[rating]);
                             setState(() {
                               err = "Task added";
                             });
@@ -350,10 +376,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                 resultText = "";
                               });
                             });
-                            // setState(() {
-                            //   err = "";
-                            //   resultText = "";
-                            // });
                           } else {
                             setState(() {
                               err = "Please enter a task";
