@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
   dynamic pref;
   dynamic colorScheme = '';
   bool isLoading = true;
+  String bgimg = "assets/images/bgimg7.jpg";
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class _HomeState extends State<Home> {
 
     setState(() {
       colorScheme = preferences["colorScheme"];
+      bgimg = "assets/images/bgimg$colorScheme.jpg";
     });
   }
 
@@ -66,8 +68,7 @@ class _HomeState extends State<Home> {
               body: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/images/bgimg$colorScheme.jpg"),
-                      fit: BoxFit.cover),
+                      image: AssetImage(bgimg), fit: BoxFit.cover),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
