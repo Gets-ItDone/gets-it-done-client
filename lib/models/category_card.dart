@@ -47,10 +47,17 @@ class _CategoryCardState extends State<CategoryCard> {
   void setTasksByCategory(uid, category) async {
     _db = DatabaseCalls();
     dynamic tasks = await _db.getTasksByCategory(uid, category);
-    print(tasks);
+
     setState(() {
       data = tasks;
     });
+  }
+
+  void completeTask(uid, category, task) async {
+    print(uid);
+    print(category);
+    _db = DatabaseCalls();
+    _db.completeTask(uid, category, task);
   }
 
   @override
@@ -71,6 +78,7 @@ class _CategoryCardState extends State<CategoryCard> {
                       // Need to also remove from DB. Do opti-rendering
                       data.removeAt(index);
                     });
+                    completeTask(_user.uid, widget.category, item);
                   },
                   child: TaskCard(task: item),
                 ))
