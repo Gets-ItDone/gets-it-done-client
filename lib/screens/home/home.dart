@@ -64,6 +64,11 @@ class _HomeState extends State<Home> {
                 ],
               ),
               body: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/bgimg$colorScheme.jpg"),
+                      fit: BoxFit.cover),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
