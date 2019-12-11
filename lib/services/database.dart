@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 class DatabaseCalls {
   final CollectionReference testCollection =
       Firestore.instance.collection("test");
@@ -84,10 +85,16 @@ class DatabaseCalls {
 
     taskBasket.addAll(vOverdueTasks);
 
-    taskBasket.length < 3 ? taskBasket.addAll(overdueTasks) : null;
-    taskBasket.length < 3 ? taskBasket.addAll(todayTasks) : null;
-    taskBasket.length < 3 ? taskBasket.addAll(tomorrowTasks) : null;
-    taskBasket.length < 3 ? taskBasket.addAll(laterTasks) : null;
+    if(taskBasket.length < 3) taskBasket.addAll(overdueTasks);
+    if(taskBasket.length < 3) taskBasket.addAll(todayTasks);
+    if(taskBasket.length < 3) taskBasket.addAll(tomorrowTasks);
+    if(taskBasket.length < 3) taskBasket.addAll(laterTasks);
+
+
+    // taskBasket.length < 3 ? taskBasket.addAll(overdueTasks) : null;
+    // taskBasket.length < 3 ? taskBasket.addAll(todayTasks) : null;
+    // taskBasket.length < 3 ? taskBasket.addAll(tomorrowTasks) : null;
+    // taskBasket.length < 3 ? taskBasket.addAll(laterTasks) : null;
 
     var count = 0;
     var updatedBasket = [];
@@ -142,7 +149,8 @@ We need to give user feedback that a category already exists
   }
 
   void deleteUser(uid) {
-    //need to send user back to login screen. Must discuss best way to do this. User feedback
+    //need to send user back to login screen. Must discuss best way to do this. User feedback    
+
     try {
       testCollection.document(uid).delete();
     } catch (err) {
