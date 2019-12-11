@@ -14,43 +14,7 @@ class DatabaseCalls {
         "taskAssistant": false
       },
       "categories": {
-        "general": [
-          {
-            "taskName": "clean kitchen",
-            "completed": false,
-            "dueDate": 1575800147000 //very overdue
-          },
-          {
-            "taskName": "clean bedroom",
-            "completed": false,
-            "dueDate": 1575972947020 // overdue
-          },
-          {
-            "taskName": "clean bathroom",
-            "completed": false,
-            "dueDate": 1575972947030 // overdue
-          },
-          {
-            "taskName": "clean my room",
-            "completed": false,
-            "dueDate": 1575972947040 // overdue
-          },
-          {
-            "taskName": "clean my room",
-            "completed": false,
-            "dueDate": 1576138547000 // today
-          },
-          {
-            "taskName": "clean my room",
-            "completed": false,
-            "dueDate": 1576206947000 // tomrrow
-          },
-          {
-            "taskName": "clean my room",
-            "completed": false,
-            "dueDate": 1576466147000 // later
-          }
-        ]
+        "general": []
       }
     });
   }
