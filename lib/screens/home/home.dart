@@ -65,6 +65,8 @@ class _HomeState extends State<Home> {
                     child: Text('Log Off'),
                     onPressed: () async {
                       await _auth.logOffUser();
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/', (_) => false);
                     },
                   )
                 ],

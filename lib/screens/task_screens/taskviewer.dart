@@ -39,7 +39,9 @@ class _TaskViewerState extends State<TaskViewer> {
 
   void setTasks(uid) async {
     _db = DatabaseCalls();
-    dynamic taskArray = await _db.getAllTasksWithCategories(uid);
+    // dynamic taskArray = await _db.getAllTasksWithCategories(uid);
+    dynamic taskArray = await _db.getTaskBasket(uid);
+
     if (taskArray.length == 0) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => TasksComplete()));
@@ -94,8 +96,9 @@ class _TaskViewerState extends State<TaskViewer> {
                                           new BorderRadius.circular(10.0),
                                     ),
                                     color: getColorTheme(colorScheme)
-                                        .primaryColor
-                                        .withOpacity(0.5),
+                                            .primaryColor
+                                            .withOpacity(0.5) ??
+                                        Colors.white,
                                     child: Text("Cancel",
                                         style: TextStyle(
                                             fontSize: 20,
@@ -157,8 +160,9 @@ class _TaskViewerState extends State<TaskViewer> {
                                           new BorderRadius.circular(50.0),
                                     ),
                                     color: getColorTheme(colorScheme)
-                                        .primaryColor
-                                        .withOpacity(0.5),
+                                            .primaryColor
+                                            .withOpacity(0.5) ??
+                                        Colors.white,
                                     child: Text("Done",
                                         textScaleFactor: 2.0,
                                         style: TextStyle(

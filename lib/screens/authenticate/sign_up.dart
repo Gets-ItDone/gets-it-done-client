@@ -31,100 +31,137 @@ class _SignUpState extends State<SignUp> {
         ? Loading()
         : Scaffold(
             appBar: AppBar(
-              title: Text('Register'),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Login'),
-                  onPressed: () {
-                    widget.toggleView();
-                  },
-                ),
-              ],
+              title: Text('Gets It Done'),
+              centerTitle: true,
             ),
-            body: Form(
-              key: _formKey,
+            body: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextFormField(
-                    validator: (value) =>
-                        value.isEmpty ? 'Please input your email.' : null,
-                    decoration: InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'Please enter email.',
-                        fillColor: Colors.white,
-                        filled: true),
-                    onChanged: (value) {
-                      setState(() => email = value);
-                    },
+                  Image.asset(
+                    'assets/images/logo.png',
+                    fit: BoxFit.scaleDown,
+                    height: 150.0,
                   ),
                   SizedBox(
-                    height: 20.0,
+                    height: 10.0,
                   ),
-                  TextFormField(
-                    obscureText: true,
-                    validator: (value) =>
-                        value.isEmpty ? 'Please input your password.' : null,
-                    decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Please enter password.',
-                        fillColor: Colors.white,
-                        filled: true),
-                    onChanged: (value) {
-                      setState(() => password = value);
-                    },
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    validator: (value) =>
-                        value.isEmpty ? 'Please re-enter your password.' : null,
-                    decoration: InputDecoration(
-                        labelText: 'Confirm password',
-                        hintText: 'Please re-enter password.',
-                        fillColor: Colors.white,
-                        filled: true),
-                    onChanged: (value) {
-                      setState(() => passwordConfirm = value);
-                    },
-                  ),
-                  SizedBox(
-                    height: 40.0,
-                  ),
-                  RaisedButton(
-                    onPressed: () async {
-                      if (password != passwordConfirm) {
-                        setState(() => err = 'Passwords do not match');
-                      } else if (_formKey.currentState.validate()) {
-                        setState(() => loading = true);
-                        final signUpResult = await _auth
-                            .registerWithEmailAndPassword(email, password);
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        TextFormField(
+                          validator: (value) =>
+                              value.isEmpty ? 'Please input your email.' : null,
+                          decoration: InputDecoration(
+                              labelText: 'Email',
+                              hintText: 'Please enter email.',
+                              fillColor: Colors.white,
+                              filled: true),
+                          onChanged: (value) {
+                            setState(() => email = value);
+                          },
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        TextFormField(
+                          obscureText: true,
+                          validator: (value) => value.isEmpty
+                              ? 'Please input your password.'
+                              : null,
+                          decoration: InputDecoration(
+                              labelText: 'Password',
+                              hintText: 'Please enter password.',
+                              fillColor: Colors.white,
+                              filled: true),
+                          onChanged: (value) {
+                            setState(() => password = value);
+                          },
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        TextFormField(
+                          obscureText: true,
+                          validator: (value) => value.isEmpty
+                              ? 'Please re-enter your password.'
+                              : null,
+                          decoration: InputDecoration(
+                              labelText: 'Confirm password',
+                              hintText: 'Please re-enter password.',
+                              fillColor: Colors.white,
+                              filled: true),
+                          onChanged: (value) {
+                            setState(() => passwordConfirm = value);
+                          },
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        ButtonTheme(
+                          minWidth: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          child: RaisedButton(
+                            color: Colors.blue[900],
+                            onPressed: () async {
+                              if (password != passwordConfirm) {
+                                setState(() => err = 'Passwords do not match');
+                              } else if (_formKey.currentState.validate()) {
+                                setState(() => loading = true);
+                                final signUpResult =
+                                    await _auth.registerWithEmailAndPassword(
+                                        email, password);
 
-                        if (signUpResult != null) {
-                          _db.createUser(signUpResult.uid);
-                        }
+                                if (signUpResult != null) {
+                                  _db.createUser(signUpResult.uid);
+                                }
 
-                        if (signUpResult == null) {
-                          setState(() {
-                            err = 'Please enter a valid email';
-                            loading = false;
-                          });
-                        }
-                      }
-                    },
-                    child: Text('Register'),
+                                if (signUpResult == null) {
+                                  setState(() {
+                                    err = 'Please enter a valid email';
+                                    loading = false;
+                                  });
+                                }
+                              }
+                            },
+                            child: Text('Register'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Text(
+                          err,
+                          style: TextStyle(color: Colors.red, fontSize: 14.0),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Text(
+                          'Already getting it done?',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        ButtonTheme(
+                          minWidth: MediaQuery.of(context).size.width * 0.6,
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          child: FlatButton(
+                            color: Colors.purple[900],
+                            child: Text('Login'),
+                            onPressed: () {
+                              widget.toggleView();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Text(
-                    err,
-                    style: TextStyle(color: Colors.red, fontSize: 14.0),
-                  )
                 ],
               ),
             ),

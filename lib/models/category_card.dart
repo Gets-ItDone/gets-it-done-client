@@ -106,6 +106,7 @@ class _CategoryCardState extends State<CategoryCard> {
                             },
                           );
                         },
+
                         color: getColorTheme(colorScheme).primaryColor,
                         child: Text(
                           widget.category,
@@ -118,6 +119,7 @@ class _CategoryCardState extends State<CategoryCard> {
                     child: Column(
                       children: clicked ? listData() : [],
                     ))
+
               ],
             ),
           );
