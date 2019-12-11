@@ -121,6 +121,8 @@ class _TaskViewerState extends State<TaskViewer> {
                             margin: EdgeInsets.all(30),
                             child: RaisedButton(
                                 onPressed: () {
+                                  completeTask(_user.uid, tasks[0]["category"],
+                                      tasks[0]["taskName"]);
                                   if (this.tasks.length == 1) {
                                     // Navigator.pop(context);
                                     Navigator.pop(context);
@@ -135,8 +137,8 @@ class _TaskViewerState extends State<TaskViewer> {
                                       this.tasks.removeAt(0);
                                     });
 
-                                  completeTask(_user.uid, tasks[0]["category"],
-                                      tasks[0]["taskName"]);
+                                  // completeTask(_user.uid, tasks[0]["category"],
+                                  //     tasks[0]["taskName"]);
 
                                   // make database call to 'complete' task
                                   // shift task from task array and display new task[0]
