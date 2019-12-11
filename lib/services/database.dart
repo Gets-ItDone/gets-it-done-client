@@ -58,7 +58,7 @@ class DatabaseCalls {
   void addTask(uid,
       [category = "general",
       taskName = "learn to fly",
-      dueDate = 1576231320851]) async {
+      dueDate = 1576231320851, taskLength]) async {
     final snapshot = await this.getDocumentSnapshot(uid);
     final categoryArray = snapshot.data["categories"][category];
 
@@ -77,7 +77,7 @@ class DatabaseCalls {
     }
   }
 
-  void timestampTest(uid, category, taskName, dueDate) async {
+  dynamic getTaskBasket(uid) async {
     dynamic dateNow = new DateTime.now().millisecondsSinceEpoch;
 
     final ds = await this.getDocumentSnapshot(uid);
@@ -118,8 +118,19 @@ class DatabaseCalls {
     taskBasket.length<3 ? taskBasket.addAll(tomorrowTasks) : null;
     taskBasket.length<3 ? taskBasket.addAll(laterTasks) : null;
 
-    // print([taskBasket, taskBasket.length]);
 
+    var count = 0;
+    var updatedBasket = [];
+
+    taskBasket.forEach((task) {
+      if(count + task["taskLength"] <=4 && updatedBasket.length < 3) {
+        updatedBasket.add(task);
+        count = count + task["taskLength"];
+      }
+
+    });
+
+    return updatedBasket.toList();
   }
 
   void addCategory(uid, [category = "general"]) async {
