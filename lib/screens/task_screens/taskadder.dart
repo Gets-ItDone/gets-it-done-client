@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
-import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/services/auth.dart';
@@ -167,7 +166,7 @@ class _TaskAdderState extends State<TaskAdder> {
                       },
                       style: TextStyle(
                         fontSize: 20,
-                        color: getColorTheme(colorScheme).primaryColor,
+                        color: Colors.black,
                       ),
                       decoration: InputDecoration(
                           labelText: 'Task',
@@ -234,9 +233,12 @@ class _TaskAdderState extends State<TaskAdder> {
                                 dueDate = timestamp;
                               });
                             },
-                            color: priority == "today"
-                                ? Colors.black
-                                : getColorTheme(colorScheme).primaryColor,
+                            color: priority != "today"
+                                ? getColorTheme(colorScheme).primaryColor
+                                : getColorTheme(colorScheme).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black,
                             child: Text("Today")),
                         RaisedButton(
                             onPressed: () {
@@ -249,9 +251,12 @@ class _TaskAdderState extends State<TaskAdder> {
                                 dueDate = timestamp;
                               });
                             },
-                            color: priority == "tomorrow"
-                                ? Colors.black
-                                : getColorTheme(colorScheme).primaryColor,
+                            color: priority != "tomorrow"
+                                ? getColorTheme(colorScheme).primaryColor
+                                : getColorTheme(colorScheme).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black,
                             child: Text("Tomorrow")),
                         RaisedButton(
                             onPressed: () {
@@ -265,9 +270,12 @@ class _TaskAdderState extends State<TaskAdder> {
                                 // print(timestamp + 604800000);
                               });
                             },
-                            color: priority == "later"
-                                ? Colors.black
-                                : getColorTheme(colorScheme).primaryColor,
+                            color: priority != "later"
+                                ? getColorTheme(colorScheme).primaryColor
+                                : getColorTheme(colorScheme).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black,
                             child: Text("Later"))
                       ],
                     ),
