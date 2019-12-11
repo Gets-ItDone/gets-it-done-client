@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
+import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/screens/task_screens/task_list.dart';
 import 'package:gets_it_done/screens/task_screens/taskadder.dart';
@@ -55,7 +56,10 @@ class _HomeState extends State<Home> {
             data: getColorTheme(colorScheme) ?? Theme.of(context),
             child: Scaffold(
               appBar: AppBar(
-                title: Text('Gets It Done'),
+                title: Text(
+                  'Gets It Done',
+                  style: TextStyle(fontFamily: "Montserrat"),
+                ),
                 actions: <Widget>[
                   FlatButton(
                     child: Text('Log Off'),
@@ -84,7 +88,9 @@ class _HomeState extends State<Home> {
                           borderRadius: new BorderRadius.circular(18.0),
                         ),
                         padding: EdgeInsets.all(30.0),
-                        child: Text('Add Task'),
+                        child: Text('Add Task',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800, fontSize: 20)),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -103,7 +109,11 @@ class _HomeState extends State<Home> {
                           borderRadius: new BorderRadius.circular(18.0),
                         ),
                         padding: EdgeInsets.all(30.0),
-                        child: Text('Add Category'),
+                        child: Text(
+                          'Add Category',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w800, fontSize: 20),
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -122,7 +132,9 @@ class _HomeState extends State<Home> {
                           borderRadius: new BorderRadius.circular(18.0),
                         ),
                         padding: EdgeInsets.all(30.0),
-                        child: Text('View Tasks'),
+                        child: Text('View Tasks',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800, fontSize: 20)),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -141,12 +153,35 @@ class _HomeState extends State<Home> {
                           borderRadius: new BorderRadius.circular(18.0),
                         ),
                         padding: EdgeInsets.all(30.0),
-                        child: Text('Start Tasks'),
+                        child: Text('Start Tasks',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800, fontSize: 20)),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => TaskViewer(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                        ),
+                        padding: EdgeInsets.all(30.0),
+                        child: Text('Settings',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800, fontSize: 20)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Settings(),
                             ),
                           );
                         },

@@ -39,7 +39,9 @@ class _TaskViewerState extends State<TaskViewer> {
 
   void setTasks(uid) async {
     _db = DatabaseCalls();
-    dynamic taskArray = await _db.getAllTasksWithCategories(uid);
+    // dynamic taskArray = await _db.getAllTasksWithCategories(uid);
+    dynamic taskArray = await _db.getTaskBasket(uid);
+
     if (taskArray.length == 0) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => TasksComplete()));
@@ -94,10 +96,13 @@ class _TaskViewerState extends State<TaskViewer> {
                                           new BorderRadius.circular(10.0),
                                     ),
                                     color: getColorTheme(colorScheme)
-                                        .primaryColor
-                                        .withOpacity(0.5),
+                                            .primaryColor
+                                            .withOpacity(0.5) ??
+                                        Colors.white,
                                     child: Text("Cancel",
-                                        style: TextStyle(fontSize: 20))))),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600))))),
                         Expanded(
                           child: Material(
                               color: Colors.transparent,
@@ -110,8 +115,9 @@ class _TaskViewerState extends State<TaskViewer> {
                                 child: Center(
                                     child: Text(tasks[0]["taskName"],
                                         textAlign: TextAlign.center,
+                                        textScaleFactor: 2.0,
                                         style: TextStyle(
-                                            fontSize: 40,
+                                            fontSize: 15,
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold))),
                                 width: MediaQuery.of(context).size.width * 0.8,
@@ -154,10 +160,14 @@ class _TaskViewerState extends State<TaskViewer> {
                                           new BorderRadius.circular(50.0),
                                     ),
                                     color: getColorTheme(colorScheme)
-                                        .primaryColor
-                                        .withOpacity(0.5),
+                                            .primaryColor
+                                            .withOpacity(0.5) ??
+                                        Colors.white,
                                     child: Text("Done",
-                                        style: TextStyle(fontSize: 100)))))
+                                        textScaleFactor: 2.0,
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.w600)))))
                       ],
                     ))));
   }
