@@ -15,14 +15,50 @@ class DatabaseCalls {
       },
       "categories": {
         "general": [
-          {"taskName": "clean kitchen", "completed": false},
-          {"taskName": "clean bedroom", "completed": false}
+          {
+            "taskName": "clean kitchen",
+            "completed": false,
+            "dueDate": 1575800147000 //very overdue
+          },
+          {
+            "taskName": "clean bedroom",
+            "completed": false,
+            "dueDate": 1575972947020 // overdue
+          },
+          {
+            "taskName": "clean bathroom",
+            "completed": false,
+            "dueDate": 1575972947030 // overdue
+          },
+          {
+            "taskName": "clean my room",
+            "completed": false,
+            "dueDate": 1575972947040 // overdue
+          },
+          {
+            "taskName": "clean my room",
+            "completed": false,
+            "dueDate": 1576138547000 // today
+          },
+          {
+            "taskName": "clean my room",
+            "completed": false,
+            "dueDate": 1576206947000 // tomrrow
+          },
+          {
+            "taskName": "clean my room",
+            "completed": false,
+            "dueDate": 1576466147000 // later
+          }
         ]
       }
     });
   }
 
-  void addTask(uid, [category = "general", taskName = "learn to fly"]) async {
+  void addTask(uid,
+      [category = "general",
+      taskName = "learn to fly",
+      dueDate = 1576231320851]) async {
     final snapshot = await this.getDocumentSnapshot(uid);
     final categoryArray = snapshot.data["categories"][category];
 
@@ -39,6 +75,51 @@ class DatabaseCalls {
         return err;
       }
     }
+  }
+
+  void timestampTest(uid, category, taskName, dueDate) async {
+    dynamic dateNow = new DateTime.now().millisecondsSinceEpoch;
+    // print(category);
+    // print(taskName);
+    // print(dateNow);
+    // print(dueDate);
+
+    print((dueDate - dateNow) / 3600000);
+
+    final ds = await this.getDocumentSnapshot(uid);
+    final currentCategoryObject = ds.data["categories"];
+    var categoryArray = [];
+    currentCategoryObject.forEach((key, value) => categoryArray.add(key));
+
+    var allTaskArray = [];
+
+    categoryArray.forEach((category) {
+      final uncompletedTaskArray = currentCategoryObject[category]
+          .where((task) => task["completed"] == false)
+          .map((task) {
+        task["category"] = category;
+        return task;
+      }).toList();
+      uncompletedTaskArray.forEach((task) {
+        // print(task);
+        allTaskArray.add(task);
+      });
+    });
+
+    print(allTaskArray);
+    var vOverdueTasks =
+        allTaskArray.where((task) => (task["dueDate"] - dateNow) < -172800000);
+    var overdueTasks =
+        allTaskArray.where((task) => (task["dueDate"] - dateNow) < 0);
+    // var todayTasks =
+    //     allTaskArray.where((task) => (dateNow - task["dueDate"]) < 86400000);
+    // var tomorrowTasks =
+    //     allTaskArray.where((task) => (dateNow - task["dueDate"]) < -86400000);
+    // var laterTasks =
+    //     allTaskArray.where((task) => (dateNow - task["dueDate"]) < -86400000);
+
+    print(vOverdueTasks);
+    print(overdueTasks);
   }
 
   void addCategory(uid, [category = "general"]) async {
