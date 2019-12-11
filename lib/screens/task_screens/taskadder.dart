@@ -164,7 +164,7 @@ class _TaskAdderState extends State<TaskAdder> {
                       },
                       style: TextStyle(
                         fontSize: 20,
-                        color: getColorTheme(colorScheme).primaryColor,
+                        color: Colors.black,
                       ),
                       decoration: InputDecoration(
                           labelText: 'Task',
