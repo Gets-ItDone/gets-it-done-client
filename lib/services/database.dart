@@ -79,12 +79,6 @@ class DatabaseCalls {
 
   void timestampTest(uid, category, taskName, dueDate) async {
     dynamic dateNow = new DateTime.now().millisecondsSinceEpoch;
-    // print(category);
-    // print(taskName);
-    // print(dateNow);
-    // print(dueDate);
-
-    print((dueDate - dateNow) / 3600000);
 
     final ds = await this.getDocumentSnapshot(uid);
     final currentCategoryObject = ds.data["categories"];
@@ -102,7 +96,6 @@ class DatabaseCalls {
         return task;
       }).toList();
       uncompletedTaskArray.forEach((task) {
-        // print(task);
         allTaskArray.add(task);
       });
     });
@@ -117,14 +110,15 @@ class DatabaseCalls {
         allTaskArray.where((task) => (task["dueDate"] - dateNow) > 86400000 && (task["dueDate"] - dateNow) < 172800000);
     var laterTasks =
         allTaskArray.where((task) => (task["dueDate"] - dateNow) > 172800000);
+    
+    taskBasket.addAll(vOverdueTasks);
 
-    // print(["VeryOverdue", vOverdueTasks]);
-    // print(["Overdue", overdueTasks]);
-    // print(["Today", todayTasks]);
-    // print(["Tomorrow", tomorrowTasks]);
-    // print(["Later", laterTasks]);
+    taskBasket.length<3 ? taskBasket.addAll(overdueTasks) : null;
+    taskBasket.length<3 ? taskBasket.addAll(todayTasks) : null;
+    taskBasket.length<3 ? taskBasket.addAll(tomorrowTasks) : null;
+    taskBasket.length<3 ? taskBasket.addAll(laterTasks) : null;
 
-    print(allTaskArray.length);
+    // print([taskBasket, taskBasket.length]);
 
   }
 
