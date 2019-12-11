@@ -157,7 +157,7 @@ class _TaskViewerState extends State<TaskViewer> {
                                         .primaryColor
                                         .withOpacity(0.5),
                                     child: Text("Done",
-                                        style: TextStyle(fontSize: 100)))))
+                                        style: TextStyle(fontSize: 60)))))
                       ],
                     ))));
   }
