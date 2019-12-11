@@ -237,6 +237,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 1))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
+                                // print(dueDate);
                               });
                             },
                             color: priority == "today"
@@ -252,6 +253,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 2))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
+                                // print(dueDate);
                               });
                             },
                             color: priority == "tomorrow"
@@ -267,7 +269,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 7))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                // print(timestamp + 604800000);
+                                // print(dueDate);
                               });
                             },
                             color: priority == "later"
@@ -325,9 +327,17 @@ class _TaskAdderState extends State<TaskAdder> {
                     RaisedButton(
                         onPressed: () async {
                           if (resultText != "") {
-                            _db.addTask(
-                                _user.uid, categoryDropdown, resultText);
+                            // _db.addTask(
+                            //     _user.uid, categoryDropdown, resultText);
+                            // print(resultText);
+                            // print(categoryDropdown);
+                            // print(priority);
+                            // print(labelObj[rating]);
+                            // print(timestamp);
+                            // print(duestamp);
 
+                            _db.timestampTest(_user.uid, categoryDropdown,
+                                resultText, dueDate);
                             setState(() {
                               err = "Task added";
                             });
