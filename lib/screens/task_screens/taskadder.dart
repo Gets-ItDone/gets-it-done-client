@@ -151,31 +151,34 @@ class _TaskAdderState extends State<TaskAdder> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 50.0,
-                    ),
-                    TextFormField(
-                      controller: new TextEditingController.fromValue(
-                          new TextEditingValue(
-                              text: resultText,
-                              selection: new TextSelection.collapsed(
-                                  offset: resultText.length))),
-                      onChanged: (text) {
-                        setState(() {
-                          resultText = text;
-                        });
-                      },
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      decoration: InputDecoration(
-                          labelText: 'Task',
-                          hintText: 'Add a task here!',
-                          fillColor: Colors.white,
-                          filled: true),
-                    ),
-                    SizedBox(
                       height: 20.0,
+                    ),
+                    Center(
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextFormField(
+                              controller: new TextEditingController.fromValue(
+                                  new TextEditingValue(
+                                      text: resultText,
+                                      selection: new TextSelection.collapsed(
+                                          offset: resultText.length))),
+                              onChanged: (text) {
+                                setState(() {
+                                  resultText = text;
+                                });
+                              },
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                  labelText: 'Task',
+                                  hintText: 'Add a task here!',
+                                  fillColor: Colors.white,
+                                  filled: true),
+                            ))),
+                    SizedBox(
+                      height: 10.0,
                     ),
                     speechToText
                         ? Row(
@@ -213,16 +216,19 @@ class _TaskAdderState extends State<TaskAdder> {
                           )
                         : Text(""),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     Text("Priority"),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(50.0),
+                            ),
                             onPressed: () {
                               setState(() {
                                 priority = "today";
@@ -241,6 +247,9 @@ class _TaskAdderState extends State<TaskAdder> {
                                     : Colors.black,
                             child: Text("Today")),
                         RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(50.0),
+                            ),
                             onPressed: () {
                               setState(() {
                                 priority = "tomorrow";
@@ -259,6 +268,9 @@ class _TaskAdderState extends State<TaskAdder> {
                                     : Colors.black,
                             child: Text("Tomorrow")),
                         RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(50.0),
+                            ),
                             onPressed: () {
                               setState(() {
                                 priority = "later";
@@ -280,11 +292,11 @@ class _TaskAdderState extends State<TaskAdder> {
                       ],
                     ),
                     SizedBox(
-                      height: 40.0,
+                      height: 20.0,
                     ),
                     Text("Category"),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     DropdownButton<String>(
                       value: categoryDropdown.length == 0
@@ -311,14 +323,17 @@ class _TaskAdderState extends State<TaskAdder> {
                       }).toList(),
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 10.0,
                     ),
                     RaisedButton(
+                        padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(50.0),
+                        ),
                         onPressed: () async {
                           if (resultText != "") {
                             _db.addTask(
                                 _user.uid, categoryDropdown, resultText);
-
                             setState(() {
                               err = "Task added";
                             });
