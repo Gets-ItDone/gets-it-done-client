@@ -101,7 +101,8 @@ class _SettingsState extends State<Settings> {
                             height: 30.0,
                           ),
                           Text(
-                            'Color Scheme',
+                            'Color scheme',
+                            style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
                             height: 10.0,
@@ -119,12 +120,14 @@ class _SettingsState extends State<Settings> {
                                   borderRadius: new BorderRadius.circular(50.0),
                                 ),
                                 color: colorScheme == '1'
-                                    ? Colors.black
-                                    : getColorTheme(colorScheme).primaryColor,
+                                    ? getColorTheme(colorScheme).brightness ==
+                                            Brightness.light
+                                        ? Colors.white
+                                        : Colors.black
+                                    : Colors.blue,
                                 elevation: 0.0,
                                 child: Text(
                                   '1',
-                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                               RaisedButton(
@@ -137,12 +140,14 @@ class _SettingsState extends State<Settings> {
                                   borderRadius: new BorderRadius.circular(50.0),
                                 ),
                                 color: colorScheme == '2'
-                                    ? Colors.black
-                                    : Colors.teal[300],
+                                    ? getColorTheme(colorScheme).brightness ==
+                                            Brightness.light
+                                        ? Colors.white
+                                        : Colors.black
+                                    : Colors.grey,
                                 elevation: 0.0,
                                 child: Text(
                                   '2',
-                                  style: TextStyle(color: Colors.blue[800]),
                                 ),
                               ),
                               RaisedButton(
@@ -155,12 +160,14 @@ class _SettingsState extends State<Settings> {
                                   borderRadius: new BorderRadius.circular(50.0),
                                 ),
                                 color: colorScheme == '3'
-                                    ? Colors.black
-                                    : Colors.deepOrangeAccent[100],
+                                    ? getColorTheme(colorScheme).brightness ==
+                                            Brightness.light
+                                        ? Colors.white
+                                        : Colors.black
+                                    : Colors.deepPurple,
                                 elevation: 0.0,
                                 child: Text(
                                   '3',
-                                  style: TextStyle(color: Colors.yellow[300]),
                                 ),
                               ),
                               RaisedButton(
@@ -173,22 +180,43 @@ class _SettingsState extends State<Settings> {
                                   borderRadius: new BorderRadius.circular(50.0),
                                 ),
                                 color: colorScheme == '4'
-                                    ? Colors.black
-                                    : Colors.deepPurple,
+                                    ? getColorTheme(colorScheme).brightness ==
+                                            Brightness.light
+                                        ? Colors.white
+                                        : Colors.black
+                                    : Colors.deepOrangeAccent[100],
                                 elevation: 0.0,
                                 child: Text(
                                   '4',
-                                  style: TextStyle(color: Colors.green[200]),
                                 ),
                               ),
                             ],
                           ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                colorScheme = '5';
+                              });
+                            },
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(50.0),
+                            ),
+                            color: colorScheme == '5'
+                                ? getColorTheme(colorScheme).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black
+                                : Colors.green[800],
+                            elevation: 0.0,
+                            child: Text(
+                              '5',
+                            ),
+                          ),
                           SizedBox(
                             height: 10.0,
                           ),
-                          Text(
-                            'Speech to text',
-                          ),
+                          Text('Speech to text',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                           SizedBox(
                             height: 10.0,
                           ),
@@ -208,7 +236,10 @@ class _SettingsState extends State<Settings> {
                                         new BorderRadius.circular(50.0),
                                   ),
                                   color: speechToText == true
-                                      ? Colors.black
+                                      ? getColorTheme(colorScheme).brightness ==
+                                              Brightness.light
+                                          ? Colors.white
+                                          : Colors.black
                                       : getColorTheme(colorScheme).primaryColor,
                                   elevation: 0.0,
                                   child: Text(
@@ -229,7 +260,10 @@ class _SettingsState extends State<Settings> {
                                         new BorderRadius.circular(50.0),
                                   ),
                                   color: speechToText == false
-                                      ? Colors.black
+                                      ? getColorTheme(colorScheme).brightness ==
+                                              Brightness.light
+                                          ? Colors.white
+                                          : Colors.black
                                       : getColorTheme(colorScheme).primaryColor,
                                   elevation: 0.0,
                                   child: Text(
@@ -242,9 +276,8 @@ class _SettingsState extends State<Settings> {
                           SizedBox(
                             height: 10.0,
                           ),
-                          Text(
-                            'Task assistant',
-                          ),
+                          Text('Task assistant',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                           SizedBox(
                             height: 10.0,
                           ),
@@ -264,7 +297,10 @@ class _SettingsState extends State<Settings> {
                                         new BorderRadius.circular(50.0),
                                   ),
                                   color: taskAssistant == true
-                                      ? Colors.black
+                                      ? getColorTheme(colorScheme).brightness ==
+                                              Brightness.light
+                                          ? Colors.white
+                                          : Colors.black
                                       : getColorTheme(colorScheme).primaryColor,
                                   elevation: 0.0,
                                   child: Text(
@@ -285,7 +321,10 @@ class _SettingsState extends State<Settings> {
                                         new BorderRadius.circular(50.0),
                                   ),
                                   color: taskAssistant == false
-                                      ? Colors.black
+                                      ? getColorTheme(colorScheme).brightness ==
+                                              Brightness.light
+                                          ? Colors.white
+                                          : Colors.black
                                       : getColorTheme(colorScheme).primaryColor,
                                   elevation: 0.0,
                                   child: Text(

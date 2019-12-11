@@ -44,8 +44,9 @@ class _TaskCardState extends State<TaskCard> {
         ? Loading()
         : Theme(
             data: getColorTheme(colorScheme) ?? ThemeData.dark(),
-            child: Padding(
-              padding: EdgeInsets.only(top: 8.0),
+            child: Container(
+              margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+              // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Card(
                 color: getColorTheme(colorScheme).accentColor,
                 margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
