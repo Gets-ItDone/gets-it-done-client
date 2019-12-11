@@ -96,8 +96,9 @@ class _TaskViewerState extends State<TaskViewer> {
                                           new BorderRadius.circular(10.0),
                                     ),
                                     color: getColorTheme(colorScheme)
-                                        .primaryColor
-                                        .withOpacity(0.5),
+                                            .primaryColor
+                                            .withOpacity(0.5) ??
+                                        Colors.white,
                                     child: Text("Cancel",
                                         style: TextStyle(fontSize: 20))))),
                         Expanded(
@@ -156,8 +157,9 @@ class _TaskViewerState extends State<TaskViewer> {
                                           new BorderRadius.circular(50.0),
                                     ),
                                     color: getColorTheme(colorScheme)
-                                        .primaryColor
-                                        .withOpacity(0.5),
+                                            .primaryColor
+                                            .withOpacity(0.5) ??
+                                        Colors.white,
                                     child: Text("Done",
                                         style: TextStyle(fontSize: 100)))))
                       ],
