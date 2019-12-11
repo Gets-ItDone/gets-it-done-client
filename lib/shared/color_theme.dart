@@ -21,9 +21,9 @@ getColorTheme(colorScheme) {
     return ThemeData(
       brightness: Brightness.dark,
       primaryColor: Colors.black,
-      accentColor: Colors.blueAccent[400],
+      accentColor: Colors.grey[700],
       scaffoldBackgroundColor: Colors.grey,
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.grey,
       buttonColor: Colors.black,
       bottomAppBarColor: Colors.black,
       hintColor: Colors.black,
