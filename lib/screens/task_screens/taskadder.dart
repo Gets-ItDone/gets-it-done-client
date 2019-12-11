@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
-import 'package:gets_it_done/screens/home/home.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
 import 'package:gets_it_done/services/auth.dart';
@@ -175,41 +174,41 @@ class _TaskAdderState extends State<TaskAdder> {
                     SizedBox(
                       height: 20.0,
                     ),
-
-                    speechToText ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        // FloatingActionButton(
-                        //   heroTag: 'stop',
-                        //   mini: true,
-                        //   onPressed: () {
-                        //     if (_isListening) {
-                        //       _speechRecognition.stop().then(
-                        //             (result) =>
-                        //                 setState(() => _isListening = result),
-                        //           );
-                        //     }
-                        //   },
-                        //   backgroundColor:
-                        //       getColorTheme(colorScheme).accentColor,
-                        //   child: Icon(Icons.stop),
-                        // ),
-                        FloatingActionButton(
-                          heroTag: 'record',
-                          onPressed: () {
-                            if (_isAvailable && !_isListening) {
-                              _speechRecognition
-                                  .listen(locale: "en_US")
-                                  .then((result) => print(result));
-                            }
-                          },
-                          backgroundColor:
-                              getColorTheme(colorScheme).primaryColor,
-                          child: Icon(Icons.mic),
-                        ),
-                      ],
-                    ) : Text(""),
-
+                    speechToText
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              // FloatingActionButton(
+                              //   heroTag: 'stop',
+                              //   mini: true,
+                              //   onPressed: () {
+                              //     if (_isListening) {
+                              //       _speechRecognition.stop().then(
+                              //             (result) =>
+                              //                 setState(() => _isListening = result),
+                              //           );
+                              //     }
+                              //   },
+                              //   backgroundColor:
+                              //       getColorTheme(colorScheme).accentColor,
+                              //   child: Icon(Icons.stop),
+                              // ),
+                              FloatingActionButton(
+                                heroTag: 'record',
+                                onPressed: () {
+                                  if (_isAvailable && !_isListening) {
+                                    _speechRecognition
+                                        .listen(locale: "en_US")
+                                        .then((result) => print(result));
+                                  }
+                                },
+                                backgroundColor:
+                                    getColorTheme(colorScheme).primaryColor,
+                                child: Icon(Icons.mic),
+                              ),
+                            ],
+                          )
+                        : Text(""),
                     SizedBox(
                       height: 20.0,
                     ),
