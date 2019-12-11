@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gets_it_done/models/user.dart';
 import 'package:gets_it_done/screens/home/settings.dart';
 import 'package:gets_it_done/screens/task_screens/categoryadder.dart';
+import 'package:gets_it_done/screens/task_screens/task_assistant.dart';
 import 'package:gets_it_done/services/auth.dart';
 import 'package:gets_it_done/shared/color_theme.dart';
 import 'package:gets_it_done/shared/loading.dart';
@@ -21,10 +22,11 @@ class _TaskAdderState extends State<TaskAdder> {
   SpeechRecognition _speechRecognition;
   bool _isAvailable = false;
   bool _isListening = false;
-  // dynamic textInput;
   String resultText = '';
 
   String err = "";
+  bool taskAssistant;
+  bool isSmallEnough = false;
 
   @override
   void initState() {
@@ -52,11 +54,10 @@ class _TaskAdderState extends State<TaskAdder> {
     _db = DatabaseCalls();
     dynamic preferences = await _db.getPreferences(user.uid);
 
-    print(["PREFS", preferences]);
-
     setState(() {
       colorScheme = preferences["colorScheme"];
       speechToText = preferences["speechToText"];
+      taskAssistant = preferences["taskAssistant"];
     });
   }
 
@@ -140,6 +141,66 @@ class _TaskAdderState extends State<TaskAdder> {
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
 
+    void _showTaskAssistant() {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Center(
+              child: Container(
+                padding:
+                    EdgeInsets.symmetric(vertical: 100.0, horizontal: 40.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'We have noticed that your task description is quite long. Could this be broken down into smaller tasks?',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    FlatButton(
+                      color: getColorTheme(colorScheme).primaryColor,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TaskAssistant(),
+                          ),
+                        );
+                      },
+                      child: Text('Learn more about breaking tasks up.'),
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    Text(
+                      'Are you happy to add the task?',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    FlatButton(
+                      color: getColorTheme(colorScheme).primaryColor,
+                      onPressed: () {
+                        setState(() {
+                          isSmallEnough = true;
+                        });
+                        Navigator.pop(context);
+                        err = 'Please submit to add task.';
+                      },
+                      child: Text('Sure am!'),
+                    )
+                  ],
+                ),
+              ),
+            );
+          });
+    }
+
     return _isLoading
         ? Loading()
         : Theme(
@@ -196,21 +257,6 @@ class _TaskAdderState extends State<TaskAdder> {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              // FloatingActionButton(
-                              //   heroTag: 'stop',
-                              //   mini: true,
-                              //   onPressed: () {
-                              //     if (_isListening) {
-                              //       _speechRecognition.stop().then(
-                              //             (result) =>
-                              //                 setState(() => _isListening = result),
-                              //           );
-                              //     }
-                              //   },
-                              //   backgroundColor:
-                              //       getColorTheme(colorScheme).accentColor,
-                              //   child: Icon(Icons.stop),
-                              // ),
                               FloatingActionButton(
                                 heroTag: 'record',
                                 onPressed: () {
@@ -364,24 +410,31 @@ class _TaskAdderState extends State<TaskAdder> {
                           borderRadius: new BorderRadius.circular(50.0),
                         ),
                         onPressed: () async {
-                          if (resultText != "") {
-                            _db.addTask(_user.uid, categoryDropdown, resultText,
-                                dueDate, taskLengthObj[rating]);
-                            setState(() {
-                              err = "Task added";
-                            });
-                            Future.delayed(Duration(milliseconds: 800), () {
-                              setState(() {
-                                err = "";
-                                resultText = "";
-                              });
-                            });
+                          if (resultText.length > 20 &&
+                              isSmallEnough == false) {
+                            _showTaskAssistant();
                           } else {
-                            setState(() {
-                              err = "Please enter a task";
-                            });
-                          }
+                            if (resultText != "") {
+                              _db.addTask(_user.uid, categoryDropdown,
+                                  resultText, dueDate, taskLengthObj[rating]);
 
+                              setState(() {
+                                err = "Task added";
+                                isSmallEnough = false;
+                              });
+                              Future.delayed(Duration(milliseconds: 800), () {
+                                setState(() {
+                                  err = "";
+                                  resultText = "";
+                                });
+                              });
+                            } else {
+                              setState(() {
+                                err = "Please enter a task";
+                                isSmallEnough = false;
+                              });
+                            }
+                          }
                           //Navigator.pop(context);
                         },
                         child: Text("Submit",
