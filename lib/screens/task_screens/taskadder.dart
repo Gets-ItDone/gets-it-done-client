@@ -291,15 +291,16 @@ class _TaskAdderState extends State<TaskAdder> {
                               borderRadius: new BorderRadius.circular(50.0),
                             ),
                             onPressed: () {
-                              setState(() {
-                                priority = "today";
-                                // Add 24 hours to current time
-                                dynamic timestamp = new DateTime.now()
-                                    .add(new Duration(days: 1))
-                                    .millisecondsSinceEpoch;
-                                dueDate = timestamp;
-                                // print(dueDate);
-                              });
+                              setState(
+                                () {
+                                  priority = "today";
+                                  // Add 24 hours to current time
+                                  dynamic timestamp = new DateTime.now()
+                                      .add(new Duration(days: 1))
+                                      .millisecondsSinceEpoch;
+                                  dueDate = timestamp;
+                                },
+                              );
                             },
                             color: priority != "today"
                                 ? getColorTheme(colorScheme).primaryColor
@@ -320,7 +321,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                     .add(new Duration(days: 2))
                                     .millisecondsSinceEpoch;
                                 dueDate = timestamp;
-                                // print(dueDate);
                               });
                             },
                             color: priority != "tomorrow"
@@ -335,15 +335,16 @@ class _TaskAdderState extends State<TaskAdder> {
                               borderRadius: new BorderRadius.circular(50.0),
                             ),
                             onPressed: () {
-                              setState(() {
-                                priority = "later";
-                                // Add 7 days to task
-                                dynamic timestamp = new DateTime.now()
-                                    .add(new Duration(days: 7))
-                                    .millisecondsSinceEpoch;
-                                dueDate = timestamp;
-                                // print(dueDate);
-                              });
+                              setState(
+                                () {
+                                  priority = "later";
+                                  // Add 7 days to task
+                                  dynamic timestamp = new DateTime.now()
+                                      .add(new Duration(days: 7))
+                                      .millisecondsSinceEpoch;
+                                  dueDate = timestamp;
+                                },
+                              );
                             },
                             color: priority != "later"
                                 ? getColorTheme(colorScheme).primaryColor
@@ -354,17 +355,39 @@ class _TaskAdderState extends State<TaskAdder> {
                             child: Text("Later"))
                       ],
                     ),
-                    Slider(
-                      value: rating,
-                      onChanged: (newRating) {
-                        setState(() {
-                          rating = newRating;
-                        });
-                      },
-                      min: 0,
-                      max: 90,
-                      divisions: 3,
-                      label: labelObj[rating],
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Text(
+                      "Task duration:",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        inactiveTrackColor:
+                            getColorTheme(colorScheme).brightness ==
+                                    Brightness.light
+                                ? Colors.black
+                                : Colors.white,
+                        activeTrackColor:
+                            getColorTheme(colorScheme).brightness ==
+                                    Brightness.light
+                                ? Colors.white
+                                : Colors.black,
+                      ),
+                      child: Slider(
+                        value: rating,
+                        onChanged: (newRating) {
+                          setState(() {
+                            rating = newRating;
+                          });
+                        },
+                        min: 0,
+                        max: 90,
+                        divisions: 3,
+                        label: labelObj[rating],
+                        activeColor: getColorTheme(colorScheme).primaryColor,
+                      ),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -390,10 +413,11 @@ class _TaskAdderState extends State<TaskAdder> {
                           iconSize: 24,
                           elevation: 16,
                           onChanged: (String newValue) {
-                            setState(() {
-                              categoryDropdown = newValue;
-                              // print(categoryDropdown);
-                            });
+                            setState(
+                              () {
+                                categoryDropdown = newValue;
+                              },
+                            );
                           },
                           items: _categories
                               .map<DropdownMenuItem<String>>((dynamic value) {
