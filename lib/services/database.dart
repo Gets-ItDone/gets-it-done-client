@@ -13,16 +13,15 @@ class DatabaseCalls {
         "speechToText": false,
         "taskAssistant": false
       },
-      "categories": {
-        "general": []
-      }
+      "categories": {"general": []}
     });
   }
 
   void addTask(uid,
       [category = "general",
       taskName = "learn to fly",
-      dueDate = 1576231320851, taskLength]) async {
+      dueDate = 1576231320851,
+      taskLength]) async {
     final snapshot = await this.getDocumentSnapshot(uid);
     final categoryArray = snapshot.data["categories"][category];
 
@@ -31,7 +30,12 @@ class DatabaseCalls {
 
     if (taskDoesntExist) {
       try {
-        final taskToAdd = {"taskName": taskName, "completed": false, "taskLength": taskLength , "dueDate": dueDate};
+        final taskToAdd = {
+          "taskName": taskName,
+          "completed": false,
+          "taskLength": taskLength,
+          "dueDate": dueDate
+        };
         testCollection.document(uid).updateData({
           "categories.$category": FieldValue.arrayUnion([taskToAdd])
         });
@@ -66,32 +70,33 @@ class DatabaseCalls {
 
     var vOverdueTasks =
         allTaskArray.where((task) => (task["dueDate"] - dateNow) < -172800000);
-    var overdueTasks =
-        allTaskArray.where((task) => (task["dueDate"] - dateNow) < 0 && (task["dueDate"] - dateNow) > -172800000);
-    var todayTasks =
-        allTaskArray.where((task) => (task["dueDate"] - dateNow) < 86400000 && (task["dueDate"] - dateNow) > 0);
-    var tomorrowTasks =
-        allTaskArray.where((task) => (task["dueDate"] - dateNow) > 86400000 && (task["dueDate"] - dateNow) < 172800000);
+    var overdueTasks = allTaskArray.where((task) =>
+        (task["dueDate"] - dateNow) < 0 &&
+        (task["dueDate"] - dateNow) > -172800000);
+    var todayTasks = allTaskArray.where((task) =>
+        (task["dueDate"] - dateNow) < 86400000 &&
+        (task["dueDate"] - dateNow) > 0);
+    var tomorrowTasks = allTaskArray.where((task) =>
+        (task["dueDate"] - dateNow) > 86400000 &&
+        (task["dueDate"] - dateNow) < 172800000);
     var laterTasks =
         allTaskArray.where((task) => (task["dueDate"] - dateNow) > 172800000);
-    
+
     taskBasket.addAll(vOverdueTasks);
 
-    taskBasket.length<3 ? taskBasket.addAll(overdueTasks) : null;
-    taskBasket.length<3 ? taskBasket.addAll(todayTasks) : null;
-    taskBasket.length<3 ? taskBasket.addAll(tomorrowTasks) : null;
-    taskBasket.length<3 ? taskBasket.addAll(laterTasks) : null;
-
+    taskBasket.length < 3 ? taskBasket.addAll(overdueTasks) : null;
+    taskBasket.length < 3 ? taskBasket.addAll(todayTasks) : null;
+    taskBasket.length < 3 ? taskBasket.addAll(tomorrowTasks) : null;
+    taskBasket.length < 3 ? taskBasket.addAll(laterTasks) : null;
 
     var count = 0;
     var updatedBasket = [];
 
     taskBasket.forEach((task) {
-      if(count + task["taskLength"] <=4 && updatedBasket.length < 3) {
+      if (count + task["taskLength"] <= 4 && updatedBasket.length < 3) {
         updatedBasket.add(task);
         count = count + task["taskLength"];
       }
-
     });
 
     return updatedBasket.toList();
