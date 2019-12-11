@@ -142,7 +142,7 @@ class _SignUpState extends State<SignUp> {
                           height: 20.0,
                         ),
                         Text(
-                          'Not yet getting it done?',
+                          'Already getting it done?',
                           style: TextStyle(color: Colors.white),
                         ),
                         SizedBox(
