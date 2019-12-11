@@ -106,7 +106,6 @@ class _CategoryCardState extends State<CategoryCard> {
                             },
                           );
                         },
-                        color: getColorTheme(colorScheme).primaryColor,
                         child: Text(
                           widget.category,
                           style: TextStyle(fontWeight: FontWeight.w600),
