@@ -73,6 +73,11 @@ class _TaskListState extends State<TaskList> {
     });
   }
 
+  void completeTask(uid, category, task) async {
+    _db = DatabaseCalls();
+    _db.completeTask(uid, category, task);
+  }
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
