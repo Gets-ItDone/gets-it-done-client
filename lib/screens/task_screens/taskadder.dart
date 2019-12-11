@@ -140,6 +140,9 @@ class _TaskAdderState extends State<TaskAdder> {
                     child: Text('Log Off'),
                     onPressed: () async {
                       await _auth.logOffUser();
+
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/', (_) => false);
                     },
                   )
                 ],

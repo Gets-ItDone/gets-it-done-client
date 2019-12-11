@@ -86,11 +86,10 @@ class _TaskListState extends State<TaskList> {
                   FlatButton(
                     child: Text('Log Off'),
                     onPressed: () async {
-                      dynamic result = await _auth.logOffUser();
+                      await _auth.logOffUser();
 
-                      if (result != null) {
-                        Navigator.pop(context);
-                      }
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/', (_) => false);
                     },
                   )
                 ],

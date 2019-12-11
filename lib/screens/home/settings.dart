@@ -84,10 +84,10 @@ class _SettingsState extends State<Settings> {
                       actions: <Widget>[
                         FlatButton(
                           onPressed: () async {
-                            dynamic result = await _auth.logOffUser();
-                            if (result != null) {
-                              Navigator.pop(context);
-                            }
+                            await _auth.logOffUser();
+
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, '/', (_) => false);
                           },
                           child: Text('log off'),
                         ),

@@ -130,12 +130,13 @@ class _CategoryAdderState extends State<CategoryAdder> {
                     child: Text('Log off'),
                     onPressed: () async {
                       await _auth.logOffUser();
-                      Navigator.pop(context);
+
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/', (_) => false);
                     },
                   )
                 ],
               ),
-              backgroundColor: bgColor,
               body: Form(
                 key: _formKey,
                 child: Column(
