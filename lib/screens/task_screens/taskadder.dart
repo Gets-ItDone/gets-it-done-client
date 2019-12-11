@@ -114,7 +114,8 @@ class _TaskAdderState extends State<TaskAdder> {
   String priority = "today";
   String categoryDropdown = "general";
   String message = "";
-  dynamic dueDate;
+  dynamic dueDate =
+      new DateTime.now().add(new Duration(days: 1)).millisecondsSinceEpoch;
 
   // Color Scheme
   dynamic colorScheme = '';
@@ -133,12 +134,7 @@ class _TaskAdderState extends State<TaskAdder> {
     90.0: "45+ mins"
   };
 
-  var taskLengthObj = {
-    0.0: 0,
-    30.0: 1,
-    60.0: 2,
-    90.0: 3
-  };
+  var taskLengthObj = {0.0: 0, 30.0: 1, 60.0: 2, 90.0: 3};
 
   @override
   Widget build(BuildContext context) {
@@ -346,9 +342,9 @@ class _TaskAdderState extends State<TaskAdder> {
                     RaisedButton(
                         onPressed: () async {
                           if (resultText != "") {
-                            _db.addTask(
-                                _user.uid, categoryDropdown, resultText, dueDate, taskLengthObj[rating]);
-                          
+                            _db.addTask(_user.uid, categoryDropdown, resultText,
+                                dueDate, taskLengthObj[rating]);
+
                             setState(() {
                               err = "Task added";
                             });
@@ -358,7 +354,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                 resultText = "";
                               });
                             });
-                            
                           } else {
                             setState(() {
                               err = "Please enter a task";
