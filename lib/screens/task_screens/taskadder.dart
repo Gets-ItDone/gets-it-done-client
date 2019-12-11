@@ -163,31 +163,34 @@ class _TaskAdderState extends State<TaskAdder> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 50.0,
-                    ),
-                    TextFormField(
-                      controller: new TextEditingController.fromValue(
-                          new TextEditingValue(
-                              text: resultText,
-                              selection: new TextSelection.collapsed(
-                                  offset: resultText.length))),
-                      onChanged: (text) {
-                        setState(() {
-                          resultText = text;
-                        });
-                      },
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      decoration: InputDecoration(
-                          labelText: 'Task',
-                          hintText: 'Add a task here!',
-                          fillColor: Colors.white,
-                          filled: true),
-                    ),
-                    SizedBox(
                       height: 20.0,
+                    ),
+                    Center(
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextFormField(
+                              controller: new TextEditingController.fromValue(
+                                  new TextEditingValue(
+                                      text: resultText,
+                                      selection: new TextSelection.collapsed(
+                                          offset: resultText.length))),
+                              onChanged: (text) {
+                                setState(() {
+                                  resultText = text;
+                                });
+                              },
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                  labelText: 'Task',
+                                  hintText: 'Add a task here!',
+                                  fillColor: Colors.white,
+                                  filled: true),
+                            ))),
+                    SizedBox(
+                      height: 10.0,
                     ),
                     speechToText
                         ? Row(
@@ -225,16 +228,22 @@ class _TaskAdderState extends State<TaskAdder> {
                           )
                         : Text(""),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
-                    Text("Priority"),
+                    Text(
+                      "Task priority:",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(50.0),
+                            ),
                             onPressed: () {
                               setState(() {
                                 priority = "today";
@@ -254,6 +263,9 @@ class _TaskAdderState extends State<TaskAdder> {
                                     : Colors.black,
                             child: Text("Today")),
                         RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(50.0),
+                            ),
                             onPressed: () {
                               setState(() {
                                 priority = "tomorrow";
@@ -273,6 +285,9 @@ class _TaskAdderState extends State<TaskAdder> {
                                     : Colors.black,
                             child: Text("Tomorrow")),
                         RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(50.0),
+                            ),
                             onPressed: () {
                               setState(() {
                                 priority = "later";
@@ -306,45 +321,52 @@ class _TaskAdderState extends State<TaskAdder> {
                       label: labelObj[rating],
                     ),
                     SizedBox(
-                      height: 40.0,
-                    ),
-                    Text("Category"),
-                    SizedBox(
                       height: 20.0,
                     ),
-                    DropdownButton<String>(
-                      value: categoryDropdown.length == 0
-                          ? "Please select text"
-                          : categoryDropdown,
-                      isExpanded: false,
-                      underline: Container(
-                        height: 2,
-                        color: Colors.black,
-                      ),
-                      icon: Icon(Icons.arrow_downward),
-                      iconSize: 24,
-                      elevation: 16,
-                      onChanged: (String newValue) {
-                        setState(() {
-                          categoryDropdown = newValue;
-                          // print(categoryDropdown);
-                        });
-                      },
-                      items: _categories
-                          .map<DropdownMenuItem<String>>((dynamic value) {
-                        return DropdownMenuItem<String>(
-                            child: Text(value), value: value);
-                      }).toList(),
-                    ),
+                    Text("Category:",
+                        style: TextStyle(fontWeight: FontWeight.w600)),
                     SizedBox(
-                      height: 30.0,
+                      height: 10.0,
+                    ),
+                    Container(
+                        color: getColorTheme(colorScheme).brightness ==
+                                Brightness.light
+                            ? Colors.white
+                            : Colors.black,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: DropdownButton<String>(
+                          value: categoryDropdown.length == 0
+                              ? "Please select text"
+                              : categoryDropdown,
+                          isExpanded: true,
+                          underline: Container(height: 0),
+                          icon: Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          elevation: 16,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              categoryDropdown = newValue;
+                              // print(categoryDropdown);
+                            });
+                          },
+                          items: _categories
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                                child: Text(value), value: value);
+                          }).toList(),
+                        )),
+                    SizedBox(
+                      height: 10.0,
                     ),
                     RaisedButton(
+                        padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(50.0),
+                        ),
                         onPressed: () async {
                           if (resultText != "") {
                             _db.addTask(_user.uid, categoryDropdown, resultText,
                                 dueDate, taskLengthObj[rating]);
-
                             setState(() {
                               err = "Task added";
                             });
@@ -362,7 +384,8 @@ class _TaskAdderState extends State<TaskAdder> {
 
                           //Navigator.pop(context);
                         },
-                        child: Text("Submit")),
+                        child: Text("Submit",
+                            style: TextStyle(fontWeight: FontWeight.w600))),
                     Text(
                       err,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
