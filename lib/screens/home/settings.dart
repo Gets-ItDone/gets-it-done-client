@@ -164,7 +164,7 @@ class _SettingsState extends State<Settings> {
                                             Brightness.light
                                         ? Colors.white
                                         : Colors.black
-                                    : Colors.deepOrangeAccent[100],
+                                    : Colors.deepPurple,
                                 elevation: 0.0,
                                 child: Text(
                                   '3',
@@ -184,7 +184,7 @@ class _SettingsState extends State<Settings> {
                                             Brightness.light
                                         ? Colors.white
                                         : Colors.black
-                                    : Colors.deepPurple,
+                                    : Colors.deepOrangeAccent[100],
                                 elevation: 0.0,
                                 child: Text(
                                   '4',
