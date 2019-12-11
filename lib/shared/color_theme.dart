@@ -71,7 +71,7 @@ getColorTheme(colorScheme) {
       buttonColor: Color(0xff003b00),
       bottomAppBarColor: Color(0xff003b00),
       hintColor: Color(0xff003b00),
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     );
   }
 }
