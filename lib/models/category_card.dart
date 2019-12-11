@@ -64,7 +64,7 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     listData() {
       if (data.length == 0)
-        return ['No Tasks for this category. Great job!']
+        return ['No tasks for this category. Great job!']
             .map<Widget>((item) => TaskCard(task: item))
             .toList();
       else {
@@ -93,27 +93,31 @@ class _CategoryCardState extends State<CategoryCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * 0.90,
-                  padding: EdgeInsets.all(12.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      setState(
-                        () {
-                          clicked = !clicked;
+                Container(
+                    margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    child: ButtonTheme(
+                      minWidth: MediaQuery.of(context).size.width * 0.90,
+                      padding: EdgeInsets.all(12.0),
+                      child: RaisedButton(
+                        onPressed: () {
+                          setState(
+                            () {
+                              clicked = !clicked;
+                            },
+                          );
                         },
-                      );
-                    },
-                    color: getColorTheme(colorScheme).primaryColor,
-                    child: Text(
-                      widget.category,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                Column(
-                  children: clicked ? listData() : [],
-                )
+                        color: getColorTheme(colorScheme).primaryColor,
+                        child: Text(
+                          widget.category,
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    )),
+                Container(
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                    child: Column(
+                      children: clicked ? listData() : [],
+                    ))
               ],
             ),
           );
