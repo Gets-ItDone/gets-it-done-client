@@ -183,14 +183,16 @@ class _TaskAdderState extends State<TaskAdder> {
                       height: 30.0,
                     ),
                     FlatButton(
-                        color: getColorTheme(colorScheme).primaryColor,
-                        onPressed: () {
-                          setState(() {
-                            isSmallEnough = true;
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Text('Sure am!'))
+                      color: getColorTheme(colorScheme).primaryColor,
+                      onPressed: () {
+                        setState(() {
+                          isSmallEnough = true;
+                        });
+                        Navigator.pop(context);
+                        err = 'Please submit to add task.';
+                      },
+                      child: Text('Sure am!'),
+                    )
                   ],
                 ),
               ),
