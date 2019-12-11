@@ -67,7 +67,7 @@ class DatabaseCalls {
 
     if (taskDoesntExist) {
       try {
-        final taskToAdd = {"taskName": taskName, "completed": false};
+        final taskToAdd = {"taskName": taskName, "completed": false, "taskLength": taskLength , "dueDate": dueDate};
         testCollection.document(uid).updateData({
           "categories.$category": FieldValue.arrayUnion([taskToAdd])
         });
