@@ -64,8 +64,9 @@ class _TasksCompleteState extends State<TasksComplete> {
                             child: Center(
                                 child: Text("All tasks complete!",
                                     textAlign: TextAlign.center,
+                                    textScaleFactor: 2.0,
                                     style: TextStyle(
-                                        fontSize: 40,
+                                        fontSize: 25,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold))),
                             width: MediaQuery.of(context).size.width * 0.8,
@@ -93,7 +94,9 @@ class _TasksCompleteState extends State<TasksComplete> {
                                     .primaryColor
                                     .withOpacity(0.5),
                                 child: Text("OK",
-                                    style: TextStyle(fontSize: 50)))))
+                                    style: TextStyle(
+                                        fontSize: 50,
+                                        fontWeight: FontWeight.bold)))))
                   ],
                 ),
               ),
