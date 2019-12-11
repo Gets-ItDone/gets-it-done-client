@@ -218,7 +218,10 @@ class _TaskAdderState extends State<TaskAdder> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    Text("Priority"),
+                    Text(
+                      "Task priority:",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -294,34 +297,38 @@ class _TaskAdderState extends State<TaskAdder> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    Text("Category"),
+                    Text("Category:",
+                        style: TextStyle(fontWeight: FontWeight.w600)),
                     SizedBox(
                       height: 10.0,
                     ),
-                    DropdownButton<String>(
-                      value: categoryDropdown.length == 0
-                          ? "Please select text"
-                          : categoryDropdown,
-                      isExpanded: false,
-                      underline: Container(
-                        height: 2,
-                        color: Colors.black,
-                      ),
-                      icon: Icon(Icons.arrow_downward),
-                      iconSize: 24,
-                      elevation: 16,
-                      onChanged: (String newValue) {
-                        setState(() {
-                          categoryDropdown = newValue;
-                          // print(categoryDropdown);
-                        });
-                      },
-                      items: _categories
-                          .map<DropdownMenuItem<String>>((dynamic value) {
-                        return DropdownMenuItem<String>(
-                            child: Text(value), value: value);
-                      }).toList(),
-                    ),
+                    Container(
+                        color: getColorTheme(colorScheme).brightness ==
+                                Brightness.light
+                            ? Colors.white
+                            : Colors.black,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: DropdownButton<String>(
+                          value: categoryDropdown.length == 0
+                              ? "Please select text"
+                              : categoryDropdown,
+                          isExpanded: true,
+                          underline: Container(height: 0),
+                          icon: Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          elevation: 16,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              categoryDropdown = newValue;
+                              // print(categoryDropdown);
+                            });
+                          },
+                          items: _categories
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                                child: Text(value), value: value);
+                          }).toList(),
+                        )),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -355,7 +362,8 @@ class _TaskAdderState extends State<TaskAdder> {
 
                           //Navigator.pop(context);
                         },
-                        child: Text("Submit")),
+                        child: Text("Submit",
+                            style: TextStyle(fontWeight: FontWeight.w600))),
                     Text(
                       err,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
