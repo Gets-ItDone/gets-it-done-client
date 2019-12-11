@@ -133,6 +133,13 @@ class _TaskAdderState extends State<TaskAdder> {
     90.0: "45+ mins"
   };
 
+  var taskLengthObj = {
+    0.0: 0,
+    30.0: 1,
+    60.0: 2,
+    90.0: 3
+  };
+
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
@@ -339,17 +346,9 @@ class _TaskAdderState extends State<TaskAdder> {
                     RaisedButton(
                         onPressed: () async {
                           if (resultText != "") {
-                            // _db.addTask(
-                            //     _user.uid, categoryDropdown, resultText);
-                            // print(resultText);
-                            // print(categoryDropdown);
-                            // print(priority);
-                            // print(labelObj[rating]);
-                            // print(timestamp);
-                            // print(duestamp);
-
-                            _db.timestampTest(_user.uid, categoryDropdown,
-                                resultText, dueDate);
+                            _db.addTask(
+                                _user.uid, categoryDropdown, resultText, dueDate, taskLengthObj[rating]);
+                          
                             setState(() {
                               err = "Task added";
                             });
@@ -359,10 +358,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                 resultText = "";
                               });
                             });
-                            // setState(() {
-                            //   err = "";
-                            //   resultText = "";
-                            // });
+                            
                           } else {
                             setState(() {
                               err = "Please enter a task";
