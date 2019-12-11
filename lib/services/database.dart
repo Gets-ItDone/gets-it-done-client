@@ -92,6 +92,7 @@ class DatabaseCalls {
     currentCategoryObject.forEach((key, value) => categoryArray.add(key));
 
     var allTaskArray = [];
+    var taskBasket = [];
 
     categoryArray.forEach((category) {
       final uncompletedTaskArray = currentCategoryObject[category]
@@ -106,20 +107,25 @@ class DatabaseCalls {
       });
     });
 
-    print(allTaskArray);
     var vOverdueTasks =
         allTaskArray.where((task) => (task["dueDate"] - dateNow) < -172800000);
     var overdueTasks =
-        allTaskArray.where((task) => (task["dueDate"] - dateNow) < 0);
-    // var todayTasks =
-    //     allTaskArray.where((task) => (dateNow - task["dueDate"]) < 86400000);
-    // var tomorrowTasks =
-    //     allTaskArray.where((task) => (dateNow - task["dueDate"]) < -86400000);
-    // var laterTasks =
-    //     allTaskArray.where((task) => (dateNow - task["dueDate"]) < -86400000);
+        allTaskArray.where((task) => (task["dueDate"] - dateNow) < 0 && (task["dueDate"] - dateNow) > -172800000);
+    var todayTasks =
+        allTaskArray.where((task) => (task["dueDate"] - dateNow) < 86400000 && (task["dueDate"] - dateNow) > 0);
+    var tomorrowTasks =
+        allTaskArray.where((task) => (task["dueDate"] - dateNow) > 86400000 && (task["dueDate"] - dateNow) < 172800000);
+    var laterTasks =
+        allTaskArray.where((task) => (task["dueDate"] - dateNow) > 172800000);
 
-    print(vOverdueTasks);
-    print(overdueTasks);
+    // print(["VeryOverdue", vOverdueTasks]);
+    // print(["Overdue", overdueTasks]);
+    // print(["Today", todayTasks]);
+    // print(["Tomorrow", tomorrowTasks]);
+    // print(["Later", laterTasks]);
+
+    print(allTaskArray.length);
+
   }
 
   void addCategory(uid, [category = "general"]) async {
