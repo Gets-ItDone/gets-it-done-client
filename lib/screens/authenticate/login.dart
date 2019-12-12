@@ -31,7 +31,8 @@ class _LoginState extends State<Login> {
             body: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-              child: Column(
+              child: SingleChildScrollView(
+                  child: Column(
                 children: <Widget>[
                   Form(
                     key: _formKey,
@@ -61,6 +62,7 @@ class _LoginState extends State<Login> {
                           height: 10.0,
                         ),
                         TextFormField(
+                          autofocus: true,
                           obscureText: true,
                           validator: (value) => value.isEmpty
                               ? 'Please input your password.'
@@ -137,7 +139,7 @@ class _LoginState extends State<Login> {
                     ),
                   )
                 ],
-              ),
+              )),
             ),
           );
   }
