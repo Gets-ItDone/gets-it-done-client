@@ -45,8 +45,7 @@ class _TasksCompleteState extends State<TasksComplete> {
               child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image:
-                            AssetImage("assets/images/bgimg$colorScheme.jpg"),
+                        image: AssetImage("assets/images/bg$colorScheme.jpg"),
                         fit: BoxFit.cover)),
                 // color: bgColor,
                 child: Column(

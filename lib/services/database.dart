@@ -319,4 +319,12 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
     print(allTaskArray);
     return allTaskArray;
   }
+
+  dynamic isTooLong(string) {
+    var wordsArray = string.split(" ");
+    var bool;
+    wordsArray.length < 6 ? bool = false : bool = true;
+    print(wordsArray);
+    return bool;
+  }
 }

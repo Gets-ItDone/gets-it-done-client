@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
 
     setState(() {
       colorScheme = preferences["colorScheme"];
-      bgimg = "assets/images/bgimg$colorScheme.jpg";
+      bgimg = "assets/images/bg$colorScheme.jpg";
     });
   }
 
