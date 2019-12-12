@@ -53,8 +53,7 @@ class _TaskCardState extends State<TaskCard> {
                 child: ListTile(
                   leading: CircleAvatar(
                     child: ClipOval(
-                      child: Image.network(
-                          'https://upload.wikimedia.org/wikipedia/commons/9/9f/Poop_Emoji_Icon.png'),
+                      child: Image.asset("assets/images/zoomlogo.jpg"),
                     ),
                   ),
                   title: Center(child: Text(widget.task)),
