@@ -39,7 +39,7 @@ class _SignUpState extends State<SignUp> {
               child: Column(
                 children: <Widget>[
                   Image.asset(
-                    'assets/images/logo.png',
+                    'assets/images/loginlogo.png',
                     fit: BoxFit.scaleDown,
                     height: 150.0,
                   ),

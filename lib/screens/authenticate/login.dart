@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
                     child: Column(
                       children: <Widget>[
                         Image.asset(
-                          'assets/images/logo.png',
+                          'assets/images/loginlogo.png',
                           fit: BoxFit.scaleDown,
                           height: 150.0,
                         ),
@@ -83,6 +83,8 @@ class _LoginState extends State<Login> {
                           child: RaisedButton(
                             color: Colors.blue[900],
                             onPressed: () async {
+                              print(email);
+                              print(password);
                               if (_formKey.currentState.validate()) {
                                 setState(() => loading = true);
 
