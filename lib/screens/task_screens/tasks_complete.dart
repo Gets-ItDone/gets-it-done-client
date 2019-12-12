@@ -90,8 +90,9 @@ class _TasksCompleteState extends State<TasksComplete> {
                                   borderRadius: new BorderRadius.circular(50.0),
                                 ),
                                 color: getColorTheme(colorScheme)
-                                    .primaryColor
-                                    .withOpacity(0.5),
+                                        .primaryColor
+                                        .withOpacity(0.5) ??
+                                    Colors.grey.withOpacity(0.5),
                                 child: Text("OK",
                                     style: TextStyle(
                                         fontSize: 50,

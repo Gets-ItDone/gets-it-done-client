@@ -92,37 +92,14 @@ class _HomeState extends State<Home> {
                           borderRadius: new BorderRadius.circular(18.0),
                         ),
                         padding: EdgeInsets.all(30.0),
-                        child: Text('Add Task',
+                        child: Text('Start Tasks',
                             style: TextStyle(
                                 fontWeight: FontWeight.w800, fontSize: 20)),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TaskAdder(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
-                      child: RaisedButton(
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(18.0),
-                        ),
-                        padding: EdgeInsets.all(30.0),
-                        child: Text(
-                          'Add Category',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w800, fontSize: 20),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CategoryAdder(),
+                              builder: (context) => TaskViewer(),
                             ),
                           );
                         },
@@ -157,14 +134,37 @@ class _HomeState extends State<Home> {
                           borderRadius: new BorderRadius.circular(18.0),
                         ),
                         padding: EdgeInsets.all(30.0),
-                        child: Text('Start Tasks',
+                        child: Text('Add Task',
                             style: TextStyle(
                                 fontWeight: FontWeight.w800, fontSize: 20)),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TaskViewer(),
+                              builder: (context) => TaskAdder(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                        ),
+                        padding: EdgeInsets.all(30.0),
+                        child: Text(
+                          'Add Category',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w800, fontSize: 20),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryAdder(),
                             ),
                           );
                         },
