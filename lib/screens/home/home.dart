@@ -33,7 +33,11 @@ class _HomeState extends State<Home> {
 
       setState(() {
         getUserPreferences(_user);
-        isLoading = false;
+        Future.delayed(Duration(milliseconds: 100), () {
+          setState(() {
+            isLoading = false;
+          });
+        });
       });
     });
   }
