@@ -25,6 +25,7 @@ class _TaskAdderState extends State<TaskAdder> {
   String resultText = '';
 
   String err = "";
+  String msg = "";
   bool taskAssistant;
   bool isSmallEnough = false;
 
@@ -426,7 +427,7 @@ class _TaskAdderState extends State<TaskAdder> {
                           }).toList(),
                         )),
                     SizedBox(
-                      height: 10.0,
+                      height: 15.0,
                     ),
                     RaisedButton(
                         padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
@@ -443,12 +444,12 @@ class _TaskAdderState extends State<TaskAdder> {
                                   resultText, dueDate, taskLengthObj[rating]);
 
                               setState(() {
-                                err = "Task added";
+                                msg = "Task added";
                                 isSmallEnough = false;
                               });
-                              Future.delayed(Duration(milliseconds: 800), () {
+                              Future.delayed(Duration(milliseconds: 1200), () {
                                 setState(() {
-                                  err = "";
+                                  msg = "";
                                   resultText = "";
                                 });
                               });
@@ -457,15 +458,35 @@ class _TaskAdderState extends State<TaskAdder> {
                                 err = "Please enter a task";
                                 isSmallEnough = false;
                               });
+                              Future.delayed(Duration(milliseconds: 1200), () {
+                                setState(() {
+                                  err = "";
+                                  resultText = "";
+                                });
+                              });
                             }
                           }
-                          //Navigator.pop(context);
                         },
                         child: Text("Submit",
                             style: TextStyle(fontWeight: FontWeight.w600))),
-                    Text(
-                      err,
-                      style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: err != '' || msg != '' ? 50.0 : 0.0),
+                      color: err == ''
+                          ? getColorTheme(colorScheme).primaryColor ??
+                              Colors.greenAccent[200]
+                          : Colors.red[500],
+                      child: Text(
+                        err == '' ? msg : err,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            backgroundColor: err == ''
+                                ? getColorTheme(colorScheme).primaryColor ??
+                                    Colors.greenAccent[200]
+                                : Colors.red[500]),
+                      ),
                     )
                   ],
                 ),
