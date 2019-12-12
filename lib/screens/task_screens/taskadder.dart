@@ -265,9 +265,6 @@ class _TaskAdderState extends State<TaskAdder> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    // SizedBox(
-                    //   height: 10.0,
-                    // ),
                     Center(
                         child: Container(
                             width: MediaQuery.of(context).size.width * 0.8,
@@ -292,9 +289,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                   fillColor: Colors.white,
                                   filled: true),
                             ))),
-                    // SizedBox(
-                    //   height: 10.0,
-                    // ),
                     speechToText
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -315,16 +309,10 @@ class _TaskAdderState extends State<TaskAdder> {
                             ],
                           )
                         : Text(""),
-                    // SizedBox(
-                    //   height: 10.0,
-                    // ),
                     Text(
                       "Task priority:",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    // SizedBox(
-                    //   height: 10.0,
-                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -397,45 +385,56 @@ class _TaskAdderState extends State<TaskAdder> {
                             child: Text("Later"))
                       ],
                     ),
-                    // SizedBox(
-                    //   height: 10.0,
-                    // ),
                     Text(
                       "Task duration:",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        inactiveTrackColor:
-                            getColorTheme(colorScheme).brightness ==
-                                    Brightness.light
-                                ? Colors.black
-                                : Colors.white,
-                        activeTrackColor:
-                            getColorTheme(colorScheme).brightness ==
-                                    Brightness.light
-                                ? Colors.white
-                                : Colors.black,
-                      ),
-                      child: Slider(
-                        value: rating,
-                        onChanged: (newRating) {
-                          setState(() {
-                            rating = newRating;
-                          });
-                        },
-                        min: 0,
-                        max: 90,
-                        divisions: 3,
-                        label: labelObj[rating],
-                        activeColor: getColorTheme(colorScheme).primaryColor,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text('<5 min'),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.65,
+                          child: SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              inactiveTrackColor:
+                                  getColorTheme(colorScheme).brightness ==
+                                          Brightness.light
+                                      ? Colors.black
+                                      : Colors.white,
+                              activeTrackColor:
+                                  getColorTheme(colorScheme).brightness ==
+                                          Brightness.light
+                                      ? Colors.white
+                                      : Colors.black,
+                            ),
+                            child: Slider(
+                              value: rating,
+                              onChanged: (newRating) {
+                                setState(() {
+                                  rating = newRating;
+                                });
+                              },
+                              min: 0,
+                              max: 90,
+                              divisions: 3,
+                              label: labelObj[rating],
+                              activeColor:
+                                  getColorTheme(colorScheme).primaryColor,
+                            ),
+                          ),
+                        ),
+                        Text('45+ min'),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                      ],
                     ),
                     Text("Category:",
                         style: TextStyle(fontWeight: FontWeight.w600)),
-                    // SizedBox(
-                    //   height: 10.0,
-                    // ),
                     Container(
                         color: getColorTheme(colorScheme).brightness ==
                                 Brightness.light
@@ -464,9 +463,6 @@ class _TaskAdderState extends State<TaskAdder> {
                                 child: Text(value), value: value);
                           }).toList(),
                         )),
-                    // SizedBox(
-                    //   height: 10.0,
-                    // ),
                     RaisedButton(
                         padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
                         shape: new RoundedRectangleBorder(
