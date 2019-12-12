@@ -72,11 +72,12 @@ class _TaskAssistantState extends State<TaskAssistant> {
                   Container(
                     margin: EdgeInsets.all(40),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
-                          "By breaking your tasks down into the smallest steps possible, you can focus on putting one foot in front of the other rather than thinking about the miles ahead of you!",
+                          "If you break your tasks down into the smallest steps possible, you can focus on putting one foot in front of the other - rather than thinking about the miles ahead of you!",
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 20),
+                              fontWeight: FontWeight.w600, fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 30),
@@ -96,11 +97,12 @@ class _TaskAssistantState extends State<TaskAssistant> {
                   Container(
                     margin: EdgeInsets.all(40),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
-                          "How long can you fully focus on something before getting distracted? If it’s half an hour, break your tasks up into half hour chunks. If it’s ten minutes, or five minutes, break your tasks up into chunks of that size.",
+                          "How long can you really focus on something? If it’s half an hour, break your tasks up into half hour chunks. If it’s 10 minutes, or 5 minutes, break your tasks up into chunks of that size.",
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 20),
+                              fontWeight: FontWeight.w600, fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 30),
@@ -137,11 +139,12 @@ class _TaskAssistantState extends State<TaskAssistant> {
                   Container(
                     margin: EdgeInsets.all(40),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
-                          "For example, instead of ‘tidy room’, how about ‘hang up washing’, ‘rearrange bookshelf’, and’ change sheets’?",
+                          "For example, instead of ‘tidy room’, how about ‘hang up washing’, ‘rearrange bookshelf’, and ‘change sheets’?",
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 20),
+                              fontWeight: FontWeight.w600, fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 30),
@@ -178,11 +181,12 @@ class _TaskAssistantState extends State<TaskAssistant> {
                   Container(
                     margin: EdgeInsets.all(40),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
-                          "Or, if you’re really struggling, small goals like ‘pick 10 things up off the floor’ or ‘fold three shirts’ will help you achieve something small with the time you have.",
+                          "Or, if you’re really struggling, small goals like ‘pick 10 things up off the floor’ or ‘fold 3 shirts’ will help you achieve something small with the time you have.",
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 20),
+                              fontWeight: FontWeight.w600, fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 30),
@@ -219,6 +223,7 @@ class _TaskAssistantState extends State<TaskAssistant> {
                   Container(
                     margin: EdgeInsets.all(40),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
                           "Remember to reward yourself for your successes, however small!",
@@ -241,7 +246,7 @@ class _TaskAssistantState extends State<TaskAssistant> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text("Back to task"),
+                          child: Text("Back to tasks"),
                         ),
                       ],
                     ),
