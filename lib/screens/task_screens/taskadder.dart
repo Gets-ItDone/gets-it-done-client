@@ -439,19 +439,46 @@ class _TaskAdderState extends State<TaskAdder> {
                             _showTaskAssistant();
                           } else {
                             if (resultText != "") {
-                              _db.addTask(_user.uid, categoryDropdown,
-                                  resultText, dueDate, taskLengthObj[rating]);
+                              dynamic result = await _db.addTask(
+                                  _user.uid,
+                                  categoryDropdown,
+                                  resultText,
+                                  dueDate,
+                                  taskLengthObj[rating]);
 
-                              setState(() {
-                                msg = "Task added";
-                                isSmallEnough = false;
-                              });
-                              Future.delayed(Duration(milliseconds: 1200), () {
+                              if (result == null) {
                                 setState(() {
-                                  msg = "";
-                                  resultText = "";
+                                  msg = "Task added";
+                                  isSmallEnough = false;
                                 });
-                              });
+                                Future.delayed(
+                                  Duration(milliseconds: 1200),
+                                  () {
+                                    setState(
+                                      () {
+                                        msg = "";
+                                        resultText = "";
+                                      },
+                                    );
+                                  },
+                                );
+                              } else {
+                                setState(
+                                  () {
+                                    err = "Task already exists";
+                                  },
+                                );
+                                Future.delayed(
+                                  Duration(milliseconds: 1200),
+                                  () {
+                                    setState(
+                                      () {
+                                        err = "";
+                                      },
+                                    );
+                                  },
+                                );
+                              }
                             } else {
                               setState(() {
                                 err = "Please enter a task";
