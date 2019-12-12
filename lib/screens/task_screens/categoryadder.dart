@@ -246,8 +246,14 @@ class _CategoryAdderState extends State<CategoryAdder> {
                 child: BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      title: Text('Home'),
+                      icon: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        'Home',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.add),
