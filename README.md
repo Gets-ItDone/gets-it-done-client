@@ -2,7 +2,7 @@
 
 A 'Productivity Assistant' mobile application built in Flutter SDK that helps people to complete their everyday tasks in order of priority. In addition, the application can be customised to suit the needs of various accessibility requirements, such as dyslexia and ADHD.
 
-The aim of the app is to simplify decision making for everyone with an emphasis on those with executive dysfunction, who affects an person's ability to priortise and accomplish tasks.
+The aim of the app is to simplify decision making for everyone with an emphasis on those with executive dysfunction, which affects an person's ability to priortise and accomplish tasks.
 
 To view the project code on GitHub, [click here](https://github.com/Gets-ItDone/gets-it-done-client)
 
