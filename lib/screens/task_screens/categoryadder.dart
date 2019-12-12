@@ -23,6 +23,7 @@ class _CategoryAdderState extends State<CategoryAdder> {
   bool _isAvailable = false;
   bool _isListening = false;
   String resultText = '';
+  String err = '';
   bool _isLoading = true;
 
   // Color Scheme
@@ -199,16 +200,38 @@ class _CategoryAdderState extends State<CategoryAdder> {
                           )
                         : Text(""),
                     SizedBox(
-                      height: 30.0,
+                      height: 10.0,
                     ),
                     RaisedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            _db.addCategory(_user.uid, resultText);
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          dynamic result =
+                              await _db.addCategory(_user.uid, resultText);
+
+                          if (result == null) {
                             Navigator.pop(context);
+                          } else {
+                            setState(() {
+                              err = 'Category already exists.';
+                            });
                           }
-                        },
-                        child: Text("Submit")),
+                        }
+                      },
+                      child: Text("Submit"),
+                    ),
+                    SizedBox(height: err != '' ? 15.0 : 0.0),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0, horizontal: err != '' ? 50.0 : 0.0),
+                      color: Colors.red[500],
+                      child: Text(
+                        err,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            backgroundColor: Colors.red[500]),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -223,8 +246,14 @@ class _CategoryAdderState extends State<CategoryAdder> {
                 child: BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      title: Text('Home'),
+                      icon: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        'Home',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.add),
