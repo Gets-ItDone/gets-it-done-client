@@ -76,8 +76,8 @@ class _TaskViewerState extends State<TaskViewer> {
                 child: Container(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage(
-                                "assets/images/bgimg$colorScheme.jpg"),
+                            image:
+                                AssetImage("assets/images/bg$colorScheme.jpg"),
                             fit: BoxFit.cover)),
                     child: Column(
                       children: <Widget>[
