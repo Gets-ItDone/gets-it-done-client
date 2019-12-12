@@ -66,7 +66,7 @@ class _LoginState extends State<Login> {
                               ? 'Please input your password.'
                               : null,
                           decoration: InputDecoration(
-                              labelText: 'password',
+                              labelText: 'Password',
                               hintText: 'Please enter password.',
                               fillColor: Colors.white,
                               filled: true),
@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
                           minWidth: MediaQuery.of(context).size.width * 0.8,
                           height: MediaQuery.of(context).size.height * 0.07,
                           child: RaisedButton(
-                            color: Colors.blue[900],
+                            color: Colors.blue[500],
                             onPressed: () async {
                               print(email);
                               print(password);
@@ -118,7 +118,6 @@ class _LoginState extends State<Login> {
                         ),
                         Text(
                           'Not yet getting it done?',
-                          style: TextStyle(color: Colors.white),
                         ),
                         SizedBox(
                           height: 10.0,
@@ -127,7 +126,7 @@ class _LoginState extends State<Login> {
                           minWidth: MediaQuery.of(context).size.width * 0.6,
                           height: MediaQuery.of(context).size.height * 0.07,
                           child: FlatButton(
-                            color: Colors.purple[900],
+                            color: Colors.blue[200],
                             child: Text('Register'),
                             onPressed: () {
                               widget.toggleView();

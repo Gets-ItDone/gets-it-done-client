@@ -91,7 +91,7 @@ class _SignUpState extends State<SignUp> {
                               ? 'Please re-enter your password.'
                               : null,
                           decoration: InputDecoration(
-                              labelText: 'Confirm password',
+                              labelText: 'Password confirm',
                               hintText: 'Please re-enter password.',
                               fillColor: Colors.white,
                               filled: true),
@@ -106,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                           minWidth: MediaQuery.of(context).size.width * 0.8,
                           height: MediaQuery.of(context).size.height * 0.07,
                           child: RaisedButton(
-                            color: Colors.blue[900],
+                            color: Colors.blue[500],
                             onPressed: () async {
                               if (password != passwordConfirm) {
                                 setState(() => err = 'Passwords do not match');
@@ -141,10 +141,7 @@ class _SignUpState extends State<SignUp> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        Text(
-                          'Already getting it done?',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        Text('Already getting it done?'),
                         SizedBox(
                           height: 10.0,
                         ),
@@ -152,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                           minWidth: MediaQuery.of(context).size.width * 0.6,
                           height: MediaQuery.of(context).size.height * 0.07,
                           child: FlatButton(
-                            color: Colors.purple[900],
+                            color: Colors.blue[200],
                             child: Text('Login'),
                             onPressed: () {
                               widget.toggleView();
