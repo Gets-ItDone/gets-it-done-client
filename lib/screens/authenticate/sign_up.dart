@@ -36,7 +36,8 @@ class _SignUpState extends State<SignUp> {
             ),
             body: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
-              child: Column(
+              child: SingleChildScrollView(
+                  child: Column(
                 children: <Widget>[
                   Image.asset(
                     'assets/images/loginlogo.png',
@@ -160,7 +161,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ],
-              ),
+              )),
             ),
           );
   }
