@@ -148,13 +148,12 @@ class _TaskAdderState extends State<TaskAdder> {
           builder: (context) {
             return Center(
               child: Container(
-                padding:
-                    EdgeInsets.symmetric(vertical: 100.0, horizontal: 40.0),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
                 child: Column(
                   children: <Widget>[
                     Text(
                       'We have noticed that your task description is quite long. Could this be broken down into smaller tasks?',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 15),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
@@ -178,7 +177,7 @@ class _TaskAdderState extends State<TaskAdder> {
                     ),
                     Text(
                       'Are you happy to add the task?',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 15),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
@@ -193,7 +192,7 @@ class _TaskAdderState extends State<TaskAdder> {
                         Navigator.pop(context);
                         err = 'Please submit to add task.';
                       },
-                      child: Text('Sure am!'),
+                      child: Text('Close this!'),
                     )
                   ],
                 ),
