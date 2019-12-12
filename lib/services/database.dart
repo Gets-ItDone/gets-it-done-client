@@ -16,7 +16,7 @@ class DatabaseCalls {
     });
   }
 
-  void addTask(uid,
+  addTask(uid,
       [category = "general",
       taskName = "learn to fly",
       dueDate = 1576231320851,
@@ -26,8 +26,15 @@ class DatabaseCalls {
 
     bool taskDoesntExist =
         categoryArray.every((task) => task["taskName"] != taskName);
+    bool isTaskComplete = false;
 
-    if (taskDoesntExist) {
+    categoryArray.forEach((task) {
+      if (task["taskName"] == taskName) {
+        isTaskComplete = task["completed"];
+      }
+    });
+
+    if (taskDoesntExist || isTaskComplete) {
       try {
         final taskToAdd = {
           "taskName": taskName,
@@ -41,6 +48,8 @@ class DatabaseCalls {
       } catch (err) {
         return err;
       }
+    } else {
+      return 'Task already exists';
     }
   }
 
