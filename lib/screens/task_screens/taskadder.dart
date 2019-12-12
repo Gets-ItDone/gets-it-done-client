@@ -153,13 +153,23 @@ class _TaskAdderState extends State<TaskAdder> {
                   children: <Widget>[
                     Text(
                       'We have noticed that your task description is quite long. Could this be broken down into smaller tasks?',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                      textScaleFactor: 2.0,
+                      style: TextStyle(
+                          color: getColorTheme(colorScheme).brightness ==
+                                  Brightness.light
+                              ? Colors.black
+                              : Colors.white,
+                          fontSize: 10),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 10.0,
                     ),
                     FlatButton(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(50.0),
+                      ),
+                      padding: EdgeInsets.all(20),
                       color: getColorTheme(colorScheme).primaryColor,
                       onPressed: () {
                         Navigator.pop(context);
@@ -170,29 +180,60 @@ class _TaskAdderState extends State<TaskAdder> {
                           ),
                         );
                       },
-                      child: Text('Learn more about breaking tasks up.'),
+                      child: Text(
+                        'Learn more about breaking tasks up.',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 10.0,
                     ),
                     Text(
                       'Are you happy to add the task?',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                      style: TextStyle(
+                          color: getColorTheme(colorScheme).brightness ==
+                                  Brightness.light
+                              ? Colors.black
+                              : Colors.white,
+                          fontSize: 15),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 10.0,
                     ),
-                    FlatButton(
-                      color: getColorTheme(colorScheme).primaryColor,
-                      onPressed: () {
-                        setState(() {
-                          isSmallEnough = true;
-                        });
-                        Navigator.pop(context);
-                        err = 'Please submit to add task.';
-                      },
-                      child: Text('Close this!'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FlatButton(
+                          padding: EdgeInsets.all(20),
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(50.0),
+                          ),
+                          color: getColorTheme(colorScheme).primaryColor,
+                          onPressed: () {
+                            setState(() {
+                              isSmallEnough = true;
+                            });
+                            Navigator.pop(context);
+                            err = 'Please submit to add task.';
+                          },
+                          child: Text('Yes!',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                        FlatButton(
+                          padding: EdgeInsets.all(20),
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(50.0),
+                          ),
+                          color: getColorTheme(colorScheme).primaryColor,
+                          onPressed: () {
+                            Navigator.pop(context);
+                            err = '';
+                          },
+                          child: Text('No!',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
+                        )
+                      ],
                     )
                   ],
                 ),
@@ -222,10 +263,11 @@ class _TaskAdderState extends State<TaskAdder> {
               ),
               body: Form(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    SizedBox(
-                      height: 20.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     Center(
                         child: Container(
                             width: MediaQuery.of(context).size.width * 0.8,
@@ -250,9 +292,9 @@ class _TaskAdderState extends State<TaskAdder> {
                                   fillColor: Colors.white,
                                   filled: true),
                             ))),
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     speechToText
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -273,16 +315,16 @@ class _TaskAdderState extends State<TaskAdder> {
                             ],
                           )
                         : Text(""),
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     Text(
                       "Task priority:",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -355,9 +397,9 @@ class _TaskAdderState extends State<TaskAdder> {
                             child: Text("Later"))
                       ],
                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     Text(
                       "Task duration:",
                       style: TextStyle(fontWeight: FontWeight.w600),
@@ -389,14 +431,11 @@ class _TaskAdderState extends State<TaskAdder> {
                         activeColor: getColorTheme(colorScheme).primaryColor,
                       ),
                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
                     Text("Category:",
                         style: TextStyle(fontWeight: FontWeight.w600)),
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     Container(
                         color: getColorTheme(colorScheme).brightness ==
                                 Brightness.light
@@ -425,9 +464,9 @@ class _TaskAdderState extends State<TaskAdder> {
                                 child: Text(value), value: value);
                           }).toList(),
                         )),
-                    SizedBox(
-                      height: 15.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     RaisedButton(
                         padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
                         shape: new RoundedRectangleBorder(
@@ -450,6 +489,7 @@ class _TaskAdderState extends State<TaskAdder> {
                                 setState(() {
                                   msg = "Task added";
                                   isSmallEnough = false;
+                                  err = "";
                                 });
                                 Future.delayed(
                                   Duration(milliseconds: 1200),
