@@ -164,11 +164,10 @@ class DatabaseCalls {
     final currentTaskArray = ds.data["categories"][category];
     final mappedArray = currentTaskArray.map((x) => x["taskName"]).toList();
     final taskIndex = mappedArray.indexOf(taskToUpdate);
-    print(taskIndex);
+
     currentTaskArray[taskIndex]["taskName"] = updatedTaskName;
 
     try {
-      print("updating data...");
       testCollection
           .document(uid)
           .updateData({"categories.$category": currentTaskArray});
@@ -179,21 +178,27 @@ class DatabaseCalls {
 
   void completeTask(uid,
       [category = "general", taskName = "clean bedroom"]) async {
-    print(uid);
-    print(category);
-    print(taskName);
     final ds = await this.getDocumentSnapshot(uid);
-    final currentTaskArray = ds.data["categories"]
-        [category]; //creates array of current tasks in given category
+    final currentTaskArray = ds.data["categories"][category];
+    int index;
+    // Copies each object in array and adds index to the object for removing task
+    List indexedArray = List.generate(currentTaskArray.length, (int index) {
+      dynamic newTask = new Map.from(currentTaskArray[index]);
+      newTask['index'] = index;
+      return newTask;
+    });
+    // Checks for the name and that it is not completed.
+    //This allows for the same named task to be removed in the future.
+    // When found, adds index of found task for removing.
+    indexedArray.forEach((task) {
+      if (task['taskName'] == taskName && task['completed'] == false) {
+        index = task['index'];
+      }
+    });
+    // Change non-mutated snapshot
+    currentTaskArray[index]["completed"] = true;
 
-    final mappedArray = currentTaskArray.map((x) => x["taskName"]).toList();
-    final taskIndex = mappedArray
-        .indexOf(taskName); //finds the index of the task to be updated
-
-    currentTaskArray[taskIndex]["completed"] = true;
-    print(currentTaskArray);
     try {
-      print("updating data...");
       testCollection
           .document(uid)
           .updateData({"categories.$category": currentTaskArray});
@@ -208,7 +213,6 @@ class DatabaseCalls {
     currentCategories.remove(categoryToDelete);
 
     try {
-      print("updating data...");
       testCollection
           .document(uid)
           .updateData({"categories": currentCategories});
@@ -226,7 +230,6 @@ class DatabaseCalls {
         mappedArray.where((x) => x["taskName"] != taskToDelete).toList();
 
     try {
-      print("updating data...");
       testCollection
           .document(uid)
           .updateData({"categories.$category": updatedArray});
@@ -287,7 +290,6 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
           .map((task) => task["taskName"])
           .toList();
       uncompletedTaskArray.forEach((task) {
-        print(task);
         allTaskArray.add(task);
       });
     });
@@ -311,12 +313,10 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
         return task;
       }).toList();
       uncompletedTaskArray.forEach((task) {
-        print(task);
         allTaskArray.add(task);
       });
     });
 
-    print(allTaskArray);
     return allTaskArray;
   }
 
@@ -324,7 +324,7 @@ this takes a task out of categoryToTakeFrom and insterts it into categoryToInser
     var wordsArray = string.split(" ");
     var bool;
     wordsArray.length < 6 ? bool = false : bool = true;
-    print(wordsArray);
+
     return bool;
   }
 }
