@@ -435,7 +435,7 @@ class _TaskAdderState extends State<TaskAdder> {
                           borderRadius: new BorderRadius.circular(50.0),
                         ),
                         onPressed: () async {
-                          if (resultText.length > 20 &&
+                          if (_db.isTooLong(resultText) &&
                               isSmallEnough == false) {
                             _showTaskAssistant();
                           } else {
