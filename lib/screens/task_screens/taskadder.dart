@@ -393,13 +393,17 @@ class _TaskAdderState extends State<TaskAdder> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         SizedBox(
-                          width: 10.0,
+                          width: 5.0,
                         ),
-                        Text('<5 min'),
+                        Text(
+                          '<5 min',
+                          style: TextStyle(fontSize: 10),
+                        ),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.65,
+                          width: MediaQuery.of(context).size.width * 0.60,
                           child: SliderTheme(
                             data: SliderTheme.of(context).copyWith(
+                              // trackHeight: 2,
                               inactiveTrackColor:
                                   getColorTheme(colorScheme).brightness ==
                                           Brightness.light
@@ -427,9 +431,12 @@ class _TaskAdderState extends State<TaskAdder> {
                             ),
                           ),
                         ),
-                        Text('45+ min'),
+                        Text(
+                          '45+ min',
+                          style: TextStyle(fontSize: 10),
+                        ),
                         SizedBox(
-                          width: 10.0,
+                          width: 5.0,
                         ),
                       ],
                     ),
