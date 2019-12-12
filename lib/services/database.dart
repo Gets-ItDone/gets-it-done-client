@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class DatabaseCalls {
   final CollectionReference testCollection =
       Firestore.instance.collection("test");
 
   void createUser(String uid) async {
-    // remove pre-made tasks when all functions are finished
     return await testCollection.document(uid).setData({
       "test": "test",
       "preferences": {
@@ -85,16 +83,10 @@ class DatabaseCalls {
 
     taskBasket.addAll(vOverdueTasks);
 
-    if(taskBasket.length < 3) taskBasket.addAll(overdueTasks);
-    if(taskBasket.length < 3) taskBasket.addAll(todayTasks);
-    if(taskBasket.length < 3) taskBasket.addAll(tomorrowTasks);
-    if(taskBasket.length < 3) taskBasket.addAll(laterTasks);
-
-
-    // taskBasket.length < 3 ? taskBasket.addAll(overdueTasks) : null;
-    // taskBasket.length < 3 ? taskBasket.addAll(todayTasks) : null;
-    // taskBasket.length < 3 ? taskBasket.addAll(tomorrowTasks) : null;
-    // taskBasket.length < 3 ? taskBasket.addAll(laterTasks) : null;
+    if (taskBasket.length < 3) taskBasket.addAll(overdueTasks);
+    if (taskBasket.length < 3) taskBasket.addAll(todayTasks);
+    if (taskBasket.length < 3) taskBasket.addAll(tomorrowTasks);
+    if (taskBasket.length < 3) taskBasket.addAll(laterTasks);
 
     var count = 0;
     var updatedBasket = [];
@@ -109,7 +101,7 @@ class DatabaseCalls {
     return updatedBasket.toList();
   }
 
-  void addCategory(uid, [category = "general"]) async {
+  addCategory(uid, [category = "general"]) async {
     final snapshot = await this.getDocumentSnapshot(uid);
     final categoryObject = snapshot.data["categories"];
 
@@ -120,10 +112,7 @@ class DatabaseCalls {
         print(err);
       }
     } else {
-/*
-We need to give user feedback that a category already exists
-*/
-      print("Category already exists");
+      return 'Category already exists.';
     }
   }
 
@@ -149,7 +138,7 @@ We need to give user feedback that a category already exists
   }
 
   void deleteUser(uid) {
-    //need to send user back to login screen. Must discuss best way to do this. User feedback    
+    //need to send user back to login screen. Must discuss best way to do this. User feedback
 
     try {
       testCollection.document(uid).delete();
@@ -202,24 +191,6 @@ We need to give user feedback that a category already exists
     } catch (err) {
       print(err);
     }
-  }
-
-  void resetTask(uid) async {
-    //for testing purposes
-    print('resetting task...');
-
-    final obj1 = [
-      {"taskName": "clean kitchen", "completed": false},
-      {"taskName": "clean bedroom", "completed": false},
-      {"taskName": "study maths", "completed": false}
-    ];
-    final obj2 = [
-      {"taskName": "study english", "completed": false},
-      {"taskName": "study french", "completed": false}
-    ];
-
-    await testCollection.document(uid).updateData({"categories.general": obj1});
-    await testCollection.document(uid).updateData({"categories.school": obj2});
   }
 
   void deleteCategory(uid, [categoryToDelete = "general"]) async {
