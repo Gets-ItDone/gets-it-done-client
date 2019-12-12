@@ -65,7 +65,7 @@ class _TasksCompleteState extends State<TasksComplete> {
                                     textAlign: TextAlign.center,
                                     textScaleFactor: 2.0,
                                     style: TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 20,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold))),
                             width: MediaQuery.of(context).size.width * 0.8,
