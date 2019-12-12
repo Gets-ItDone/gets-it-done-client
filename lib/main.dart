@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           buttonColor: Colors.blue[900],
           bottomAppBarColor: Colors.purple[900],
           hintColor: Colors.black,
-          fontFamily: 'Roboto',
+          fontFamily: 'Montserrat',
 
           // Added to change text color if required.
           textTheme: Theme.of(context).textTheme.apply(
